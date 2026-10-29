@@ -17,7 +17,7 @@ export const SITE_URL = "https://example.com";
 /** BCP 47 locale tag used to format dates and numbers. */
 export const SITE_LOCALE = "en-US";
 /** Routes excluded from search and the sitemap. Surrounding slashes are ignored. */
-export const NOINDEX_ROUTES: string[] = ["/404"];
+export const NOINDEX_ROUTES: string[] = ["/404", "/sections"];
 
 export type Link = {
   /** Visible link text. */
@@ -57,6 +57,14 @@ export const FOOTER_LINKS: Link[] = NAV_LINKS;
 
 /** Social profiles, e.g. { label: "Facebook", href: "https://…" }. */
 export const SOCIAL_LINKS: Link[] = [];
+
+/**
+ * Where contact forms send their messages, e.g. a Formspree form URL
+ * ("https://formspree.io/f/abcd1234"). While this is "", Lumos's Form
+ * still shows its "sent" message but delivers nothing, so the site must
+ * not go live with a form until this is set.
+ */
+export const FORM_ENDPOINT = "";
 
 /** `tel:` link for the business phone, or "" when there is none. */
 export const PHONE_HREF = BUSINESS.phone

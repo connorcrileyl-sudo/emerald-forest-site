@@ -79,37 +79,21 @@ are hard-coded. Make every client-specific fact live in one file:
 **Lumos library files changed so far** (re-check these on every
 `lumos-upgrade-version`): `Nav.astro`, `Footer.astro`, `BaseHead.astro`
 (font variable), `Tabs.astro`, `Dropdown.astro`, `RichText.astro`,
-`styles/base.css`, `consts.ts`, `astro.config.mjs`.
+`Slider.astro`, `styles/base.css`, `consts.ts`, `astro.config.mjs`.
 
-### Phase 3 — Section recipe library (`recipes/`)
+### Phase 3 — Section recipe library (done)
 
-One Markdown file per section: what it's for, the snippet, which bits
-to change, and which variants/props to flip. Built from Lumos
-components only, each one checked at 320 / 768 / 1440 px and with
-keyboard only.
-
-| Recipe | Built from |
-| --- | --- |
-| Hero — split (text + image) | Section, ContentWrapper `columns`, Img |
-| Hero — centred | Section, ContentWrapper `stack centered` |
-| Hero — image card | ContentWrapper `card` (as the starter home) |
-| Services grid | Grid `autofit`, Card |
-| Feature / why-us list | Grid, Icon, Heading, Paragraph |
-| About / story | ContentWrapper `columns`, RichText, Img |
-| Team | Grid, Card `stacked` |
-| Testimonials | Slider or Grid, Card |
-| Pricing | Grid, Card, Button |
-| FAQ | Accordion, AccordionItem |
-| Call to action band | Section `theme="brand"`, ButtonWrapper |
-| Contact form + details | Form, Input, Textarea, ContentWrapper |
-| Logo strip | Marquee, Img |
-| Gallery | Grid, Img, Modal |
-
-Plus a `recipes/README.md` index the AI reads first.
-
-Also a live `/sections` page (like the Piny template's
-`/style-guide`) that renders every recipe, so you can see them all
-and Stacki can open it. Marked `noindex` in `NOINDEX_ROUTES`.
+- 16 recipes in `src/pages/sections.astro`, previewed at `/sections`
+  (noindex), indexed with usage rules in `recipes/README.md`.
+- Custom content blocks: `QuoteCard`, `PriceCard`
+  (`src/components/content/`).
+- Placeholder photo: `src/assets/placeholders/photo.svg`.
+- `FORM_ENDPOINT` in `consts.ts`: Lumos's Form reports "sent" with no
+  endpoint, so an unset endpoint silently drops messages.
+- Checked at 375 / 768 / 1280 (no sideways scroll) and with axe-core
+  (WCAG 2.2 AA + best practice): 0 violations. Fixed Lumos's slider
+  dots (12px tap targets, now 24px).
+- Lumos library file changed: `Slider.astro`.
 
 ### Phase 4 — Page recipes (`recipes/pages/`)
 

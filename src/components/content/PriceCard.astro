@@ -1,0 +1,141 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Button from "@/components/Button.astro";
+import Icon from "@/components/media/Icon.astro";
+import check from "@/assets/icons/check.svg";
+
+type Props = HTMLAttributes<"div"> & {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+  /** Plan or package name. */
+  name?: string;
+  /** Price as shown, e.g. "$49" or "From $120". */
+  price?: string;
+  /** Text after the price, e.g. "/ month" or "per visit". */
+  period?: string;
+  /** One sentence on who the plan is for. */
+  text?: string;
+  /** What the plan includes, one item per entry. */
+  features?: string[];
+  /** Button label. Omit to hide the button. */
+  buttonLabel?: string;
+  /** Button destination. */
+  buttonHref?: string;
+  /** Highlight this plan with the brand theme. */
+  featured?: boolean;
+  /** Heading level. */
+  headingTag?: "h2" | "h3" | "h4";
+};
+
+const {
+  render = true,
+  name,
+  price,
+  period,
+  text,
+  features = [],
+  buttonLabel,
+  buttonHref,
+  featured = false,
+  headingTag: Tag = "h3",
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+{render && name && price && (
+  <div
+    class:list={["price-card_wrap", featured && "theme-brand", className]}
+    {...rest}
+  >
+    <Tag class="price-card_name text-style-h5">{name}</Tag>
+    <p class="price-card_price">
+      <span class="text-style-h2">{price}</span>
+      {period && <span class="price-card_period">{period}</span>}
+    </p>
+    {text && <p class="price-card_text">{text}</p>}
+    {features.length > 0 && (
+      <ul class="price-card_list">
+        {features.map((feature) => (
+          <li class="price-card_item">
+            <span class="price-card_mark">
+              <Icon src={check} variant="small" />
+            </span>
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+    {buttonLabel && buttonHref && (
+      <div class="price-card_action">
+        <Button element="link" href={buttonHref}>
+          {buttonLabel}
+        </Button>
+      </div>
+    )}
+  </div>
+)}
+
+<style is:global>
+  @layer components {
+    .price-card_wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: var(--space-6);
+      background-color: var(--background-2);
+      color: var(--text);
+      border-radius: var(--radius-main);
+
+      &.theme-brand {
+        background-color: var(--background);
+      }
+    }
+
+    .price-card_name {
+      margin: 0;
+    }
+
+    .price-card_price {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: var(--space-2);
+
+      & > .text-style-h2 {
+        margin: 0;
+      }
+    }
+
+    .price-card_period,
+    .price-card_text {
+      color: var(--text-2);
+    }
+
+    .price-card_list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .price-card_item {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+
+    }
+
+    .price-card_mark {
+      display: flex;
+      flex: none;
+      translate: 0 0.15em;
+    }
+
+    .price-card_action {
+      margin-top: auto;
+      padding-top: var(--space-4);
+    }
+  }
+</style>

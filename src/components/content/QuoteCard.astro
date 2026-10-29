@@ -1,0 +1,90 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"figure"> & {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+  /** The customer's words, without quotation marks. */
+  quote?: string;
+  /** Who said it. */
+  name?: string;
+  /** Role, company or town, e.g. "Homeowner, Springfield". */
+  detail?: string;
+  /** Color theme of element and its children. */
+  theme?: "inherit" | "light" | "dark" | "brand" | "invert";
+};
+
+const {
+  render = true,
+  quote,
+  name,
+  detail,
+  theme = "inherit",
+  class: className,
+  ...rest
+} = Astro.props;
+---
+
+{render && quote && name && (
+  <figure
+    class:list={[
+      "quote-card_wrap",
+      theme !== "inherit" && `theme-${theme}`,
+      className,
+    ]}
+    {...rest}
+  >
+    <blockquote class="quote-card_quote text-style-large">
+      <p>{quote}</p>
+    </blockquote>
+    <figcaption class="quote-card_caption">
+      <span class="quote-card_name">{name}</span>
+      {detail && (
+        <span class="quote-card_detail text-style-small">{detail}</span>
+      )}
+    </figcaption>
+  </figure>
+)}
+
+<style is:global>
+  @layer components {
+    .quote-card_wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-6);
+      padding: var(--space-6);
+      background-color: var(--background-2);
+      color: var(--text);
+      border-radius: var(--radius-main);
+    }
+
+    .quote-card_quote {
+      quotes: "\201C" "\201D";
+
+      & > p::before {
+        content: open-quote;
+      }
+
+      & > p::after {
+        content: close-quote;
+      }
+    }
+
+    .quote-card_caption {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .quote-card_name {
+      font-weight: var(--primary-medium);
+    }
+
+    .quote-card_detail {
+      color: var(--text-2);
+    }
+  }
+</style>

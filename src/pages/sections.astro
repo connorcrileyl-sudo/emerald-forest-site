@@ -1,0 +1,478 @@
+---
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Grid from "@/components/wrapper/Grid.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Eyebrow from "@/components/typography/Eyebrow.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import RichText from "@/components/typography/RichText.astro";
+import Button from "@/components/Button.astro";
+import Card from "@/components/item/Card.astro";
+import Img from "@/components/media/Img.astro";
+import Icon from "@/components/media/Icon.astro";
+import Overlay from "@/components/media/Overlay.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import Slider from "@/components/interactive/Slider.astro";
+import Marquee from "@/components/interactive/Marquee.astro";
+import Form from "@/components/form/Form.astro";
+import Fieldset from "@/components/form/Fieldset.astro";
+import Input from "@/components/form/Input.astro";
+import Textarea from "@/components/form/Textarea.astro";
+import QuoteCard from "@/components/content/QuoteCard.astro";
+import PriceCard from "@/components/content/PriceCard.astro";
+import photo from "@/assets/placeholders/photo.svg";
+import check from "@/assets/icons/check.svg";
+import { BUSINESS, PHONE_HREF, FORM_ENDPOINT } from "@/consts.ts";
+---
+
+<Layout
+  title="Sections"
+  description="Every section recipe, rendered live. Copy from this file."
+>
+  <!-- recipe: hero-split -->
+  <Section paddingTop="large" paddingBottom="large">
+    <ContentWrapper variant="columns">
+      <Eyebrow>Plumbing and heating in Springfield</Eyebrow>
+      <Heading tag="h1" variant="h1" maxWidth={16}>
+        Say what you do and who it is for
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        One or two sentences on the result the customer gets, in plain
+        words they would use themselves.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href="/contact">Get a quote</Button>
+        <Button element="link" href="/services" emphasis="secondary">
+          Our services
+        </Button>
+      </ButtonWrapper>
+      <Img
+        slot="column2"
+        src={photo}
+        alt="Describe the photo"
+        loading="eager"
+        fetchPriority="high"
+      />
+    </ContentWrapper>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: hero-centered -->
+  <Section paddingTop="large" paddingBottom="large">
+    <ContentWrapper centered>
+      <Eyebrow>Plumbing and heating in Springfield</Eyebrow>
+      <Heading tag="h1" variant="display" maxWidth={14}>
+        Say what you do in a few words
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        One or two sentences on the result the customer gets.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href="/contact">Get a quote</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: hero-image -->
+  <Section theme="dark" paddingTop="large" paddingBottom="large" fullHeight>
+    <Img slot="background" src={photo} loading="eager" fetchPriority="high" />
+    <Overlay slot="background" strength={60} />
+    <ContentWrapper centered>
+      <Heading tag="h1" variant="h1" maxWidth={16}>
+        A headline over the client's best photo
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        Keep it short; the photo does half the work.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href="/contact">Book a visit</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: services-grid -->
+  <Section>
+    <ContentWrapper>
+      <Eyebrow>Services</Eyebrow>
+      <Heading tag="h2" maxWidth={18}>What we can help with</Heading>
+    </ContentWrapper>
+    <Grid variant="autofit" minColumnWidth={16}>
+      <Card
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+        buttonLabel="Learn more"
+        buttonHref="/services"
+      />
+      <Card
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+        buttonLabel="Learn more"
+        buttonHref="/services"
+      />
+      <Card
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+        buttonLabel="Learn more"
+        buttonHref="/services"
+      />
+    </Grid>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: services-images -->
+  <Section>
+    <ContentWrapper>
+      <Eyebrow>Services</Eyebrow>
+      <Heading tag="h2" maxWidth={18}>What we can help with</Heading>
+    </ContentWrapper>
+    <Grid medium={3}>
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Describe the photo"
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+      />
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Describe the photo"
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+      />
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Describe the photo"
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+      />
+    </Grid>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: features -->
+  <Section theme="light">
+    <ContentWrapper variant="auto-width">
+      <Eyebrow>Why choose us</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>Reasons customers pick us</Heading>
+      <Paragraph slot="column2" maxWidth={32}>
+        One sentence that sets up the list below.
+      </Paragraph>
+    </ContentWrapper>
+    <Grid small={2} large={4}>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+    </Grid>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: about-split -->
+  <Section>
+    <ContentWrapper variant="columns" reverse>
+      <Eyebrow>About us</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>The story in one line</Heading>
+      <RichText maxWidth={60}>
+        <p>
+          Who started the business, when, and why. Keep it about the
+          customer: what that history means for the job they need done.
+        </p>
+        <p>A second short paragraph if there is more worth saying.</p>
+      </RichText>
+      <ButtonWrapper>
+        <Button element="link" href="/about" emphasis="secondary">
+          More about us
+        </Button>
+      </ButtonWrapper>
+      <Img slot="column2" src={photo} alt="Describe the photo" />
+    </ContentWrapper>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: team -->
+  <Section>
+    <ContentWrapper>
+      <Eyebrow>Our team</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>The people you will meet</Heading>
+    </ContentWrapper>
+    <Grid small={2} large={4}>
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Photo of the person"
+        heading="Full name"
+        eyebrow="Role"
+        text="One line about them."
+      />
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Photo of the person"
+        heading="Full name"
+        eyebrow="Role"
+        text="One line about them."
+      />
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Photo of the person"
+        heading="Full name"
+        eyebrow="Role"
+        text="One line about them."
+      />
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Photo of the person"
+        heading="Full name"
+        eyebrow="Role"
+        text="One line about them."
+      />
+    </Grid>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: testimonials-grid -->
+  <Section theme="dark">
+    <ContentWrapper>
+      <Eyebrow>Reviews</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>What customers say</Heading>
+    </ContentWrapper>
+    <Grid medium={3}>
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+    </Grid>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: testimonials-slider -->
+  <Section>
+    <ContentWrapper>
+      <Eyebrow>Reviews</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>What customers say</Heading>
+    </ContentWrapper>
+    <Slider label="Customer reviews" small={1.5} medium={2.5}>
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+    </Slider>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: pricing -->
+  <Section>
+    <ContentWrapper centered>
+      <Eyebrow>Pricing</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>Simple, upfront prices</Heading>
+      <Paragraph maxWidth={36}>
+        One sentence on what is always included.
+      </Paragraph>
+    </ContentWrapper>
+    <Grid medium={3}>
+      <PriceCard
+        name="Basic"
+        price="$00"
+        period="per visit"
+        text="Who this plan is for."
+        features={["What is included", "What is included"]}
+        buttonLabel="Book now"
+        buttonHref="/contact"
+      />
+      <PriceCard
+        name="Standard"
+        price="$00"
+        period="per visit"
+        text="Who this plan is for."
+        features={["What is included", "What is included", "What is included"]}
+        buttonLabel="Book now"
+        buttonHref="/contact"
+        featured
+      />
+      <PriceCard
+        name="Premium"
+        price="$00"
+        period="per visit"
+        text="Who this plan is for."
+        features={["What is included", "What is included", "What is included"]}
+        buttonLabel="Book now"
+        buttonHref="/contact"
+      />
+    </Grid>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: faq -->
+  <Section>
+    <ContentWrapper variant="sticky-content">
+      <Eyebrow>FAQ</Eyebrow>
+      <Heading tag="h2" maxWidth={14}>Common questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact">Get in touch</a>.
+      </Paragraph>
+      <Accordion slot="column2" single>
+        <AccordionItem heading="A question customers really ask">
+          <Paragraph>The answer, in two or three sentences.</Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="A question customers really ask">
+          <Paragraph>The answer, in two or three sentences.</Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="A question customers really ask">
+          <Paragraph>The answer, in two or three sentences.</Paragraph>
+        </AccordionItem>
+      </Accordion>
+    </ContentWrapper>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: cta-band -->
+  <Section theme="brand" paddingTop="small" paddingBottom="small">
+    <ContentWrapper variant="auto-width">
+      <Heading tag="h2" maxWidth={18}>Ready to get started?</Heading>
+      <Paragraph slot="column2" maxWidth={32}>
+        One line on what happens when they get in touch.
+      </Paragraph>
+      <ButtonWrapper slot="column2" marginTop="4">
+        <Button element="link" href="/contact">Contact us</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: contact -->
+  <Section>
+    <ContentWrapper variant="sticky-content">
+      <Eyebrow>Contact</Eyebrow>
+      <Heading tag="h2" maxWidth={14}>Get in touch</Heading>
+      <Paragraph maxWidth={32}>
+        Say how fast they will hear back, and the best way to reach you.
+      </Paragraph>
+      <RichText>
+        {BUSINESS.phone && (
+          <p>
+            <strong>Phone</strong>
+            <br />
+            <a href={PHONE_HREF}>{BUSINESS.phone}</a>
+          </p>
+        )}
+        {BUSINESS.email && (
+          <p>
+            <strong>Email</strong>
+            <br />
+            <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
+          </p>
+        )}
+        {BUSINESS.address.length > 0 && (
+          <p>
+            <strong>Address</strong>
+            <br />
+            <Fragment set:html={BUSINESS.address.join("<br />")} />
+          </p>
+        )}
+        {BUSINESS.hours.length > 0 && (
+          <p>
+            <strong>Hours</strong>
+            <br />
+            <Fragment set:html={BUSINESS.hours.join("<br />")} />
+          </p>
+        )}
+      </RichText>
+      <Form slot="column2" name="contact" action={FORM_ENDPOINT}>
+        <Fieldset legend="Your details" legendStyle="label">
+          <Input variant="first-name" required />
+          <Input variant="email" required />
+          <Input variant="phone" />
+          <Textarea label="How can we help?" required />
+        </Fieldset>
+        <ButtonWrapper marginTop="4">
+          <Button type="submit">Send message</Button>
+        </ButtonWrapper>
+      </Form>
+    </ContentWrapper>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: logo-strip -->
+  <Section paddingTop="small" paddingBottom="small">
+    <ContentWrapper centered>
+      <Eyebrow>Trusted by</Eyebrow>
+    </ContentWrapper>
+    <Marquee label="Clients and partners">
+      <Paragraph variant="large">Partner name</Paragraph>
+      <Paragraph variant="large">Partner name</Paragraph>
+      <Paragraph variant="large">Partner name</Paragraph>
+      <Paragraph variant="large">Partner name</Paragraph>
+      <Paragraph variant="large">Partner name</Paragraph>
+    </Marquee>
+  </Section>
+  <!-- /recipe -->
+
+  <!-- recipe: gallery -->
+  <Section>
+    <ContentWrapper>
+      <Eyebrow>Our work</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>Recent jobs</Heading>
+    </ContentWrapper>
+    <Grid xsmall={2} large={3}>
+      <Card variant="stacked" image={photo} imageAlt="Describe the job shown" />
+      <Card variant="stacked" image={photo} imageAlt="Describe the job shown" />
+      <Card variant="stacked" image={photo} imageAlt="Describe the job shown" />
+      <Card variant="stacked" image={photo} imageAlt="Describe the job shown" />
+      <Card variant="stacked" image={photo} imageAlt="Describe the job shown" />
+      <Card variant="stacked" image={photo} imageAlt="Describe the job shown" />
+    </Grid>
+  </Section>
+  <!-- /recipe -->
+</Layout>
