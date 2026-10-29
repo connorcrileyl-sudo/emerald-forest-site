@@ -140,11 +140,29 @@ links. The skill runs it in step 6.
   the skill; keep Lumos's own text intact so upgrades merge.
 - `CLAUDE.md` (one line: "Read AGENTS.md") so Claude Code picks it up.
 
-### Phase 7 — Trial run
+### Phase 7 — Trial run (done)
 
-Build one fake client end to end with the skill (e.g. "Riverside
-Plumbing"), on a throwaway branch. Time it, note every place the AI
-stalled or guessed, fix the recipes/skill, repeat once.
+Built Esteemed Agency in `connorcrileyl-sudo/esteemed-agency-lumos`
+from the template, with content from `esteemed-agency-astro`: a
+one-page home, privacy and terms. About an hour, much of it fixing the
+starter along the way. Result: `check:brand` and `check:pages` pass
+(0 problems, 4 pages × 4 widths); `check:site` fails only on the real
+blocker, `FORM_ENDPOINT`, and warns on the legal pages' `[blanks]`.
+
+What the trial changed in the starter:
+
+- Skill links arrive on Windows clones as text files, so Claude Code
+  can't see the skills. `npm install` now relinks them
+  (`scripts/link-skills.mjs`, falls back to junctions).
+- Headings can have their own font: `--heading-family` /
+  `--font-heading`.
+- `check-site`: real details from `consts.ts` shown on `/sections` were
+  flagged as placeholders; `[fill-in]` blanks weren't caught at all
+  (now a warning, since brackets can be genuine). Paths now use
+  `fileURLToPath`, which broke on folders with `~` in the name.
+- Docs: strong brand reds fail secondary text in brand sections; the
+  fix is that theme's `--text-2` at 100%. Skill: how to do a one-page
+  site.
 
 ## 3. Later / optional
 

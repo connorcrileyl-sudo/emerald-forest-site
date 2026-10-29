@@ -8,8 +8,9 @@ import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join, relative, sep } from "node:path";
 import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 
-const root = new URL("..", import.meta.url).pathname.replace(/^\/(\w:)/, "$1");
+const root = fileURLToPath(new URL("..", import.meta.url));
 const dist = join(root, "dist");
 const read = (p) => readFileSync(join(root, p), "utf8");
 const errors = [];
@@ -123,6 +124,8 @@ const placeholders = existsSync(sectionsHtml)
       ),
     )
   : new Set();
+// /sections also shows the real details from consts.ts; those are not filler.
+for (const t of placeholders) if (consts.includes(t)) placeholders.delete(t);
 
 const exists = (href) => {
   const path = href.split(/[?#]/)[0].replace(/\/$/, "");
@@ -148,6 +151,9 @@ for (const file of pages) {
     error(at, `placeholder text: "${t.slice(0, 60)}"`);
   if (leftovers.length > 5)
     error(at, `…and ${leftovers.length - 5} more placeholder lines`);
+
+  for (const t of text.filter((t) => /\[[a-z][^\]]{2,50}\]/i.test(t)).slice(0, 5))
+    warn(at, `looks like a [fill-in] left: "${t.slice(0, 70)}"`);
 
   for (const t of text.filter((t) => /\bTODO\b/.test(t)))
     error(at, `TODO left: "${t.slice(0, 70)}"`);

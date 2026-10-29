@@ -41,6 +41,11 @@ It checks every text/background pair on every theme against WCAG AA
 and exits with an error if one fails. Adjust the failing swatch and run
 it again. Do not ship with a failure.
 
+A strong mid-tone brand colour (a red, say) often fails only
+"Secondary text in brand sections". Then raise that theme's `--text-2`
+(the `.theme-brand` block in `base.css`) to `100%` rather than changing
+the brand colour.
+
 ## 2. Font — `astro.config.mjs`
 
 The site uses one family through `--font-primary`. Only the `fonts`
@@ -84,6 +89,21 @@ fonts: [
 
 Keep `cssVariable` as `--font-primary`; nothing else needs to change.
 Delete `src/assets/fonts/inter-regular.woff2` once it is unused.
+
+**A second family for headings** (e.g. a serif over a sans body): add a
+second entry to `fonts` with `cssVariable: "--font-heading"` and only
+the weights the headings use, then preload it next to the body font in
+`src/components/utility/BaseHead.astro`:
+
+```astro
+<Font cssVariable="--font-primary" preload />
+<Font cssVariable="--font-heading" preload />
+```
+
+Every heading style already reads `--heading-family`, which falls back
+to the body font until `--font-heading` exists. If the body font has no
+500 weight, set `--primary-medium` in `base.css` to the nearest one it
+has (often 600).
 
 ## 3. Logo — `src/assets/logo/`
 

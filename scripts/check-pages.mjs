@@ -13,8 +13,9 @@ import { readFileSync, existsSync, mkdirSync, readdirSync, statSync } from "node
 import { createServer } from "node:http";
 import { join, extname, relative, sep } from "node:path";
 import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 
-const root = new URL("..", import.meta.url).pathname.replace(/^\/(\w:)/, "$1");
+const root = fileURLToPath(new URL("..", import.meta.url));
 const dist = join(root, "dist");
 const out = join(root, ".site-check");
 const WIDTHS = [375, 768, 1024, 1440];

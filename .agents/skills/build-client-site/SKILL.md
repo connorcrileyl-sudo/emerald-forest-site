@@ -58,7 +58,9 @@ hidden on the site, and the checker reports the important ones.
 1. Set the swatches in `src/styles/base.css` and run
    `npm run check:brand` until every pair passes.
 2. Set the font in `astro.config.mjs` if the client has one; otherwise
-   keep Inter or pick one free Google font that suits the tone.
+   keep Inter or pick one free Google font that suits the tone. A
+   separate heading font goes in as `--font-heading` (see
+   `docs/BRANDING.md`).
 3. Replace `src/assets/logo/logo.svg` (and `logo-icon.svg`) and set
    `--logo-width-nav`/`--logo-width-footer`. With no logo yet, leave
    Lumos's file and note it; the checker will flag it.
@@ -78,6 +80,10 @@ hidden on the site, and the checker reports the important ones.
    (`hero-centered`, `services-grid`) instead of leaving grey
    placeholders.
 5. Give every page a `title` and a search `description`.
+
+**One-page sites.** If the client wants everything on the home page,
+give each section an `id` (`<Section id="pricing">`), point `NAV_LINKS`
+at `/#pricing` and so on, and delete the starter pages it doesn't use.
 
 Do not add new CSS or components unless a recipe cannot do the job,
 and then follow `LUMOS.md`'s checklists.
