@@ -10,6 +10,7 @@
   --dark-700: #453e42;
   --dark-800: #2f2b2d;
   --dark-900: #1f1d1e;
+  --brand-300: #c6fb50;
   --brand-500: #c6fb50;
   --brand-700: #4f6b00;
   --brand-text: var(--dark-900);
@@ -288,7 +289,7 @@
   --text: var(--light-100);
   --text-2: color-mix(in lab, currentcolor 72%, transparent);
   --border: color-mix(in lab, var(--text) 20%, transparent);
-  --heading-accent: var(--brand-500);
+  --heading-accent: var(--brand-300);
 
   --selection-background: var(--text);
   --selection-text: var(--background);
@@ -321,7 +322,7 @@
   --background-3: color-mix(in lab, var(--background) 80%, var(--text));
   --background-skeleton: color-mix(in lab, currentcolor 10%, transparent);
   --text: var(--brand-text);
-  --text-2: color-mix(in lab, currentcolor 72%, transparent);
+  --text-2: color-mix(in lab, currentcolor 85%, transparent);
   --border: color-mix(in lab, var(--text) 20%, transparent);
   --heading-accent: color-mix(in srgb, var(--text), white 20%);
 

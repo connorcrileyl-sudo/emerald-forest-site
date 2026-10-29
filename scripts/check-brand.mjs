@@ -44,6 +44,7 @@ const c = Object.fromEntries(
     "dark-700",
     "dark-800",
     "dark-900",
+    "brand-300",
     "brand-500",
     "brand-700",
     "brand-text",
@@ -51,9 +52,11 @@ const c = Object.fromEntries(
 );
 const white = [255, 255, 255];
 
-// Secondary text is the text colour at this opacity (`--text-2`).
-const TEXT_2 =
-  Number(css.match(/--text-2:[^;]*currentcolor (\d+)%/)[1]) / 100;
+// Secondary text is the text colour at an opacity set per theme
+// (`--text-2`), in the order base.css declares them: light, dark, brand.
+const [TEXT_2_LIGHT, TEXT_2_DARK, TEXT_2_BRAND] = [
+  ...css.matchAll(/--text-2:[^;]*currentcolor (\d+)%/g),
+].map((m) => Number(m[1]) / 100);
 
 // [what, foreground, background, minimum ratio]
 // 4.5 = body text, 3 = large text and UI parts (WCAG 1.4.3 / 1.4.11).
@@ -62,7 +65,7 @@ for (const bg of ["light-300", "light-200", "light-100"]) {
   checks.push([`Text on light ${bg}`, c["dark-900"], c[bg], 4.5]);
   checks.push([
     `Secondary text on light ${bg}`,
-    mix(c["dark-900"], c[bg], TEXT_2),
+    mix(c["dark-900"], c[bg], TEXT_2_LIGHT),
     c[bg],
     4.5,
   ]);
@@ -71,7 +74,7 @@ for (const bg of ["dark-900", "dark-800", "dark-700"]) {
   checks.push([`Text on dark ${bg}`, c["light-100"], c[bg], 4.5]);
   checks.push([
     `Secondary text on dark ${bg}`,
-    mix(c["light-100"], c[bg], TEXT_2),
+    mix(c["light-100"], c[bg], TEXT_2_DARK),
     c[bg],
     4.5,
   ]);
@@ -80,7 +83,7 @@ checks.push(
   ["Button text on brand colour", c["brand-text"], c["brand-500"], 4.5],
   [
     "Secondary text in brand sections",
-    mix(c["brand-text"], c["brand-500"], TEXT_2),
+    mix(c["brand-text"], c["brand-500"], TEXT_2_BRAND),
     c["brand-500"],
     4.5,
   ],
@@ -90,7 +93,12 @@ checks.push(
     c[bg],
     3,
   ]),
-  ["Heading accent on dark", c["brand-500"], c["dark-900"], 3],
+  ...["dark-900", "dark-800", "dark-700"].map((bg) => [
+    `Heading accent (brand-300) on dark ${bg}`,
+    c["brand-300"],
+    c[bg],
+    3,
+  ]),
   [
     "Heading accent in brand sections",
     mix(c["brand-text"], white, 0.8),
