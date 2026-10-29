@@ -98,7 +98,7 @@ const { render = true, overlap = false } = Astro.props;
     });
 
     window
-      .matchMedia("(width >= 48rem)")
+      .matchMedia("(width >= 64rem)")
       .addEventListener("change", (event) => {
         if (event.matches) setOpen(false);
       });
@@ -267,7 +267,7 @@ const { render = true, overlap = false } = Astro.props;
       }
     }
 
-    @media (width >= 48rem) {
+    @media (width >= 64rem) {
       .nav_toggle {
         display: none;
       }

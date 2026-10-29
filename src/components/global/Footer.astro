@@ -30,17 +30,19 @@ const hasContact =
         <a class="footer_logo" href="/" aria-label={SITE_NAME}>
           <Icon src={logo} variant="full-width" />
         </a>
-        <nav aria-label="Footer">
-          <ul class="footer_links">
-            {FOOTER_LINKS.map((link) => (
-              <li>
-                <a class="footer_link" href={link.href}>
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {FOOTER_LINKS.length > 0 && (
+          <nav aria-label="Footer">
+            <ul class="footer_links">
+              {FOOTER_LINKS.map((link) => (
+                <li>
+                  <a class="footer_link" href={link.href}>
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
       {hasContact && (
         <div class="footer_contact text-style-small">

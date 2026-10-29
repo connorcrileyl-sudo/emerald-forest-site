@@ -39,7 +39,11 @@ export const BUSINESS = {
   hours: [] as string[],
 };
 
-/** Main navigation, in order. */
+/**
+ * Main navigation, in order. The links sit in one row from 1024px wide;
+ * about five short links plus a short `NAV_CTA` fit there. More than that
+ * wraps onto two rows, so check the nav at 1024px after changing these.
+ */
 export const NAV_LINKS: Link[] = [
   { label: "Home", href: "/" },
   { label: "Example Components", href: "/example-components" },
