@@ -1,45 +1,79 @@
-<p align="center">
-  <img src=".github/assets/banner.png" alt="Lumos For Astro" width="720">
-</p>
+# Lumos client-site starter
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/create-lumos"><img alt="npm version" src="https://img.shields.io/npm/v/create-lumos?labelColor=1E1E1E&color=C6FB50"></a>
-  <a href="LICENSE"><img alt="license" src="https://img.shields.io/npm/l/create-lumos?labelColor=1E1E1E&color=C6FB50"></a>
-  <a href="https://github.com/lumosframework/lumos-for-astro/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/lumosframework/lumos-for-astro/actions/workflows/ci.yml/badge.svg"></a>
-</p>
+A starter for small-business websites, built on
+[Lumos for Astro](https://lumosframework.com) 1.0.1. Duplicate it per
+client ("Use this template" on GitHub), then have an AI build the site
+from a short brief and polish it visually in
+[Stacki](https://stacki.build).
 
-A component and styling framework for building Astro sites, designed around
-efficiency, scalability and accessibility.
+Astro only, plain CSS and custom properties. No React, Vue, Svelte or
+Tailwind.
 
-Documentation lives at **[lumosframework.com](https://lumosframework.com)**.
+## Start a client site
 
-## Getting started
+1. On GitHub, **Use this template** → new private repo for the client.
+2. Clone it, then:
 
-```sh
-npm create lumos@latest my-site
-```
+   ```sh
+   npm install
+   npm run dev
+   ```
 
-That scaffolds a new site from this repository and installs its dependencies
-with whichever package manager you ran it with. Then:
+3. In Claude Code, in the new repo:
 
-```sh
-cd my-site
-npm run dev
-```
+   > Build a site for Riverside Plumbing in Springfield. Services:
+   > repairs, boilers, bathrooms. Phone (555) 123-4567. Brand colour
+   > #1d4ed8.
 
-| Script            | What it does                      |
-| ----------------- | --------------------------------- |
-| `npm run dev`     | Starts the dev server             |
-| `npm run build`   | Builds the site to `dist/`        |
-| `npm run preview` | Serves the built site             |
-| `npm run check`   | Type-checks every `.astro` file   |
-| `npm run format`  | Formats the project with Prettier |
+   That runs the `build-client-site` skill
+   (`.agents/skills/build-client-site/`): details, brand, pages, checks,
+   then a report of what the client still needs to send.
 
-## Documentation
+4. Open the folder in Stacki to adjust layout and text by clicking.
 
-Component reference, styling guides and examples are at
-[lumosframework.com](https://lumosframework.com).
+## What's where
 
-## License
+| File | What it holds |
+| --- | --- |
+| `src/consts.ts` | Every client fact: name, contact, hours, nav, social links, form endpoint |
+| `src/styles/base.css` | Brand colours and design tokens (top of `:root`) |
+| `astro.config.mjs` | The font |
+| `src/assets/logo/` | Logo |
+| `src/pages/` | Pages: Home, About, Services, Contact, 404 |
+| `src/pages/sections.astro` | All section recipes, live at `/sections` |
+| `recipes/README.md` | How to use the recipes, and the rules for pages |
+| `recipes/PAGES.md` | Which pages and sections suit which business |
+| `docs/BRANDING.md` | Rebranding step by step |
+| `src/components/content/` | `QuoteCard`, `PriceCard`: the two custom blocks |
+| `PLAN.md` | How the starter was built, and the Lumos files it changed |
 
-[MIT](LICENSE)
+## Scripts
+
+| Script | What it does |
+| --- | --- |
+| `npm run dev` | Dev server at http://localhost:4321 |
+| `npm run build` | Builds to `dist/` |
+| `npm run check` | Type-checks every `.astro` file |
+| `npm run check:brand` | Brand colours against WCAG AA, every theme |
+| `npm run check:site` | Placeholder text, TODOs, Lumos leftovers, broken links, headings, alt text, form endpoint |
+| `npm run check:pages` | Every page at 375/768/1024/1440 in headless Chrome: screenshots to `.site-check/`, sideways scroll, nav wrapping, JS errors, axe accessibility |
+| `npm run format` | Prettier |
+
+`check:pages` needs Google Chrome installed (set `CHROME_PATH` if it
+isn't found).
+
+## Before handing a site over
+
+All three checks pass, the client has confirmed every fact on the site,
+`FORM_ENDPOINT` is set and a test message arrived, and someone has
+looked at the `.site-check/` screenshots.
+
+## Upgrading Lumos
+
+Use the `lumos-upgrade-version` skill. This starter changed some Lumos
+library files (listed in `PLAN.md`); check those survived the merge,
+then run the three checks.
+
+## Licence
+
+MIT, as Lumos. See `LICENSE`.
