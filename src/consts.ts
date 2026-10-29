@@ -17,7 +17,11 @@ export const SITE_URL = "https://example.com";
 /** BCP 47 locale tag used to format dates and numbers. */
 export const SITE_LOCALE = "en-US";
 /** Routes excluded from search and the sitemap. Surrounding slashes are ignored. */
-export const NOINDEX_ROUTES: string[] = ["/404", "/sections"];
+export const NOINDEX_ROUTES: string[] = [
+  "/404",
+  "/sections",
+  "/example-components",
+];
 
 export type Link = {
   /** Visible link text. */
@@ -39,6 +43,11 @@ export const BUSINESS = {
   hours: [] as string[],
 };
 
+/** `tel:` link for the business phone, or "" when there is none. */
+export const PHONE_HREF = BUSINESS.phone
+  ? `tel:${BUSINESS.phone.replace(/[^\d+]/g, "")}`
+  : "";
+
 /**
  * Main navigation, in order. The links sit in one row from 1024px wide;
  * about five short links plus a short `NAV_CTA` fit there. More than that
@@ -46,7 +55,9 @@ export const BUSINESS = {
  */
 export const NAV_LINKS: Link[] = [
   { label: "Home", href: "/" },
-  { label: "Example Components", href: "/example-components" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Contact", href: "/contact" },
 ];
 
 /** Optional button at the end of the nav, e.g. "Call now" or "Get a quote". */
@@ -65,8 +76,3 @@ export const SOCIAL_LINKS: Link[] = [];
  * not go live with a form until this is set.
  */
 export const FORM_ENDPOINT = "";
-
-/** `tel:` link for the business phone, or "" when there is none. */
-export const PHONE_HREF = BUSINESS.phone
-  ? `tel:${BUSINESS.phone.replace(/[^\d+]/g, "")}`
-  : "";

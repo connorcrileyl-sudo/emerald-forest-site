@@ -1,41 +1,147 @@
 ---
 import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
-import Heading from "@/components/typography/Heading.astro";
-import Eyebrow from "@/components/typography/Eyebrow.astro";
-import Img from "@/components/media/Img.astro";
-import lumos_background from "@/assets/graphics/lumos-background.svg";
-import Icon from "@/components/media/Icon.astro";
-import logo_icon from "@/assets/logo/logo-icon.svg";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Grid from "@/components/wrapper/Grid.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Eyebrow from "@/components/typography/Eyebrow.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Card from "@/components/item/Card.astro";
+import Img from "@/components/media/Img.astro";
+import Icon from "@/components/media/Icon.astro";
+import QuoteCard from "@/components/content/QuoteCard.astro";
+import photo from "@/assets/placeholders/photo.svg";
+import check from "@/assets/icons/check.svg";
 ---
 
-<Layout theme="dark">
-  <Section
-    paddingBottom="even"
-    containerClass="flex-grow"
-    paddingTop="even"
-    class="flex-grow"
-    style="min-height: calc(100svh - var(--nav-height));"
-  >
-    <ContentWrapper
-      class="flex-grow theme-brand"
-      variant="card"
-      mediaOpacity={100}
-    >
-      <Icon src={logo_icon} variant="large" />
-      <Heading variant="display" tag="h1" class="margin-block-8">
-        Style Guide
+<Layout
+  description="TODO: one sentence on what the business does, for search results."
+>
+  <!-- Hero -->
+  <Section paddingTop="large" paddingBottom="large">
+    <ContentWrapper variant="columns">
+      <Eyebrow>Plumbing and heating in Springfield</Eyebrow>
+      <Heading tag="h1" variant="h1" maxWidth={16}>
+        Say what you do and who it is for
       </Heading>
-      <Eyebrow variant="tag">v1.0.1</Eyebrow>
+      <Paragraph variant="large" maxWidth={36}>
+        One or two sentences on the result the customer gets, in plain
+        words they would use themselves.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href="/contact">Get a quote</Button>
+        <Button element="link" href="/services" emphasis="secondary">
+          Our services
+        </Button>
+      </ButtonWrapper>
       <Img
         slot="column2"
-        src={lumos_background}
-        width={1920}
-        height={1080}
+        src={photo}
+        alt="Describe the photo"
         loading="eager"
         fetchPriority="high"
       />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Services -->
+  <Section>
+    <ContentWrapper>
+      <Eyebrow>Services</Eyebrow>
+      <Heading tag="h2" maxWidth={18}>What we can help with</Heading>
+    </ContentWrapper>
+    <Grid variant="autofit" minColumnWidth={16}>
+      <Card
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+        buttonLabel="Learn more"
+        buttonHref="/services"
+      />
+      <Card
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+        buttonLabel="Learn more"
+        buttonHref="/services"
+      />
+      <Card
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+        buttonLabel="Learn more"
+        buttonHref="/services"
+      />
+    </Grid>
+  </Section>
+
+  <!-- Why choose us -->
+  <Section theme="light">
+    <ContentWrapper variant="auto-width">
+      <Eyebrow>Why choose us</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>Reasons customers pick us</Heading>
+      <Paragraph slot="column2" maxWidth={32}>
+        One sentence that sets up the list below.
+      </Paragraph>
+    </ContentWrapper>
+    <Grid small={2} large={4}>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+      <ContentWrapper>
+        <Icon src={check} variant="large" />
+        <Heading tag="h3" variant="h5">A real reason</Heading>
+        <Paragraph>Back it with a fact: years, licences, guarantees.</Paragraph>
+      </ContentWrapper>
+    </Grid>
+  </Section>
+
+  <!-- Reviews -->
+  <Section theme="dark">
+    <ContentWrapper>
+      <Eyebrow>Reviews</Eyebrow>
+      <Heading tag="h2" maxWidth={16}>What customers say</Heading>
+    </ContentWrapper>
+    <Grid medium={3}>
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+      <QuoteCard
+        quote="A real review, word for word, with the customer's permission."
+        name="Customer name"
+        detail="Town or job type"
+      />
+    </Grid>
+  </Section>
+
+  <!-- Call to action -->
+  <Section theme="brand" paddingTop="small" paddingBottom="small">
+    <ContentWrapper variant="auto-width">
+      <Heading tag="h2" maxWidth={18}>Ready to get started?</Heading>
+      <Paragraph slot="column2" maxWidth={32}>
+        One line on what happens when they get in touch.
+      </Paragraph>
+      <ButtonWrapper slot="column2" marginTop="4">
+        <Button element="link" href="/contact">Contact us</Button>
+      </ButtonWrapper>
     </ContentWrapper>
   </Section>
 </Layout>

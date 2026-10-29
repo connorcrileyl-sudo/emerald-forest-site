@@ -1,0 +1,102 @@
+---
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Grid from "@/components/wrapper/Grid.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Eyebrow from "@/components/typography/Eyebrow.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Card from "@/components/item/Card.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import photo from "@/assets/placeholders/photo.svg";
+---
+
+<Layout
+  title="Services"
+  description="TODO: one sentence listing the main services, for search results."
+>
+  <!-- Hero -->
+  <Section paddingTop="large" paddingBottom="large">
+    <ContentWrapper centered>
+      <Eyebrow>Plumbing and heating in Springfield</Eyebrow>
+      <Heading tag="h1" variant="display" maxWidth={14}>
+        Say what you do in a few words
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        One or two sentences on the result the customer gets.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href="/contact">Get a quote</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+  </Section>
+
+  <!-- Services -->
+  <Section>
+    <ContentWrapper>
+      <Eyebrow>Services</Eyebrow>
+      <Heading tag="h2" maxWidth={18}>What we can help with</Heading>
+    </ContentWrapper>
+    <Grid medium={3}>
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Describe the photo"
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+      />
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Describe the photo"
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+      />
+      <Card
+        variant="stacked"
+        image={photo}
+        imageAlt="Describe the photo"
+        heading="Service name"
+        text="What the customer gets from it, in one or two sentences."
+      />
+    </Grid>
+  </Section>
+
+  <!-- FAQ -->
+  <Section>
+    <ContentWrapper variant="sticky-content">
+      <Eyebrow>FAQ</Eyebrow>
+      <Heading tag="h2" maxWidth={14}>Common questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact">Get in touch</a>.
+      </Paragraph>
+      <Accordion slot="column2" single>
+        <AccordionItem heading="A question customers really ask">
+          <Paragraph>The answer, in two or three sentences.</Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="A question customers really ask">
+          <Paragraph>The answer, in two or three sentences.</Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="A question customers really ask">
+          <Paragraph>The answer, in two or three sentences.</Paragraph>
+        </AccordionItem>
+      </Accordion>
+    </ContentWrapper>
+  </Section>
+
+  <!-- Call to action -->
+  <Section theme="brand" paddingTop="small" paddingBottom="small">
+    <ContentWrapper variant="auto-width">
+      <Heading tag="h2" maxWidth={18}>Ready to get started?</Heading>
+      <Paragraph slot="column2" maxWidth={32}>
+        One line on what happens when they get in touch.
+      </Paragraph>
+      <ButtonWrapper slot="column2" marginTop="4">
+        <Button element="link" href="/contact">Contact us</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+  </Section>
+</Layout>

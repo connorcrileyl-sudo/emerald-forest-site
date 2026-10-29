@@ -4,6 +4,25 @@ This is **Lumos for Astro**, an Astro component framework styled with plain CSS
 and custom properties. Do not apply conventions from **Lumos for Webflow**.
 Project conventions live in `LUMOS.md` and `.agents/skills/`.
 
+## This starter
+
+A client-site starter built on Lumos. To build a site for a business,
+use the `build-client-site` skill. The pieces it uses:
+
+- `src/consts.ts` — every client fact (name, contact, nav, form endpoint).
+- `docs/BRANDING.md` — colours, font, logo; `npm run check:brand`.
+- `recipes/README.md` — section recipes, live at `/sections`
+  (`src/pages/sections.astro`), and the rules for building pages.
+- `recipes/PAGES.md` — page sets by business type.
+- `npm run check:site` and `npm run check:pages` — pre-handoff checks.
+- `PLAN.md` — how the starter was built, and which Lumos library files
+  it changed (check those after every Lumos upgrade).
+
+Never invent business facts (prices, reviews, licences, staff, years):
+use what the client gave, and leave `TODO:` for the rest.
+
+Astro only: no React, Vue, Svelte or other UI framework integrations.
+
 ## Development
 
 Start the dev server in background mode:
@@ -40,6 +59,7 @@ any scripts they need.
 - `lumos-scaling-graphic` — build an editable graphic that scales as one piece.
 - `lumos-import-webflow` — migrate a Webflow export and connect its CMS.
 - `lumos-upgrade-version` — upgrade Lumos without losing customizations.
+- `build-client-site` — build a full client site from a brief (this starter).
 
 `.agents/skills/` is the source of truth. Claude Code loads the same skills from
 relative symlinks in `.claude/skills/`. For each new skill, add
