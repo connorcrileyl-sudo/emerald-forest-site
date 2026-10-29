@@ -457,7 +457,7 @@ label {
 }
 
 select:has(option[value=""]:checked) {
-  color: color-mix(in lab, currentcolor 60%, transparent);
+  color: var(--text-2);
 }
 
 :target {
