@@ -14,7 +14,7 @@ export default defineConfig({
   fonts: [
     {
       name: "Inter",
-      cssVariable: "--font-inter",
+      cssVariable: "--font-primary",
       provider: fontProviders.local(),
       options: {
         variants: [

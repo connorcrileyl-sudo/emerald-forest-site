@@ -1,6 +1,9 @@
 /* Design tokens */
 :root {
-  /* Swatches */
+  /* Client brand: the values changed per client. See docs/BRANDING.md,
+     then run `npm run check:brand` to confirm every pair passes WCAG AA. */
+
+  /* Swatches. Hex only, so check:brand can read them. */
   --light-100: #ffffff;
   --light-200: #ebebeb;
   --light-300: #d9d9d9;
@@ -8,10 +11,16 @@
   --dark-800: #2f2b2d;
   --dark-900: #1f1d1e;
   --brand-500: #c6fb50;
+  --brand-700: #4f6b00;
   --brand-text: var(--dark-900);
 
+  /* Logo widths. Wide wordmarks suit the defaults; a square mark needs
+     about 3rem so it stays inside the nav height. */
+  --logo-width-nav: 6.5rem;
+  --logo-width-footer: 7.5rem;
+
   /* Typography primitives */
-  --primary-family: var(--font-inter, system-ui, sans-serif);
+  --primary-family: var(--font-primary, system-ui, sans-serif);
   --primary-regular: 400;
   --primary-medium: 500;
   --primary-bold: 700;
@@ -241,9 +250,9 @@
   --background-3: var(--light-100);
   --background-skeleton: color-mix(in lab, currentcolor 10%, transparent);
   --text: var(--dark-900);
-  --text-2: color-mix(in lab, currentcolor 60%, transparent);
+  --text-2: color-mix(in lab, currentcolor 72%, transparent);
   --border: color-mix(in lab, var(--text) 20%, transparent);
-  --heading-accent: color-mix(in srgb, var(--brand-500), black 20%);
+  --heading-accent: var(--brand-700);
 
   --selection-background: var(--text);
   --selection-text: var(--background);
@@ -277,7 +286,7 @@
   --background-3: var(--dark-700);
   --background-skeleton: color-mix(in lab, currentcolor 10%, transparent);
   --text: var(--light-100);
-  --text-2: color-mix(in lab, currentcolor 60%, transparent);
+  --text-2: color-mix(in lab, currentcolor 72%, transparent);
   --border: color-mix(in lab, var(--text) 20%, transparent);
   --heading-accent: var(--brand-500);
 
@@ -312,7 +321,7 @@
   --background-3: color-mix(in lab, var(--background) 80%, var(--text));
   --background-skeleton: color-mix(in lab, currentcolor 10%, transparent);
   --text: var(--brand-text);
-  --text-2: color-mix(in lab, currentcolor 60%, transparent);
+  --text-2: color-mix(in lab, currentcolor 72%, transparent);
   --border: color-mix(in lab, var(--text) 20%, transparent);
   --heading-accent: color-mix(in srgb, var(--text), white 20%);
 
