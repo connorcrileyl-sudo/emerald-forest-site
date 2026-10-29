@@ -64,19 +64,22 @@ are hard-coded. Make every client-specific fact live in one file:
 - Keep Lumos's prop/comment conventions so `lumos-audit-props` stays
   happy. Note these two files as "customized" for upgrades.
 
-### Phase 2 — Branding in one step
+### Phase 2 — Branding in one step (done)
 
-- Document exactly which tokens in `src/styles/base.css` change per
-  client: `--brand-500`, `--brand-text`, the light/dark swatches,
-  `--primary-family`, radius. Add a short "rebrand" comment block at
-  the top of that region.
-- Font swap procedure: drop a woff2 in `src/assets/fonts/`, point
-  `--primary-family` at it (follow how Inter is wired now). Free/OFL
-  fonts only.
-- Logo swap: replace `src/assets/logo/logo.svg` + `logo-icon.svg`.
-- Contrast check: brand colour vs `--brand-text` must pass WCAG AA;
-  Stacki's Variables panel shows this live, and the skill (Phase 4)
-  checks it in code.
+- `docs/BRANDING.md`: colours, font, logo, favicon, social image.
+- Swatches at the top of `base.css`, plus `--brand-300`/`--brand-700`
+  for heading accents and `--logo-width-nav/footer` tokens.
+- `npm run check:brand` checks every theme's colour pairs against
+  WCAG AA. Tested with a blue brand, a Google font (Outfit) and a
+  square logo.
+- Fixed Lumos defaults that failed AA: secondary text at 60% (now
+  72%, 85% in brand sections) and hard-coded 60% text in Nav, Tabs,
+  Dropdown, RichText and empty selects (now `--text-2`).
+
+**Lumos library files changed so far** (re-check these on every
+`lumos-upgrade-version`): `Nav.astro`, `Footer.astro`, `BaseHead.astro`
+(font variable), `Tabs.astro`, `Dropdown.astro`, `RichText.astro`,
+`styles/base.css`, `consts.ts`, `astro.config.mjs`.
 
 ### Phase 3 — Section recipe library (`recipes/`)
 
