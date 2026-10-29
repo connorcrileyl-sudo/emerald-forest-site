@@ -95,7 +95,7 @@ are hard-coded. Make every client-specific fact live in one file:
   dots (12px tap targets, now 24px).
 - Lumos library file changed: `Slider.astro`.
 
-### Phase 4 — Page recipes (`recipes/pages/`)
+### Phase 4 — Page recipes (done: `recipes/PAGES.md`, starter pages)
 
 Starting page sets per business type, listing which sections go on
 which page in what order:
@@ -105,7 +105,7 @@ which page in what order:
 - Hospitality (café, restaurant): + Menu, Hours/location.
 - Professional services (accountant, lawyer): + Team, FAQ.
 
-### Phase 5 — The `build-client-site` skill
+### Phase 5 — The `build-client-site` skill (done: skill, `check:site`, `check:pages`)
 
 `.agents/skills/build-client-site/SKILL.md`, with the
 `.claude/skills/` symlink Lumos's `AGENTS.md` asks for. It's what
