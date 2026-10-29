@@ -1,8 +1,9 @@
 ---
 import Icon from "@/components/media/Icon.astro";
 import NavLink from "@/components/global/NavLink.astro";
+import Button from "@/components/Button.astro";
 import logo from "@/assets/logo/logo.svg";
-import { SITE_NAME } from "@/consts.ts";
+import { SITE_NAME, NAV_LINKS, NAV_CTA } from "@/consts.ts";
 
 interface Props {
   /** Set to `false` to omit the component. */
@@ -32,8 +33,16 @@ const { render = true, overlap = false } = Astro.props;
       <nav class="nav_menu" id="nav-menu" aria-label="Main">
         <div class="nav_menu_inner">
           <ul class="nav_links">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/example-components">Example Components</NavLink>
+            {NAV_LINKS.map((link) => (
+              <NavLink href={link.href}>{link.label}</NavLink>
+            ))}
+            {NAV_CTA && (
+              <li class="nav_cta">
+                <Button element="link" href={NAV_CTA.href}>
+                  {NAV_CTA.label}
+                </Button>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
@@ -236,6 +245,10 @@ const { render = true, overlap = false } = Astro.props;
       }
     }
 
+    .nav_cta {
+      padding-top: var(--space-4);
+    }
+
     .nav_link {
       display: block;
       padding-block: var(--space-3);
@@ -282,6 +295,10 @@ const { render = true, overlap = false } = Astro.props;
         & > li + li {
           border-top: 0;
         }
+      }
+
+      .nav_cta {
+        padding-top: 0;
       }
 
       .nav_link {

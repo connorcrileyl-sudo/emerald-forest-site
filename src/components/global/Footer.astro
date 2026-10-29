@@ -1,7 +1,13 @@
 ---
 import Icon from "@/components/media/Icon.astro";
 import logo from "@/assets/logo/logo.svg";
-import { SITE_NAME } from "@/consts.ts";
+import {
+  SITE_NAME,
+  BUSINESS,
+  FOOTER_LINKS,
+  SOCIAL_LINKS,
+  PHONE_HREF,
+} from "@/consts.ts";
 
 interface Props {
   /** Set to `false` to omit the component. */
@@ -9,6 +15,12 @@ interface Props {
 }
 
 const { render = true } = Astro.props;
+
+const hasContact =
+  !!BUSINESS.phone ||
+  !!BUSINESS.email ||
+  BUSINESS.address.length > 0 ||
+  BUSINESS.hours.length > 0;
 ---
 
 {render && (
@@ -20,24 +32,60 @@ const { render = true } = Astro.props;
         </a>
         <nav aria-label="Footer">
           <ul class="footer_links">
-            <li>
-              <a class="footer_link" href="/">
-                Home
-              </a>
-            </li>
-            <li>
-              <a class="footer_link" href="/example-components">
-                Example Components
-              </a>
-            </li>
+            {FOOTER_LINKS.map((link) => (
+              <li>
+                <a class="footer_link" href={link.href}>
+                  {link.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
+      {hasContact && (
+        <div class="footer_contact text-style-small">
+          {(BUSINESS.phone || BUSINESS.email) && (
+            <p class="footer_contact_item">
+              {BUSINESS.phone && (
+                <a class="footer_link" href={PHONE_HREF}>
+                  {BUSINESS.phone}
+                </a>
+              )}
+              {BUSINESS.email && (
+                <a class="footer_link" href={`mailto:${BUSINESS.email}`}>
+                  {BUSINESS.email}
+                </a>
+              )}
+            </p>
+          )}
+          {BUSINESS.address.length > 0 && (
+            <address class="footer_contact_item">
+              {BUSINESS.address.map((line) => <span>{line}</span>)}
+            </address>
+          )}
+          {BUSINESS.hours.length > 0 && (
+            <p class="footer_contact_item">
+              {BUSINESS.hours.map((line) => <span>{line}</span>)}
+            </p>
+          )}
+        </div>
+      )}
       <div class="footer_bottom">
         <p class="footer_copyright text-style-small">
           &copy; <span id="year">{new Date().getFullYear()}</span>&#160;
           {SITE_NAME}
         </p>
+        {SOCIAL_LINKS.length > 0 && (
+          <ul class="footer_links" aria-label="Social">
+            {SOCIAL_LINKS.map((link) => (
+              <li>
+                <a class="footer_link" href={link.href} rel="me noopener">
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   </footer>
@@ -111,7 +159,28 @@ const { render = true } = Astro.props;
       }
     }
 
+    .footer_contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4) var(--space-8);
+    }
+
+    .footer_contact_item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      font-style: normal;
+      & > span {
+        color: var(--text-2);
+      }
+    }
+
     .footer_bottom {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4) var(--space-6);
       padding-top: var(--space-4);
       border-top: var(--border-width) solid var(--border);
     }

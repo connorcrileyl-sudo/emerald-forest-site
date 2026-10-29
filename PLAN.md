@@ -44,15 +44,15 @@ convention (`HeroSplit`, `TestimonialsSlider`, `CtaBanner`).
 
 - [x] Scaffold with `npm create lumos@latest`.
 - [x] `git init`, first commit, this plan.
-- [ ] **Upgrade Node** to ≥ 22.23.4. Current is 22.23.2 and Astro
+- [x] **Upgrade Node** to ≥ 22.23.4 (now 22.23.4). Current is 22.23.2 and Astro
       7.4 warns about it; `npm run dev` may refuse until upgraded.
-- [ ] Create the GitHub repo (private) and push. Mark it as a
+- [x] Create the GitHub repo (private) and push. Mark it as a
       **template repo** so each client is "Use this template".
 - [ ] Open it in Stacki once to confirm canvas select works with
       Astro 7 (Stacki injects its own markers, so the Astro 6 pin
       the Piny template needed should not apply — verify).
 
-### Phase 1 — One place for client facts
+### Phase 1 — One place for client facts (done)
 
 Lumos keeps site facts in `src/consts.ts`, but Nav and Footer links
 are hard-coded. Make every client-specific fact live in one file:
