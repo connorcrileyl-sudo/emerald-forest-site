@@ -132,7 +132,7 @@ Optional helper script `scripts/check-site.mjs`: finds leftover
 `TODO`s, demo text ("Lumos"), missing alt text, and placeholder
 links. The skill runs it in step 6.
 
-### Phase 6 — Docs for this repo
+### Phase 6 — Docs for this repo (done)
 
 - Rewrite `README.md`: what this is, how to start a client, how to
   use Stacki with it.
