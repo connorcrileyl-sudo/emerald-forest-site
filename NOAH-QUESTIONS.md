@@ -1,5 +1,12 @@
 # Questions for Noah
 
+> **Status (16 Nov 2026):** Noah answers in his Kitchen portal now, not
+> this file. The live list is his "Website Questions for Noah" form
+> (`~/esteemed-intake/clients/emerald-forest.json`), next to "Your New
+> Website (Preview)", where the claims to check are highlighted. This
+> file is the full background and history; the form is the trimmed
+> version. Launch steps are in `LAUNCH.md`.
+
 Everything the site still needs from Noah, plus what we added on his
 behalf. Answers go straight into the pages, so his own words are best.
 
