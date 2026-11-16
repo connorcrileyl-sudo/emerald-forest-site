@@ -47,6 +47,10 @@ in the next day or two.
    `local-seo-audits/audits/emerald-forest-furnishings/2026-11-16/before/site/`.
 5. Set `FORM_ENDPOINT` (or a small Worker that emails Noah) before
    the switch. Until then the form says "sent" and delivers nothing.
+   The Worker route isn't easy by hand (email sending, spam
+   protection, secrets), so have Claude build and deploy it, the same
+   way as the questions form in `~/esteemed-intake`. Formspree is the
+   no-code fallback: make a form, paste its URL into `FORM_ENDPOINT`.
 6. After launch:
    - Search Console: add the domain, submit the sitemap.
    - GA4: set the time zone to New York and mark `phone_call_click`
