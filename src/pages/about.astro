@@ -31,9 +31,11 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         A Woodworking Shop in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        Emerald Forest Furnishings is Noah's carpentry and woodworking
-        shop in Black Mountain, NC, building custom staircases, doors,
-        furniture and finish carpentry for homes across the area.
+        Emerald Forest Furnishings is Noah's woodworking and finish
+        carpentry shop in Black Mountain, in the Appalachian Mountains of
+        Western North Carolina. He builds custom stairs, cabinets,
+        handcrafted doors and one-of-a-kind furniture for homes across
+        the area.
       </Paragraph>
       <Img
         slot="column2"
@@ -48,13 +50,16 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Story -->
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={24}>Built for Each Client's Home</Heading>
+      <Heading tag="h2" maxWidth={24}>Craftsmanship You Live With Every Day</Heading>
       <RichText maxWidth={60}>
         <p>
-          We make bespoke pieces designed around each client's vision and
-          the space they're going in: custom stairs, handcrafted doors,
-          cabinets and furniture. Each one is meant to be both beautiful
-          and practical to live with.
+          Every piece starts with your ideas and the space it's going
+          in. Noah designs it with you, then builds it by hand with care
+          and precision, so it looks beautiful and works well day to day.
+        </p>
+        <p>
+          The goal is simple: woodwork that makes your home feel more like
+          yours, and that lasts.
         </p>
         {import.meta.env.DEV && (
           <p>
@@ -81,31 +86,33 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Values -->
   <Section>
     <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={24}>Quality, Honesty and Local Materials</Heading>
+      <Heading tag="h2" maxWidth={24}>Quality, Community and Local Materials</Heading>
     </ContentWrapper>
     <Grid small={2} large={3}>
       <ContentWrapper>
         <Icon src={iconQuality} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Quality and Integrity</Heading>
         <Paragraph>
-          Work held to a high standard, open communication, and respect
-          for both the craft and the client.
+          Careful work and honest communication, from the first
+          conversation to the last coat of finish.
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
         <Icon src={iconTree} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Local, Bioregional Wood</Heading>
         <Paragraph>
-          Lumber from trees grown and milled in Western North Carolina,
-          sourced from local sawmills.
+          Lumber from trees grown and milled here in Western North
+          Carolina, bought from local sawmills, so the work supports the
+          community too.
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
         <Icon src={iconLeaf} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Non-Toxic Finishes</Heading>
         <Paragraph>
-          A zero-VOC, food-safe hard wax oil as our usual finish, with
-          non-toxic, environmentally sourced hardware.
+          Our go-to finish is a zero-VOC, food-safe hard wax oil, paired
+          with non-toxic hardware and the best quality fittings we can
+          find.
         </Paragraph>
       </ContentWrapper>
     </Grid>
