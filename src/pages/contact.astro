@@ -35,7 +35,7 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call {BUSINESS.phone}</Button>
       </ButtonWrapper>
-      <RichText>
+      <RichText class="contact-details">
         {BUSINESS.email && (
           <p>
             <strong>Email</strong>
@@ -93,6 +93,14 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
 </Layout>
 
 <style is:global>
+  /* Left column: room between the call button and the details, and
+     between each detail, so it doesn't read as one cramped block. */
+  .contact-details {
+    margin-top: var(--space-6);
+    & > * + * {
+      margin-top: var(--space-5);
+    }
+  }
   /* Two fields per row from tablet width up, so the whole form (and its
      Send button) fits above the fold on a laptop. Unlayered to beat the
      Fieldset component's own grid. */
