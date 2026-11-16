@@ -14,10 +14,10 @@ import RelatedServices from "@/components/content/RelatedServices.astro";
 import ServiceSchema from "@/components/content/ServiceSchema.astro";
 import floatingShelves from "@/assets/images/floating-shelves-bowtie-inlay.jpg";
 import wineBuiltIn from "@/assets/images/arched-wine-builtin.jpg";
+import wineHero from "@/assets/images/arched-wine-builtin-hero.jpg";
 import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
 import kitchenDrawers from "@/assets/images/kitchen-cabinets-wood-drawers.jpg";
 import kitchenSink from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
-import wineRoom from "@/assets/images/arched-wine-builtin-dining-room.jpg";
 import Grid from "@/components/wrapper/Grid.astro";
 import Card from "@/components/item/Card.astro";
 import { BUSINESS, PHONE_HREF } from "@/consts.ts";
@@ -71,7 +71,7 @@ const faqs: FaqItem[] = [
 
   <!-- Hero -->
   <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
-    <ContentWrapper variant="columns" class="hero-photo-tall">
+    <ContentWrapper variant="columns">
       <Heading tag="h1" variant="h1" maxWidth={16}>
         Custom Cabinets and <span style="white-space: nowrap">Built-Ins</span> in Black Mountain, NC
       </Heading>
@@ -86,7 +86,7 @@ const faqs: FaqItem[] = [
       </ButtonWrapper>
       <Img
         slot="column2"
-        src={wineBuiltIn}
+        src={wineHero}
         alt="Arched built-in wine cabinet with lit shelves, diamond wine racks and wood doors below"
         loading="eager"
         fetchPriority="high"
@@ -167,7 +167,7 @@ const faqs: FaqItem[] = [
       />
       <Card
         variant="stacked"
-        image={wineRoom}
+        image={wineBuiltIn}
         imageAlt="Arched built-in wine cabinet set into a dining room wall"
       />
     </Grid>
