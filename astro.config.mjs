@@ -13,18 +13,16 @@ export default defineConfig({
   ],
   fonts: [
     {
-      name: "Inter",
+      name: "Cormorant Garamond",
+      cssVariable: "--font-heading",
+      provider: fontProviders.google(),
+      weights: [500, 600, 700],
+    },
+    {
+      name: "Jost",
       cssVariable: "--font-primary",
-      provider: fontProviders.local(),
-      options: {
-        variants: [
-          {
-            weight: 400,
-            style: "normal",
-            src: ["./src/assets/fonts/inter-regular.woff2"],
-          },
-        ],
-      },
+      provider: fontProviders.google(),
+      weights: [400, 500, 700],
     },
   ],
   vite: { build: { cssTarget: "safari15.4" } },

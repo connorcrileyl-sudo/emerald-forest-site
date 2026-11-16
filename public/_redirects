@@ -1,0 +1,19 @@
+# Old WordPress URLs -> new site (Cloudflare Pages / Workers static assets).
+# /about/, /contact/ and /services/ keep their addresses.
+/sample-page/              /                    301
+/hello-world/              /                    301
+/post-1/                   /                    301
+/post-2/                   /                    301
+/post-3/                   /                    301
+/blog/                     /                    301
+/category/uncategorized/   /                    301
+/form/simple-contact-form/ /contact/            301
+/portfolio/                /services/           301
+/feed/                     /                    301
+/sitemap_index.xml         /sitemap-index.xml   301
+/archives-sitemap-1.xml /sitemap-index.xml 301
+/post-type-elementor_library-sitemap-1.xml /sitemap-index.xml 301
+/post-type-page-sitemap-1.xml /sitemap-index.xml 301
+/post-type-post-sitemap-1.xml /sitemap-index.xml 301
+/post-type-sureforms_form-sitemap-1.xml /sitemap-index.xml 301
+/taxonomy-type-category-sitemap-1.xml /sitemap-index.xml 301

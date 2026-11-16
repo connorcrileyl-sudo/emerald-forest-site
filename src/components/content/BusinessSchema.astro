@@ -1,0 +1,55 @@
+---
+/*
+ * LocalBusiness structured data for every page. Service-area business:
+ * no street address, towns served listed as areaServed, linked to the
+ * Google Business Profile.
+ */
+import {
+  SITE_NAME,
+  SITE_URL,
+  SITE_DESCRIPTION,
+  BUSINESS,
+  TOWNS,
+  GOOGLE_PROFILE_URL,
+} from "@/consts.ts";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "@id": `${SITE_URL}/#business`,
+  name: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  url: `${SITE_URL}/`,
+  telephone: "+1-828-424-5401",
+  ...(BUSINESS.email ? { email: BUSINESS.email } : {}),
+  image: `${SITE_URL}/og-image.jpg`,
+  logo: `${SITE_URL}/favicon.svg`,
+  founder: { "@type": "Person", name: "Noah" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Black Mountain",
+    addressRegion: "NC",
+    postalCode: "28711",
+    addressCountry: "US",
+  },
+  areaServed: TOWNS.map((town) => ({
+    "@type": "City",
+    name: `${town}, NC`,
+  })),
+  hasMap: GOOGLE_PROFILE_URL,
+  sameAs: [GOOGLE_PROFILE_URL],
+  makesOffer: [
+    "Custom staircases",
+    "Spiral staircases",
+    "Solid hardwood doors",
+    "Bespoke furniture",
+    "Finish carpentry",
+    "Pergolas and outdoor structures",
+  ].map((name) => ({
+    "@type": "Offer",
+    itemOffered: { "@type": "Service", name },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

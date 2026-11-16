@@ -108,15 +108,17 @@ const { render = true, overlap = false } = Astro.props;
 <style is:global>
   @layer components {
     .nav_wrap {
-      position: sticky;
+      /* Emerald Forest: not sticky, no bar of its own; it scrolls away with
+         the page and reads as part of the hero. */
+      position: absolute;
+      inset-inline: 0;
       top: 0;
       z-index: 100;
       display: flex;
       justify-content: center;
       padding-inline: var(--site-margin);
-      background-color: var(--background);
+      background-color: transparent;
       color: var(--text);
-      border-bottom: var(--border-width) solid var(--border);
 
       &.overlap {
         position: fixed;

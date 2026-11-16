@@ -1,0 +1,218 @@
+---
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Grid from "@/components/wrapper/Grid.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import RichText from "@/components/typography/RichText.astro";
+import Button from "@/components/Button.astro";
+import Card from "@/components/item/Card.astro";
+import Img from "@/components/media/Img.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import QuoteCard from "@/components/content/QuoteCard.astro";
+import carvedPanel from "@/assets/images/walnut-door-carved-panel.jpg";
+import entryInstalled from "@/assets/images/walnut-entry-door-installed.jpg";
+import entryOpen from "@/assets/images/walnut-entry-door-open.jpg";
+import arched from "@/assets/images/arched-hardwood-door.jpg";
+import archedTrim from "@/assets/images/arched-door-with-trim.jpg";
+import plankDoors from "@/assets/images/plank-interior-doors.jpg";
+import finishing from "@/assets/images/finishing-a-walnut-door.jpg";
+import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
+---
+
+<Layout
+  title="Custom Solid Wood Doors in Black Mountain, NC"
+  description="Custom solid wood entry doors, arched doors and interior doors, handmade in Black Mountain, NC for homes in Asheville, Swannanoa and Montreat."
+>
+  <!-- Hero -->
+  <Section paddingTop="navoverlap" paddingBottom="large">
+    <ContentWrapper variant="columns">
+      <Heading tag="h1" variant="h1" maxWidth={16}>
+        Custom Solid Wood Doors in Black Mountain, NC
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        Entry doors, arched doors and interior doors in solid hardwood,
+        built in our Black Mountain shop to fit the opening exactly and
+        finished by hand.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+        <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+      </ButtonWrapper>
+      <Img
+        slot="column2"
+        src={entryInstalled}
+        alt="Solid walnut entry door with a carved geometric upper panel and raised lower panels"
+        loading="eager"
+        fetchPriority="high"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Entry doors -->
+  <Section class="section-alt">
+    <ContentWrapper variant="columns" reverse>
+      <Heading tag="h2" maxWidth={16}>Solid Wood Front Doors</Heading>
+      <RichText maxWidth={60}>
+        <p>
+          A front door is the first thing visitors touch. We build entry
+          doors in solid hardwood, with carved or raised panels designed
+          with you, sized to your opening.
+        </p>
+        <p>
+          The walnut door shown here has a carved geometric upper panel
+          over raised lower panels, finished in our usual non-toxic hard
+          wax oil.
+        </p>
+        <p>
+          TODO (Noah): do you supply and fit hardware, glass and weather
+          sealing, or does the client's builder handle that?
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={entryOpen}
+        alt="Walnut entry door standing open, showing its full thickness and carved panel"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Arched and interior -->
+  <Section>
+    <ContentWrapper variant="columns">
+      <Heading tag="h2" maxWidth={16}>
+        Arched Doors and Solid Wood Interior Doors
+      </Heading>
+      <RichText maxWidth={60}>
+        <p>
+          Arched doorways need a door made for them. We build arched doors
+          with matching curved trim, and plank and panel interior doors in
+          solid hardwood for closets, bedrooms and pantries.
+        </p>
+        <p>
+          Solid wood interior doors feel heavier and quieter than hollow
+          ones, and can be sanded and refinished rather than replaced.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={archedTrim}
+        alt="Arched solid wood door with horizontal planks and a matching curved wood trim"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Gallery -->
+  <Section class="section-alt">
+    <ContentWrapper>
+      <Heading tag="h2" maxWidth={16}>Recent Doors</Heading>
+    </ContentWrapper>
+    <Grid xsmall={2} large={3}>
+      <Card
+        variant="stacked"
+        image={carvedPanel}
+        imageAlt="Carved walnut door panel with an interlocking geometric pattern"
+      />
+      <Card
+        variant="stacked"
+        image={entryInstalled}
+        imageAlt="Walnut entry door installed in a new home"
+      />
+      <Card
+        variant="stacked"
+        image={arched}
+        imageAlt="Arched plank door with a black knob in a white hallway"
+      />
+      <Card
+        variant="stacked"
+        image={archedTrim}
+        imageAlt="Arched door and curved trim in warm-toned hardwood"
+      />
+      <Card
+        variant="stacked"
+        image={plankDoors}
+        imageAlt="Two solid wood plank interior doors in a hallway"
+      />
+      <Card
+        variant="stacked"
+        image={finishing}
+        imageAlt="Noah applying finish to a walnut door laid flat in the shop"
+      />
+    </Grid>
+  </Section>
+
+  <!-- Review -->
+  <Section>
+    <ContentWrapper>
+      <Heading tag="h2" maxWidth={16}>From a Recent Client</Heading>
+    </ContentWrapper>
+    <Grid medium={2}>
+      <QuoteCard
+        quote="Working with Emerald Forest was a pleasure. Excellent communication and workmanship. Great eye for detail aesthetic. Reasonable pricing for high quality work. We will definitely use this service again."
+        name="Brandon Greenstein"
+        detail="Google review"
+        rating={5}
+      />
+      <QuoteCard
+        quote="Great experience. Very happy with the end product, timeline, and communication"
+        name="Cameron White"
+        detail="Google review"
+        rating={5}
+      />
+    </Grid>
+  </Section>
+
+  <!-- FAQ -->
+  <Section class="section-alt">
+    <ContentWrapper variant="sticky-content">
+      <Heading tag="h2" maxWidth={14}>Door Questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact/">Get in touch</a>.
+      </Paragraph>
+      <Accordion slot="column2" single>
+        <AccordionItem heading="Where do you make and install doors?">
+          <Paragraph>
+            Doors are built in our Black Mountain shop for homes in{" "}
+            {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}, NC, and
+            nearby.
+          </Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="What wood and finish do you use?">
+          <Paragraph>
+            Hardwood grown and milled in Western North Carolina, finished
+            with a zero-VOC hard wax oil. The doors shown here are walnut.
+          </Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="How do I get an estimate?">
+          <Paragraph>
+            Call {BUSINESS.phone}, or send the opening's width and height,
+            whether it's an entry or interior door, and a photo through
+            the <a href="/contact/">contact page</a>.
+          </Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="How long does a custom door take?">
+          <Paragraph>
+            TODO (Noah): a typical time from go-ahead to installation.
+          </Paragraph>
+        </AccordionItem>
+      </Accordion>
+    </ContentWrapper>
+  </Section>
+
+  <!-- Call to action -->
+  <Section theme="brand" paddingTop="small" paddingBottom="small">
+    <ContentWrapper variant="auto-width">
+      <Heading tag="h2" maxWidth={18}>Need a Door Made?</Heading>
+      <Paragraph slot="column2" maxWidth={32}>
+        Call Noah, or send a photo and measurements of the doorway for an
+        estimate.
+      </Paragraph>
+      <ButtonWrapper slot="column2" marginTop="4">
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+  </Section>
+</Layout>

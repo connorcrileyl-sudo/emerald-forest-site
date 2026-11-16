@@ -1,0 +1,231 @@
+---
+/*
+ * Hero layout options for Connor to pick from. All use the same photo and
+ * text; only the layout and treatment change. Based on the current site's
+ * hero: text above, a contained photo with big top-right / bottom-left
+ * corners. Hidden from search (NOINDEX_ROUTES). Delete once one is chosen.
+ */
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import spiral from "@/assets/images/spiral-staircase-from-above.jpg";
+import { PHONE_HREF } from "@/consts.ts";
+
+const H1 = "Custom staircases, doors and furniture in Black Mountain, NC";
+const SUB =
+  "Spiral and straight staircases, solid hardwood doors and bespoke furniture, made by hand in our Black Mountain shop from Western North Carolina lumber.";
+const ALT =
+  "Walnut spiral staircase seen from above, with hammered metal treads and turned balusters";
+
+/* Option C and its two flipped copies share one layout. */
+const fadeOptions = [
+  { label: "C · Photo fades into the black at its top edge; text sits on the fade, never on the busy part", cls: "" },
+  { label: "C2 · Option C with the photo mirrored (left to right)", cls: "mirror" },
+  { label: "C3 · Option C with the photo flipped top to bottom", cls: "flip-v" },
+];
+---
+
+<Layout
+  title="Hero options"
+  description="Hero layout options to choose from. Not part of the site."
+  noindex
+>
+  <Section paddingTop="navoverlap" paddingBottom="small">
+    <ContentWrapper>
+      <Heading tag="h1" variant="h3">Hero options</Heading>
+      <Paragraph maxWidth={60}>
+        Same photo and text in each, based on the current site's hero.
+        The photo has a light CSS tint and highlight cut; a Photoshop
+        version would replace that.
+      </Paragraph>
+    </ContentWrapper>
+  </Section>
+
+  <!-- A -->
+  <div class="hero-option_label">A · Like the current site: text centred above, wide photo below, big corners</div>
+  <Section class="section-glow-center" paddingTop="large" paddingBottom="large">
+    <ContentWrapper centered>
+      <Heading tag="h2" variant="h1" maxWidth={22}>{H1}</Heading>
+      <Paragraph variant="large" maxWidth={44}>{SUB}</Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+        <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+    <div class="hero-photo corners-big ratio-wide spaced">
+      <Img src={spiral} alt={ALT} loading="eager" />
+    </div>
+  </Section>
+
+  <!-- B -->
+  <div class="hero-option_label">B · Same, but the photo is a short letterbox strip so the text and buttons stay above the fold</div>
+  <Section class="section-glow-center" paddingTop="large" paddingBottom="large">
+    <ContentWrapper centered>
+      <Heading tag="h2" variant="h1" maxWidth={22}>{H1}</Heading>
+      <Paragraph variant="large" maxWidth={44}>{SUB}</Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+        <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+    <div class="hero-photo corners-big ratio-strip spaced">
+      <Img src={spiral} alt={ALT} loading="eager" />
+    </div>
+  </Section>
+
+  <!-- C, C2, C3 -->
+  {
+    fadeOptions.map((o) => (
+      <>
+        <div class="hero-option_label">{o.label}</div>
+        <Section paddingTop="large" paddingBottom="large">
+          <div class="hero-c_stack">
+            <div class:list={["hero-photo corners-big ratio-wide fade-top", o.cls]}>
+              <Img src={spiral} alt={ALT} loading="eager" />
+            </div>
+            <div class="hero-c_text">
+              <ContentWrapper centered>
+                <Heading tag="h2" variant="h1" maxWidth={22}>{H1}</Heading>
+                <Paragraph variant="large" maxWidth={44}>{SUB}</Paragraph>
+                <ButtonWrapper>
+                  <Button element="link" href={PHONE_HREF}>Call Now</Button>
+                  <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+                </ButtonWrapper>
+              </ContentWrapper>
+            </div>
+          </div>
+        </Section>
+      </>
+    ))
+  }
+
+  <!-- D -->
+  <div class="hero-option_label">D · Text left, photo right with the big corners (side by side, nothing overlaps)</div>
+  <Section class="section-glow-center" paddingTop="large" paddingBottom="large">
+    <ContentWrapper variant="columns">
+      <Heading tag="h2" variant="h1" maxWidth={16}>{H1}</Heading>
+      <Paragraph variant="large" maxWidth={36}>{SUB}</Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+        <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+      </ButtonWrapper>
+      <div slot="column2" class="hero-photo corners-big ratio-square">
+        <Img src={spiral} alt={ALT} loading="eager" />
+      </div>
+    </ContentWrapper>
+  </Section>
+
+  <!-- E -->
+  <div class="hero-option_label">E · Wide photo with the text in a solid black panel cut into its bottom-left corner</div>
+  <Section paddingTop="large" paddingBottom="large">
+    <div class="hero-e_wrap">
+      <div class="hero-photo corners-big ratio-wide">
+        <Img src={spiral} alt={ALT} loading="eager" />
+      </div>
+      <div class="hero-e_panel">
+        <Heading tag="h2" variant="h2" maxWidth={18}>{H1}</Heading>
+        <Paragraph maxWidth={40}>{SUB}</Paragraph>
+        <ButtonWrapper>
+          <Button element="link" href={PHONE_HREF}>Call Now</Button>
+          <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+        </ButtonWrapper>
+      </div>
+    </div>
+  </Section>
+</Layout>
+
+<style is:global>
+  .hero-option_label {
+    padding: 0.75rem var(--site-margin);
+    background: #050505;
+    color: #d4a955;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-top: 1px solid #2c2618;
+  }
+
+  /* The photo frame shared by every option. */
+  .hero-photo {
+    position: relative;
+    width: 100%;
+    max-width: var(--max-width-main);
+    margin-inline: auto;
+    overflow: hidden;
+
+    & img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* Stand-in for the Photoshop pass: a little darker, highlights down. */
+      filter: brightness(0.82) contrast(0.95) saturate(0.92);
+    }
+
+    /* Dark wash, heavier at the bottom, to sit the photo into the page. */
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgb(7 7 7 / 0.08) 0%, rgb(7 7 7 / 0.35) 100%);
+      pointer-events: none;
+    }
+  }
+
+  /* The current site's shape: big rounded top-right and bottom-left. */
+  .corners-big {
+    border-radius: 0 clamp(3rem, 8vw, 7rem) 0 clamp(3rem, 8vw, 7rem);
+  }
+
+  .ratio-wide { aspect-ratio: 16 / 9; }
+  .ratio-strip { aspect-ratio: 21 / 7; }
+  .ratio-square { aspect-ratio: 1 / 1; }
+  .spaced { margin-top: var(--space-6); }
+  .mirror img { transform: scaleX(-1); }
+  .flip-v img { transform: scaleY(-1); }
+
+  /* C: text over the top of the photo, which fades to the ground there. */
+  .hero-c_stack {
+    position: relative;
+    width: 100%;
+    max-width: var(--max-width-main);
+    margin-inline: auto;
+  }
+  .fade-top {
+    margin-top: 12rem;
+    &::after {
+      background: linear-gradient(180deg, #070707 0%, rgb(7 7 7 / 0.85) 25%, rgb(7 7 7 / 0.2) 60%, rgb(7 7 7 / 0.3) 100%);
+    }
+  }
+  .hero-c_text {
+    position: absolute;
+    inset: 0 0 auto 0;
+  }
+
+  /* E: solid panel over the photo's bottom-left. */
+  .hero-e_wrap {
+    position: relative;
+    width: 100%;
+    max-width: var(--max-width-main);
+    margin-inline: auto;
+  }
+  .hero-e_panel {
+    position: relative;
+    margin-top: -8rem;
+    max-width: 34rem;
+    padding: var(--space-6) var(--space-6) 0 0;
+    background: #070707;
+    border-top-right-radius: clamp(2rem, 5vw, 4rem);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 48rem) {
+    .fade-top { margin-top: 20rem; }
+    .hero-e_panel { margin-top: -3rem; }
+  }
+</style>

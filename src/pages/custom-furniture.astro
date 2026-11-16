@@ -1,0 +1,182 @@
+---
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Grid from "@/components/wrapper/Grid.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import RichText from "@/components/typography/RichText.astro";
+import Button from "@/components/Button.astro";
+import Card from "@/components/item/Card.astro";
+import Img from "@/components/media/Img.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import QuoteCard from "@/components/content/QuoteCard.astro";
+import photoNeeded from "@/assets/placeholders/photo-needed.svg";
+import lumber from "@/assets/images/workshop-lumber-and-machines.jpg";
+import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
+---
+
+<Layout
+  title="Custom Furniture & Cabinets in Black Mountain, NC"
+  description="Custom furniture, cabinets and built-ins handmade from Western North Carolina hardwood in Black Mountain, NC, with non-toxic finishes. Serving Asheville."
+>
+  <!-- Hero -->
+  <Section paddingTop="navoverlap" paddingBottom="large">
+    <ContentWrapper variant="columns">
+      <Heading tag="h1" variant="h1" maxWidth={16}>
+        Custom Furniture and Cabinets in Black Mountain, NC
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        Tables, cabinets, built-ins and one-off pieces, designed with you
+        for the room they're going in and built in our Black Mountain shop.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+        <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+      </ButtonWrapper>
+      <Img
+        slot="column2"
+        src={photoNeeded}
+        alt="Placeholder: photo of a finished furniture piece coming soon"
+        loading="eager"
+        fetchPriority="high"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Furniture and cabinets -->
+  <Section class="section-alt">
+    <ContentWrapper variant="columns" reverse>
+      <Heading tag="h2" maxWidth={16}>
+        Furniture, Cabinets and Built-Ins
+      </Heading>
+      <RichText maxWidth={60}>
+        <p>
+          Every piece starts with a conversation about how it will be used
+          and where it will live. We build bespoke furniture and custom
+          cabinets in solid hardwood, made to the size of your space.
+        </p>
+        <p>
+          TODO (Noah): list the pieces you make most often (dining tables,
+          kitchen cabinets, bookshelves, built-in benches...) and anything
+          you don't take on.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={photoNeeded}
+        alt="Placeholder: photo of custom cabinets coming soon"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Materials -->
+  <Section>
+    <ContentWrapper variant="columns">
+      <Heading tag="h2" maxWidth={16}>
+        Local Wood and Finishes That Are Safe at Home
+      </Heading>
+      <RichText maxWidth={60}>
+        <p>
+          We use lumber from trees grown and milled in Western North
+          Carolina, bought from local sawmills. Our usual finish is a
+          zero-VOC hard wax oil that is safe for food contact, so it suits
+          dining tables and kitchen cabinets.
+        </p>
+        <p>
+          Hardware and finishes are chosen to be non-toxic and
+          environmentally sourced wherever we can.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={lumber}
+        alt="Stacks of rough-sawn hardwood boards and woodworking machines in the shop"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Gallery -->
+  <Section class="section-alt">
+    <ContentWrapper>
+      <Heading tag="h2" maxWidth={16}>Recent Furniture</Heading>
+      <Paragraph maxWidth={40}>
+        TODO (Noah): 4 to 6 photos of finished furniture and cabinets.
+      </Paragraph>
+    </ContentWrapper>
+    <Grid xsmall={2} large={3}>
+      <Card variant="stacked" image={photoNeeded} imageAlt="Placeholder: furniture photo coming soon" />
+      <Card variant="stacked" image={photoNeeded} imageAlt="Placeholder: furniture photo coming soon" />
+      <Card variant="stacked" image={photoNeeded} imageAlt="Placeholder: furniture photo coming soon" />
+    </Grid>
+  </Section>
+
+  <!-- Review -->
+  <Section>
+    <ContentWrapper>
+      <Heading tag="h2" maxWidth={16}>From a Recent Client</Heading>
+    </ContentWrapper>
+    <Grid medium={2}>
+      <QuoteCard
+        quote="Noah has excellent attention to detail and communication. He offered insights and solutions into some of the complications of our projects executed the vision perfectly."
+        name="Mike W"
+        detail="Google review"
+        rating={5}
+      />
+      <QuoteCard
+        quote="Reasonable pricing for high quality work. We will definitely use this service again."
+        name="Brandon Greenstein"
+        detail="Google review"
+        rating={5}
+      />
+    </Grid>
+  </Section>
+
+  <!-- FAQ -->
+  <Section class="section-alt">
+    <ContentWrapper variant="sticky-content">
+      <Heading tag="h2" maxWidth={14}>Furniture Questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact/">Get in touch</a>.
+      </Paragraph>
+      <Accordion slot="column2" single>
+        <AccordionItem heading="What area do you serve?">
+          <Paragraph>
+            Pieces are built in Black Mountain for homes in{" "}
+            {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}, NC, and
+            nearby.
+          </Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="Is the finish safe for a dining table?">
+          <Paragraph>
+            Yes. Our usual finish is a zero-VOC hard wax oil that is safe
+            for food contact.
+          </Paragraph>
+        </AccordionItem>
+        <AccordionItem heading="How do I get an estimate?">
+          <Paragraph>
+            Call {BUSINESS.phone}, or send a sketch or photo of what you
+            have in mind and the space it's for through the{" "}
+            <a href="/contact/">contact page</a>.
+          </Paragraph>
+        </AccordionItem>
+      </Accordion>
+    </ContentWrapper>
+  </Section>
+
+  <!-- Call to action -->
+  <Section theme="brand" paddingTop="small" paddingBottom="small">
+    <ContentWrapper variant="auto-width">
+      <Heading tag="h2" maxWidth={18}>Have a Piece in Mind?</Heading>
+      <Paragraph slot="column2" maxWidth={32}>
+        Call Noah to talk it through, or send a sketch and measurements
+        for an estimate.
+      </Paragraph>
+      <ButtonWrapper slot="column2" marginTop="4">
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+      </ButtonWrapper>
+    </ContentWrapper>
+  </Section>
+</Layout>

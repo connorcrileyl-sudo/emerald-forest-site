@@ -3,7 +3,6 @@ import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
-import Eyebrow from "@/components/typography/Eyebrow.astro";
 import Heading from "@/components/typography/Heading.astro";
 import Paragraph from "@/components/typography/Paragraph.astro";
 import RichText from "@/components/typography/RichText.astro";
@@ -12,36 +11,36 @@ import Form from "@/components/form/Form.astro";
 import Fieldset from "@/components/form/Fieldset.astro";
 import Input from "@/components/form/Input.astro";
 import Textarea from "@/components/form/Textarea.astro";
-import { BUSINESS, PHONE_HREF, FORM_ENDPOINT } from "@/consts.ts";
+import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
 ---
 
 <Layout
-  title="Contact"
-  description="TODO: how to reach the business, for search results."
+  title="Contact & Estimates | Black Mountain, NC"
+  description="Call Emerald Forest Furnishings on (828) 424-5401 or send project details for an estimate on custom staircases, doors and furniture near Asheville."
 >
   <!-- Hero -->
-  <Section paddingTop="large" paddingBottom="large">
+  <Section paddingTop="navoverlap" paddingBottom="large">
     <ContentWrapper centered>
-      <Eyebrow>Plumbing and heating in Springfield</Eyebrow>
       <Heading tag="h1" variant="display" maxWidth={14}>
-        Say what you do in a few words
+        Talk to Noah About Your Project
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        One or two sentences on the result the customer gets.
+        The quickest way is a phone call. Or send a few details and photos
+        of the space below, and we'll get back to you with next steps.
       </Paragraph>
       <ButtonWrapper>
-        <Button element="link" href="/contact">Get a quote</Button>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
       </ButtonWrapper>
     </ContentWrapper>
   </Section>
 
   <!-- Contact details and form -->
-  <Section>
+  <Section class="section-alt">
     <ContentWrapper variant="sticky-content">
-      <Eyebrow>Contact</Eyebrow>
-      <Heading tag="h2" maxWidth={14}>Get in touch</Heading>
+      <Heading tag="h2" maxWidth={14}>Get in Touch</Heading>
       <Paragraph maxWidth={32}>
-        Say how fast they will hear back, and the best way to reach you.
+        Tell us what you'd like built, where it's going, and roughly when.
+        Measurements and photos help us give you an estimate.
       </Paragraph>
       <RichText>
         {BUSINESS.phone && (
@@ -65,6 +64,15 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT } from "@/consts.ts";
             <Fragment set:html={BUSINESS.address.join("<br />")} />
           </p>
         )}
+        <p>
+          <strong>Area served</strong>
+          <br />
+          {TOWNS.join(", ")}, NC
+        </p>
+        <p>
+          TODO (Noah): your real working hours, and how quickly you usually
+          reply to messages.
+        </p>
         {BUSINESS.hours.length > 0 && (
           <p>
             <strong>Hours</strong>
@@ -78,7 +86,7 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT } from "@/consts.ts";
           <Input variant="first-name" required />
           <Input variant="email" required />
           <Input variant="phone" />
-          <Textarea label="How can we help?" required />
+          <Textarea label="What would you like built?" required />
         </Fieldset>
         <ButtonWrapper marginTop="4">
           <Button type="submit">Send message</Button>
