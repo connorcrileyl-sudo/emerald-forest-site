@@ -1,0 +1,42 @@
+---
+/**
+ * GA4 tag. Production builds only. Also reports two lead events, both
+ * marked as key events in GA:
+ * - phone_call_click: any tel: link clicked (Call Now, footer phone)
+ * - generate_lead: a form submitted
+ */
+import { GA_MEASUREMENT_ID } from "@/consts.ts";
+
+// Off in dev and in the review preview, so our own visits and Noah's
+// aren't counted.
+const id =
+  import.meta.env.PROD && import.meta.env.PUBLIC_REVIEW !== "1" ? GA_MEASUREMENT_ID : "";
+---
+
+{id && (
+  <>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${id}`}></script>
+    <script is:inline define:vars={{ id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", id);
+
+      document.addEventListener("click", (e) => {
+        const link = e.target.closest && e.target.closest('a[href^="tel:"]');
+        if (link) {
+          gtag("event", "phone_call_click", {
+            link_text: link.textContent.trim(),
+            page_path: location.pathname,
+          });
+        }
+      });
+
+      document.addEventListener("submit", (e) => {
+        if (e.target instanceof HTMLFormElement) {
+          gtag("event", "generate_lead", { page_path: location.pathname });
+        }
+      });
+    </script>
+  </>
+)}

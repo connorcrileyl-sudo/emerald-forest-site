@@ -8,20 +8,27 @@ import Heading from "@/components/typography/Heading.astro";
 import Paragraph from "@/components/typography/Paragraph.astro";
 import RichText from "@/components/typography/RichText.astro";
 import Button from "@/components/Button.astro";
-import Card from "@/components/item/Card.astro";
+import ServiceCard from "@/components/item/ServiceCard.astro";
+import deckBoards from "@/assets/images/stock-deck-boards-drill.jpg";
+import crownMolding from "@/assets/images/stock-crown-molding-nail-gun.jpg";
+import rotBoards from "@/assets/images/stock-wood-rot-damaged-boards.jpg";
+import oakNewel from "@/assets/images/oak-stair-newel-post.jpg";
 import spiralBalusters from "@/assets/images/spiral-staircase-walnut-balusters.jpg";
 import arched from "@/assets/images/arched-door-with-trim.jpg";
-import photoNeeded from "@/assets/placeholders/photo-needed.svg";
+import kitchen from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
+import coffeeTable from "@/assets/images/cherry-coffee-table.jpg";
 import pergola from "@/assets/images/pergola-with-planters.jpg";
+import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { PHONE_HREF, TOWNS } from "@/consts.ts";
 ---
 
 <Layout
-  title="Carpentry & Woodworking Services in Black Mountain, NC"
-  description="Custom staircases, solid wood doors, furniture, cabinets, finish carpentry and pergolas from a Black Mountain, NC woodshop serving the Asheville area."
+  title="Carpentry & Woodworking Services | Black Mountain & Asheville, NC"
+  description="Custom staircases, doors, cabinets, furniture, finish carpentry, decks, pergolas, wood rot repair and restoration from a Black Mountain, NC carpenter."
 >
+  <BreadcrumbSchema slot="head" trail={[{ label: "Services", href: "/services/" }]} />
   <!-- Hero -->
-  <Section paddingTop="navoverlap" paddingBottom="large">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper centered>
       <Heading tag="h1" variant="h1" maxWidth={16}>
         Carpentry and Woodworking in Black Mountain, NC
@@ -39,48 +46,98 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Services -->
   <Section class="section-alt">
     <ContentWrapper>
-      <Heading tag="h2" maxWidth={18}>Choose a Service</Heading>
+      <Heading tag="h2" maxWidth={24}>Choose a Service</Heading>
     </ContentWrapper>
-    <Grid medium={2}>
-      <Card
-        variant="stacked"
+    <Grid medium={2} large={3}>
+      <ServiceCard
+        href="/custom-staircases/"
         image={spiralBalusters}
         imageAlt="Walnut spiral staircase with turned balusters"
         heading="Spiral and Custom Staircases"
         headingTag="h3"
-        text="Spiral, curved and straight staircases, stair railings and newel posts in solid hardwood."
-        buttonLabel="Staircases"
-        buttonHref="/custom-staircases/"
+        text="The centerpiece of a home, in solid hardwood."
+        items={["Spiral and curved stairs", "Straight stairs", "Squeaky stair repair"]}
+        label="Staircases"
       />
-      <Card
-        variant="stacked"
+      <ServiceCard
+        href="/stair-railings/"
+        image={oakNewel}
+        imageAlt="Chamfered oak newel post at the foot of a straight staircase"
+        heading="Stair Railings and Newel Posts"
+        headingTag="h3"
+        text="New railings for new stairs or the ones you already have."
+        items={["Handrails", "Balusters", "Newel posts"]}
+        label="Stair Railings"
+      />
+      <ServiceCard
+        href="/custom-doors/"
         image={arched}
         imageAlt="Arched solid wood door with curved trim"
         heading="Custom Solid Wood Doors"
         headingTag="h3"
-        text="Entry doors, arched doors and solid wood interior doors, made to fit your opening."
-        buttonLabel="Doors"
-        buttonHref="/custom-doors/"
+        text="Carved, paneled and plank doors, made for your opening and built to last."
+        items={["Entry doors", "Arched doors", "Interior and barn doors"]}
+        label="Doors"
       />
-      <Card
-        variant="stacked"
-        image={photoNeeded}
-        imageAlt="Placeholder: furniture photo coming soon"
-        heading="Custom Furniture and Cabinets"
+      <ServiceCard
+        href="/custom-cabinets/"
+        image={kitchen}
+        imageAlt="Wood kitchen cabinets with a hammered copper farmhouse sink and stone countertop"
+        heading="Custom Cabinets and Built-Ins"
         headingTag="h3"
-        text="Tables, cabinets and built-ins from Western North Carolina hardwood."
-        buttonLabel="Furniture"
-        buttonHref="/custom-furniture/"
+        text="Kitchens, built-ins and mantels in local hardwood, with food-safe finishes."
+        items={["Kitchen cabinets", "Built-ins and shelves", "Mantels"]}
+        label="Cabinets"
       />
-      <Card
-        variant="stacked"
+      <ServiceCard
+        href="/custom-furniture/"
+        image={coffeeTable}
+        imageAlt="Mid-century modern cherry coffee table with an open shelf and tapered legs"
+        heading="Custom Furniture and Live Edge Tables"
+        headingTag="h3"
+        text="Tables and pieces you won't find in a store, in local hardwood."
+        items={["Dining tables", "Live edge tables", "Benches"]}
+        label="Furniture"
+      />
+      <ServiceCard
+        href="/finish-carpentry/"
+        image={crownMolding}
+        imageAlt="Close-up of white crown molding being nailed in where the wall meets the ceiling"
+        heading="Trim and Finish Carpentry"
+        headingTag="h3"
+        text="The details that make a room look finished."
+        items={["Crown molding", "Wainscoting", "Window and door trim"]}
+        label="Finish Carpentry"
+      />
+      <ServiceCard
+        href="/wood-rot-repair/"
+        image={rotBoards}
+        imageAlt="Weathered wooden boards with rot, peeling paint and insect damage"
+        heading="Wood Rot Repair and Restoration"
+        headingTag="h3"
+        text="Rotted and worn wood repaired, with new wood shaped to match."
+        items={["Sills and door frames", "Porches and fascia", "Historic woodwork"]}
+        label="Wood Rot Repair"
+      />
+      <ServiceCard
+        href="/pergolas/"
         image={pergola}
         imageAlt="Timber pergola with built-in planter boxes"
         heading="Pergolas and Outdoor Structures"
         headingTag="h3"
-        text="Wood pergolas and covered outdoor spaces built from solid timber."
-        buttonLabel="Pergolas"
-        buttonHref="/pergolas/"
+        text="Shade and outdoor living space, framed in solid timber."
+        items={["Pergolas", "Built-in planters", "Covered outdoor spaces"]}
+        label="Pergolas"
+      />
+      <ServiceCard
+        href="/decks/"
+        image={deckBoards}
+        imageAlt="Hands driving screws into new pine deck boards with a power drill"
+        heading="Decks, Deck Repair and Staining"
+        headingTag="h3"
+        text="New decks built right, and worn decks brought back."
+        items={["New wood decks", "Board, rail and stair repair", "Cleaning and restaining"]}
+        label="Decks"
       />
     </Grid>
   </Section>
@@ -88,30 +145,34 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Finish carpentry -->
   <Section>
     <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={16}>Trim and Finish Carpentry</Heading>
+      <Heading tag="h2" maxWidth={24}>Trim and Finish Carpentry</Heading>
       <RichText slot="column2" maxWidth={60}>
         <p>
           Alongside the larger pieces, we take on finish carpentry: the
-          trim, casings and details that make a room look complete.
-        </p>
-        <p>
-          TODO (Noah): the finish carpentry work you want more of
-          (trim, wainscoting, mantels, built-in shelving?).
+          trim, casings, wainscoting and details that make a room look
+          complete. See <a href="/finish-carpentry/">trim and finish
+          carpentry</a>.
         </p>
       </RichText>
     </ContentWrapper>
   </Section>
 
-  <!-- Call to action -->
-  <Section theme="brand" paddingTop="small" paddingBottom="small">
-    <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={18}>Not Sure Where Your Project Fits?</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        Call Noah and describe what you have in mind.
-      </Paragraph>
-      <ButtonWrapper slot="column2" marginTop="4">
-        <Button element="link" href={PHONE_HREF}>Call Now</Button>
-      </ButtonWrapper>
+  <!-- Repairs and restoration -->
+  <Section class="section-alt">
+    <ContentWrapper variant="columns">
+      <Heading tag="h2" maxWidth={24}>Repairs and Restoration</Heading>
+      <RichText slot="column2" maxWidth={60}>
+        <p>
+          Not every job is a new build. We repair wood rot, fix squeaky
+          or worn wooden stairs, and take on smaller wood repairs around
+          the house.
+        </p>
+        <p>
+          For older and historic homes, we restore original woodwork where
+          it can be saved and make matching pieces where it can't. See{" "}
+          <a href="/wood-rot-repair/">wood rot repair and restoration</a>.
+        </p>
+      </RichText>
     </ContentWrapper>
   </Section>
 </Layout>

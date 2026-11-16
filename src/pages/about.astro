@@ -10,9 +10,12 @@ import RichText from "@/components/typography/RichText.astro";
 import Button from "@/components/Button.astro";
 import Img from "@/components/media/Img.astro";
 import Icon from "@/components/media/Icon.astro";
-import check from "@/assets/icons/check.svg";
+import iconQuality from "@/assets/icons/fa/award-simple.svg";
+import iconTree from "@/assets/icons/fa/tree.svg";
+import iconLeaf from "@/assets/icons/fa/leaf.svg";
 import workshop from "@/assets/images/woodworker-in-workshop.jpg";
 import lumber from "@/assets/images/workshop-lumber-and-machines.jpg";
+import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { PHONE_HREF, TOWNS } from "@/consts.ts";
 ---
 
@@ -20,8 +23,9 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   title="About Noah, Carpenter & Woodworker in Black Mountain, NC"
   description="Emerald Forest Furnishings is Noah's woodworking and finish carpentry shop in Black Mountain, NC, building with local hardwood and non-toxic finishes."
 >
+  <BreadcrumbSchema slot="head" trail={[{ label: "About", href: "/about/" }]} />
   <!-- Hero -->
-  <Section paddingTop="navoverlap" paddingBottom="large">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="columns">
       <Heading tag="h1" variant="h1" maxWidth={16}>
         A Woodworking Shop in Black Mountain, NC
@@ -44,7 +48,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Story -->
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={16}>Built for Each Client's Home</Heading>
+      <Heading tag="h2" maxWidth={24}>Built for Each Client's Home</Heading>
       <RichText maxWidth={60}>
         <p>
           We make bespoke pieces designed around each client's vision and
@@ -52,15 +56,19 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
           cabinets and furniture. Each one is meant to be both beautiful
           and practical to live with.
         </p>
-        <p>
-          TODO (Noah): how many years you've been doing carpentry, how you
-          got started, and what you enjoy building most. Two or three
-          sentences in your own words is perfect.
-        </p>
-        <p>
-          TODO (Noah): are you licensed and insured? If so, say which
-          licence so we can mention it.
-        </p>
+        {import.meta.env.DEV && (
+          <p>
+            TODO (Noah): how many years you've been doing carpentry, how
+            you got started, and what you enjoy building most. Two or
+            three sentences in your own words is perfect.
+          </p>
+        )}
+        {import.meta.env.DEV && (
+          <p>
+            TODO (Noah): are you licensed and insured? If so, say which
+            licence so we can mention it.
+          </p>
+        )}
       </RichText>
       <Img
         slot="column2"
@@ -73,14 +81,11 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Values -->
   <Section>
     <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={16}>Quality, Honesty and Local Materials</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        The principles behind every project.
-      </Paragraph>
+      <Heading tag="h2" maxWidth={24}>Quality, Honesty and Local Materials</Heading>
     </ContentWrapper>
     <Grid small={2} large={3}>
       <ContentWrapper>
-        <Icon src={check} variant="large" />
+        <Icon src={iconQuality} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Quality and Integrity</Heading>
         <Paragraph>
           Work held to a high standard, open communication, and respect
@@ -88,7 +93,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
-        <Icon src={check} variant="large" />
+        <Icon src={iconTree} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Local, Bioregional Wood</Heading>
         <Paragraph>
           Lumber from trees grown and milled in Western North Carolina,
@@ -96,7 +101,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
-        <Icon src={check} variant="large" />
+        <Icon src={iconLeaf} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Non-Toxic Finishes</Heading>
         <Paragraph>
           A zero-VOC, food-safe hard wax oil as our usual finish, with
@@ -109,29 +114,13 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Area -->
   <Section class="section-alt">
     <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={16}>Based in Black Mountain</Heading>
+      <Heading tag="h2" maxWidth={24}>Based in Black Mountain</Heading>
       <RichText slot="column2" maxWidth={60}>
         <p>We build for homes in:</p>
         <ul>
           {TOWNS.map((town) => <li>{town}, NC</li>)}
         </ul>
       </RichText>
-    </ContentWrapper>
-  </Section>
-
-  <!-- Call to action -->
-  <Section theme="brand" paddingTop="small" paddingBottom="small">
-    <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={18}>Let's Talk About Your Project</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        Call Noah, or send a few details through the contact page.
-      </Paragraph>
-      <ButtonWrapper slot="column2" marginTop="4">
-        <Button element="link" href={PHONE_HREF}>Call Now</Button>
-        <Button element="link" href="/contact/" emphasis="secondary">
-          Contact
-        </Button>
-      </ButtonWrapper>
     </ContentWrapper>
   </Section>
 </Layout>

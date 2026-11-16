@@ -1,12 +1,16 @@
 ---
 import Icon from "@/components/media/Icon.astro";
+import Button from "@/components/Button.astro";
 import logo from "@/assets/logo/logo.svg";
+import iconFacebook from "@/assets/icons/fa/facebook.svg";
+import iconInstagram from "@/assets/icons/fa/instagram.svg";
 import {
   SITE_NAME,
   BUSINESS,
-  FOOTER_LINKS,
+  SERVICE_LINKS,
   SOCIAL_LINKS,
   PHONE_HREF,
+  TOWNS,
 } from "@/consts.ts";
 
 interface Props {
@@ -16,79 +20,131 @@ interface Props {
 
 const { render = true } = Astro.props;
 
-const hasContact =
-  !!BUSINESS.phone ||
-  !!BUSINESS.email ||
-  BUSINESS.address.length > 0 ||
-  BUSINESS.hours.length > 0;
+/* Font Awesome brand icons for the social links, by label. */
+const socialIcons: Record<string, typeof iconFacebook> = {
+  Facebook: iconFacebook,
+  Instagram: iconInstagram,
+};
+
+const companyLinks = [
+  { label: "Home", href: "/" },
+  { label: "About Noah", href: "/about/" },
+  { label: "Contact", href: "/contact/" },
+];
 ---
 
 {render && (
   <footer class="footer_wrap">
+    <div class="footer_band footer_band--cta">
     <div class="footer_inner">
-      <div class="footer_top">
-        <a class="footer_logo" href="/" aria-label={SITE_NAME}>
-          <Icon src={logo} variant="full-width" />
-        </a>
-        {FOOTER_LINKS.length > 0 && (
-          <nav aria-label="Footer">
-            <ul class="footer_links">
-              {FOOTER_LINKS.map((link) => (
-                <li>
-                  <a class="footer_link" href={link.href}>
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-      </div>
-      {hasContact && (
-        <div class="footer_contact text-style-small">
-          {(BUSINESS.phone || BUSINESS.email) && (
-            <p class="footer_contact_item">
-              {BUSINESS.phone && (
-                <a class="footer_link" href={PHONE_HREF}>
-                  {BUSINESS.phone}
-                </a>
-              )}
-              {BUSINESS.email && (
-                <a class="footer_link" href={`mailto:${BUSINESS.email}`}>
-                  {BUSINESS.email}
-                </a>
-              )}
-            </p>
-          )}
-          {BUSINESS.address.length > 0 && (
-            <address class="footer_contact_item">
-              {BUSINESS.address.map((line) => <span>{line}</span>)}
-            </address>
-          )}
-          {BUSINESS.hours.length > 0 && (
-            <p class="footer_contact_item">
-              {BUSINESS.hours.map((line) => <span>{line}</span>)}
-            </p>
-          )}
+      <div class="footer_cta">
+        <div class="footer_cta_text">
+          <p class="footer_cta_heading">
+            Have More Questions?
+          </p>
+          <p class="footer_cta_body">
+            Give Noah a call or send a few photos for a free estimate.
+          </p>
         </div>
-      )}
-      <div class="footer_bottom">
-        <p class="footer_copyright text-style-small">
-          &copy; <span id="year">{new Date().getFullYear()}</span>&#160;
-          {SITE_NAME}
-        </p>
-        {SOCIAL_LINKS.length > 0 && (
-          <ul class="footer_links" aria-label="Social">
-            {SOCIAL_LINKS.map((link) => (
+        <div class="footer_cta_buttons">
+          <Button element="link" href={PHONE_HREF}>Call Now</Button>
+          <Button element="link" href="/contact/" emphasis="secondary">
+            Free Estimate
+          </Button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="footer_band footer_band--main">
+    <div class="footer_inner">
+      <div class="footer_grid">
+        <div class="footer_brand">
+          <a class="footer_logo" href="/" aria-label={SITE_NAME}>
+            <Icon src={logo} variant="full-width" />
+          </a>
+          <p class="footer_tagline">
+            Serving {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}, NC
+          </p>
+        </div>
+
+        <nav class="footer_col" aria-label="Services">
+          <p class="footer_col_title">Services</p>
+          <ul class="footer_list">
+            {SERVICE_LINKS.map((link) => (
               <li>
-                <a class="footer_link" href={link.href} rel="me noopener">
-                  {link.label}
-                </a>
+                <a class="footer_link" href={link.href}>{link.label}</a>
               </li>
             ))}
           </ul>
-        )}
+        </nav>
+
+        <nav class="footer_col" aria-label="Company">
+          <p class="footer_col_title">Company</p>
+          <ul class="footer_list">
+            {companyLinks.map((link) => (
+              <li>
+                <a class="footer_link" href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div class="footer_col">
+          <p class="footer_col_title">Get in Touch</p>
+          <ul class="footer_list">
+            {BUSINESS.phone && (
+              <li>
+                <a class="footer_link footer_phone" href={PHONE_HREF}>
+                  {BUSINESS.phone}
+                </a>
+              </li>
+            )}
+            {BUSINESS.email && (
+              <li>
+                <a class="footer_link" href={`mailto:${BUSINESS.email}`}>
+                  {BUSINESS.email}
+                </a>
+              </li>
+            )}
+            {BUSINESS.hours.map((line) => (
+              <li class="footer_note">{line}</li>
+            ))}
+          </ul>
+          {SOCIAL_LINKS.length > 0 && (
+            <div class="footer_follow">
+              <p class="footer_col_title">Follow Us</p>
+              <ul class="footer_social" aria-label="Social">
+                {SOCIAL_LINKS.map((link) => (
+                  <li>
+                    <a
+                      class="footer_link footer_social_link"
+                      href={link.href}
+                      rel="me noopener"
+                      aria-label={link.label}
+                      title={link.label}
+                    >
+                      {socialIcons[link.label] ? (
+                        <Icon src={socialIcons[link.label]} variant="small" class="footer_social_icon" />
+                      ) : (
+                        link.label
+                      )}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
+
+      <div class="footer_bottom">
+        <p class="footer_copyright">
+          &copy; <span id="year">{new Date().getFullYear()}</span>&#160;
+          {SITE_NAME}
+        </p>
+      </div>
+    </div>
     </div>
   </footer>
 )}
@@ -103,14 +159,30 @@ const hasContact =
 
 <style is:global>
   @layer components {
+    /* A very dark emerald, solid (no gradient). The inner rules take a
+       green-tinted hairline so they don't read brown on it. */
     .footer_wrap {
+      display: flex;
+      flex-direction: column;
+      color: var(--text);
+    }
+
+    .footer_band {
       display: flex;
       justify-content: center;
       padding-block: var(--section-space-small);
       padding-inline: var(--site-margin);
-      background-color: var(--background);
-      color: var(--text);
       border-top: var(--border-width) solid var(--border);
+    }
+
+    /* Call to action: the page's own near-black ground. */
+    .footer_band--cta {
+      background-color: var(--background);
+    }
+
+    .footer_band--main {
+      --border: #1a3324;
+      background-color: #08170f;
     }
 
     .footer_inner {
@@ -118,63 +190,126 @@ const hasContact =
       max-width: var(--max-width-main);
       display: flex;
       flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    /* Call to action band */
+    .footer_cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: var(--space-6);
     }
 
-    .footer_top {
+    .footer_cta_text {
+      max-width: 36rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .footer_cta_heading {
+      font-family: var(--heading-family);
+      font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+      font-weight: var(--heading-weight);
+      line-height: 1.2;
+      color: var(--heading-text, var(--text));
+    }
+
+    .footer_cta_body {
+      color: var(--text-2);
+    }
+
+    .footer_cta_buttons {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4) var(--space-6);
+      justify-content: center;
+      gap: var(--space-2) var(--space-3);
+    }
+
+    /* Columns: brand, services, company, contact. Two across on
+       tablets, four from 1024px. */
+    .footer_grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8) var(--space-6);
+      @media (width >= 40rem) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      @media (width >= 64rem) {
+        grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+      }
+    }
+
+    .footer_brand {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
     }
 
     .footer_logo {
       display: block;
       width: var(--logo-width-footer);
       max-width: 100%;
-      transition: opacity var(--hover-duration) var(--hover-ease);
+      transition: filter var(--hover-duration) var(--hover-ease);
       @media (hover: hover) {
         &:hover {
-          opacity: 0.6;
+          filter: brightness(1.2) saturate(1.1);
         }
       }
     }
 
-    .footer_links {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-4);
+    .footer_tagline {
+      max-width: 22rem;
       font-size: var(--text-small);
-      font-weight: var(--primary-medium);
+      color: var(--text-2);
+    }
+
+    .footer_col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    /* Same small label as the rest of the site. */
+    .footer_col_title {
+      font-size: 0.75rem;
+      font-weight: var(--primary-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: color-mix(in lab, var(--text) 60%, transparent);
+    }
+
+    .footer_list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      font-size: var(--text-small);
     }
 
     .footer_link {
+      overflow-wrap: anywhere;
       color: var(--text-2);
       text-decoration: none;
       transition: color var(--hover-duration) var(--hover-ease);
       @media (hover: hover) {
         &:hover {
-          color: var(--text);
+          color: var(--hover-gold, var(--text));
         }
       }
     }
 
-    .footer_contact {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-4) var(--space-8);
+    .footer_phone {
+      font-size: var(--text-main);
+      font-weight: var(--primary-medium);
+      color: var(--text);
     }
 
-    .footer_contact_item {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-1);
-      font-style: normal;
-      & > span {
-        color: var(--text-2);
-      }
+    .footer_note {
+      max-width: 18rem;
+      color: var(--text-2);
     }
 
     .footer_bottom {
@@ -185,10 +320,39 @@ const hasContact =
       gap: var(--space-4) var(--space-6);
       padding-top: var(--space-4);
       border-top: var(--border-width) solid var(--border);
+      font-size: var(--text-small);
     }
 
     .footer_copyright {
       color: var(--text-2);
+    }
+
+    .footer_social {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .footer_follow {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+    }
+
+    /* Icon buttons: a 48px tap target around a 30px brand mark. */
+    .footer_social_link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      margin-left: -0.5rem;
+    }
+
+    .footer_social_icon {
+      width: 1.875rem;
+      height: 1.875rem;
     }
   }
 </style>

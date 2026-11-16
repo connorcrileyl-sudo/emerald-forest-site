@@ -1,0 +1,192 @@
+---
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import RichText from "@/components/typography/RichText.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import RelatedServices from "@/components/content/RelatedServices.astro";
+import ServiceSchema from "@/components/content/ServiceSchema.astro";
+import oakRail from "@/assets/images/oak-stair-handrail-detail.jpg";
+/* Stock photos (Envato): they show the problem, not Noah's work. */
+import rotBoards from "@/assets/images/stock-wood-rot-damaged-boards.jpg";
+import olderHouse from "@/assets/images/stock-older-house-exterior.jpg";
+import windowRot from "@/assets/images/stock-window-frame-rot.jpg";
+import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
+
+const description =
+  "Rotted window sills, door frames, fascia, porch railings, stair treads and historic woodwork repaired by a Black Mountain, NC carpenter. Serving Asheville.";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Can rotted wood be repaired, or does it need replacing?",
+    answer: `It depends how far the rot has spread. Small areas can often
+      be cut out and patched with new wood; if most of a board, sill or
+      post is soft, replacing that piece is the better fix. Send a
+      photo and we'll tell you which.`,
+  },
+  {
+    question: "How do I know if wood is rotting?",
+    answer: `Soft or spongy wood when pressed with a screwdriver, peeling or
+      bubbling paint, dark staining and cracks along the grain are the
+      usual signs. Window sills, door bottoms and porch posts are the
+      most common places.`,
+  },
+  {
+    question: "Can you fix squeaky stairs?",
+    answer: `Yes. Squeaks usually come from treads that have worked loose,
+      and we re-secure or replace them.`,
+  },
+  {
+    question: "Do you repair rot outside Black Mountain?",
+    answer: `Yes. We repair rotted sills, door frames, porches and stairs
+      in homes in ${TOWN_LIST}, NC, and nearby.`,
+  },
+  {
+    question: "How much does wood rot repair cost?",
+    answer: `It depends on how far the rot has spread and how much wood has to be replaced. Give us a call or
+      send a few photos, and we'll gladly put together a free estimate.`,
+  },
+  {
+    question: "How do I get an estimate?",
+    answer: `Call ${BUSINESS.phone}, or send photos of the damage through
+      the <a href="/contact/">contact page</a>.`,
+  },
+];
+---
+
+<Layout
+  title="Wood Rot Repair & Restoration | Black Mountain & Asheville, NC"
+  description={description}
+>
+  <ServiceSchema
+    slot="head"
+    name="Wood Rot Repair and Restoration"
+    serviceType="Wood rot repair"
+    description={description}
+    image={rotBoards}
+    faqs={faqs}
+  />
+
+  <!-- Hero -->
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
+    <ContentWrapper variant="columns">
+      <Heading tag="h1" variant="h1" maxWidth={16}>
+        Wood Rot Repair and Restoration in Black Mountain, NC
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        We repair rotted sills, door frames, porch railings and worn
+        stairs in homes around Black Mountain and Asheville, with new
+        wood shaped to match the old.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+        <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+      </ButtonWrapper>
+      <Img
+        slot="column2"
+        src={rotBoards}
+        alt="Weathered wooden boards with rot, peeling paint and insect damage"
+        loading="eager"
+        fetchPriority="high"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Rot repair -->
+  <Section class="section-alt">
+    <ContentWrapper variant="columns" reverse>
+      <Heading tag="h2" maxWidth={24}>What We Repair</Heading>
+      <RichText maxWidth={60}>
+        <p>
+          Mountain weather is hard on exterior wood. We repair rot in:
+        </p>
+        <ul>
+          <li>Window sills and window trim</li>
+          <li>Door frames, thresholds and jambs</li>
+          <li>Fascia boards and siding boards</li>
+          <li>Porch floors, posts and railings</li>
+          <li>
+            <a href="/decks/">Deck boards, rails and stairs</a>
+          </li>
+        </ul>
+        <p>
+          Soft wood is cut back to sound timber and replaced with new wood
+          shaped to match, so the repair doesn't stand out.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={windowRot}
+        alt="Mold, damp and peeling paint on a window frame and sill"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Stairs and small repairs -->
+  <Section>
+    <ContentWrapper variant="columns">
+      <Heading tag="h2" maxWidth={24}>
+        Stair Repairs and Smaller Jobs
+      </Heading>
+      <RichText maxWidth={60}>
+        <p>
+          We fix squeaky stairs, replace worn or cracked stair treads, and
+          tighten loose railings and newel posts. Smaller wood repairs
+          around the house are welcome too. Need a whole new railing? See{" "}
+          <a href="/stair-railings/">stair railings</a>.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={oakRail}
+        alt="Close-up of a hand-shaped oak stair handrail"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Historic -->
+  <Section class="section-alt">
+    <ContentWrapper variant="columns" reverse>
+      <Heading tag="h2" maxWidth={24}>Historic and Older Homes</Heading>
+      <RichText maxWidth={60}>
+        <p>
+          In older and historic homes, we restore original woodwork where
+          it can be saved, and make matching replacements where it can't:
+          <a href="/finish-carpentry/">trim profiles</a>, balusters, sills
+          and doors.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={olderHouse}
+        alt="Older two-story wood-sided house with dormer windows and a steep gabled roof"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- FAQ -->
+  <Section>
+    <ContentWrapper variant="sticky-content">
+      <Heading tag="h2" maxWidth={24}>Wood Rot Questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact/">Get in touch</a>.
+      </Paragraph>
+      <Accordion slot="column2" single>
+        {visibleFaqs(faqs).map((faq) => (
+          <AccordionItem heading={faq.question}>
+            <Paragraph set:html={faq.answer} />
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </ContentWrapper>
+  </Section>
+
+  <RelatedServices current="/wood-rot-repair/" />
+</Layout>

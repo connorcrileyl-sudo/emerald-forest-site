@@ -2,35 +2,73 @@
 import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
-import Grid from "@/components/wrapper/Grid.astro";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
 import Heading from "@/components/typography/Heading.astro";
 import Paragraph from "@/components/typography/Paragraph.astro";
 import RichText from "@/components/typography/RichText.astro";
 import Button from "@/components/Button.astro";
-import Card from "@/components/item/Card.astro";
 import Img from "@/components/media/Img.astro";
 import Accordion from "@/components/interactive/Accordion.astro";
 import AccordionItem from "@/components/interactive/AccordionItem.astro";
-import QuoteCard from "@/components/content/QuoteCard.astro";
-import photoNeeded from "@/assets/placeholders/photo-needed.svg";
+import RelatedServices from "@/components/content/RelatedServices.astro";
+import ServiceSchema from "@/components/content/ServiceSchema.astro";
+import glueUp from "@/assets/images/workshop-clamping-glue-up.jpg";
+import coffeeTable from "@/assets/images/cherry-coffee-table.jpg";
 import lumber from "@/assets/images/workshop-lumber-and-machines.jpg";
-import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
+import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
+
+const description =
+  "Custom dining tables, live edge tables and bespoke furniture handmade from Western North Carolina hardwood in Black Mountain, NC. Serving Asheville.";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Where is the furniture made?",
+    answer: `Every piece is built in our Black Mountain shop for homes in
+      ${TOWN_LIST}, NC, and nearby.`,
+  },
+  {
+    question: "Is the finish safe for a dining table?",
+    answer: `Yes. Our usual finish is a zero-VOC hard wax oil that is
+      safe for food contact.`,
+  },
+  {
+    question: "How much does a custom table or piece of furniture cost?",
+    answer: `It depends on the size, the wood and how much detail goes into it. Give us a call or
+      send a few photos, and we'll gladly put together a free estimate.`,
+  },
+  {
+    question: "How do I get an estimate?",
+    answer: `Call ${BUSINESS.phone}, or send a sketch or photo of what you
+      have in mind and the space it's for through the
+      <a href="/contact/">contact page</a>.`,
+  },
+];
 ---
 
 <Layout
-  title="Custom Furniture & Cabinets in Black Mountain, NC"
-  description="Custom furniture, cabinets and built-ins handmade from Western North Carolina hardwood in Black Mountain, NC, with non-toxic finishes. Serving Asheville."
+  title="Custom Furniture & Live Edge Tables | Black Mountain & Asheville, NC"
+  description={description}
 >
+  <ServiceSchema
+    slot="head"
+    name="Custom Furniture and Live Edge Tables"
+    serviceType="Bespoke furniture"
+    description={description}
+    image={coffeeTable}
+    faqs={faqs}
+  />
+
   <!-- Hero -->
-  <Section paddingTop="navoverlap" paddingBottom="large">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="columns">
       <Heading tag="h1" variant="h1" maxWidth={16}>
-        Custom Furniture and Cabinets in Black Mountain, NC
+        Custom Furniture and Live Edge Tables in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        Tables, cabinets, built-ins and one-off pieces, designed with you
-        for the room they're going in and built in our Black Mountain shop.
+        We design and build dining tables, live edge tables and one-off
+        pieces in our Black Mountain shop for homes around Asheville,
+        each made with you for the room it's going in.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -38,8 +76,8 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
       </ButtonWrapper>
       <Img
         slot="column2"
-        src={photoNeeded}
-        alt="Placeholder: photo of a finished furniture piece coming soon"
+        src={coffeeTable}
+        alt="Mid-century modern cherry coffee table with an open shelf and tapered legs"
         loading="eager"
         fetchPriority="high"
       />
@@ -49,25 +87,25 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Furniture and cabinets -->
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={16}>
-        Furniture, Cabinets and Built-Ins
+      <Heading tag="h2" maxWidth={24}>
+        Dining Tables, Live Edge Tables and One-Off Pieces
       </Heading>
       <RichText maxWidth={60}>
         <p>
           Every piece starts with a conversation about how it will be used
-          and where it will live. We build bespoke furniture and custom
-          cabinets in solid hardwood, made to the size of your space.
+          and where it will live. We build bespoke furniture in solid
+          hardwood: dining tables, live edge tables, benches and pieces
+          that don't fit a category.
         </p>
         <p>
-          TODO (Noah): list the pieces you make most often (dining tables,
-          kitchen cabinets, bookshelves, built-in benches...) and anything
-          you don't take on.
+          Looking for kitchen cabinets, built-ins or shelving? See{" "}
+          <a href="/custom-cabinets/">custom cabinets and built-ins</a>.
         </p>
       </RichText>
       <Img
         slot="column2"
-        src={photoNeeded}
-        alt="Placeholder: photo of custom cabinets coming soon"
+        src={glueUp}
+        alt="Noah clamping thick hardwood boards together on the workbench in his Black Mountain shop"
       />
     </ContentWrapper>
   </Section>
@@ -75,15 +113,17 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Materials -->
   <Section>
     <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={16}>
+      <Heading tag="h2" maxWidth={24}>
         Local Wood and Finishes That Are Safe at Home
       </Heading>
       <RichText maxWidth={60}>
         <p>
           We use lumber from trees grown and milled in Western North
-          Carolina, bought from local sawmills. Our usual finish is a
-          zero-VOC hard wax oil that is safe for food contact, so it suits
-          dining tables and kitchen cabinets.
+          Carolina, bought from local sawmills: the same wood as our{" "}
+          <a href="/custom-doors/">doors</a> and{" "}
+          <a href="/custom-staircases/">staircases</a>. Our usual finish is
+          a zero-VOC hard wax oil that is safe for food contact, so it
+          suits dining tables.
         </p>
         <p>
           Hardware and finishes are chosen to be non-toxic and
@@ -98,85 +138,24 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
     </ContentWrapper>
   </Section>
 
-  <!-- Gallery -->
-  <Section class="section-alt">
-    <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>Recent Furniture</Heading>
-      <Paragraph maxWidth={40}>
-        TODO (Noah): 4 to 6 photos of finished furniture and cabinets.
-      </Paragraph>
-    </ContentWrapper>
-    <Grid xsmall={2} large={3}>
-      <Card variant="stacked" image={photoNeeded} imageAlt="Placeholder: furniture photo coming soon" />
-      <Card variant="stacked" image={photoNeeded} imageAlt="Placeholder: furniture photo coming soon" />
-      <Card variant="stacked" image={photoNeeded} imageAlt="Placeholder: furniture photo coming soon" />
-    </Grid>
-  </Section>
 
-  <!-- Review -->
-  <Section>
-    <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>From a Recent Client</Heading>
-    </ContentWrapper>
-    <Grid medium={2}>
-      <QuoteCard
-        quote="Noah has excellent attention to detail and communication. He offered insights and solutions into some of the complications of our projects executed the vision perfectly."
-        name="Mike W"
-        detail="Google review"
-        rating={5}
-      />
-      <QuoteCard
-        quote="Reasonable pricing for high quality work. We will definitely use this service again."
-        name="Brandon Greenstein"
-        detail="Google review"
-        rating={5}
-      />
-    </Grid>
-  </Section>
 
   <!-- FAQ -->
   <Section class="section-alt">
     <ContentWrapper variant="sticky-content">
-      <Heading tag="h2" maxWidth={14}>Furniture Questions</Heading>
+      <Heading tag="h2" maxWidth={24}>Furniture Questions</Heading>
       <Paragraph maxWidth={30}>
         Something else? <a href="/contact/">Get in touch</a>.
       </Paragraph>
       <Accordion slot="column2" single>
-        <AccordionItem heading="What area do you serve?">
-          <Paragraph>
-            Pieces are built in Black Mountain for homes in{" "}
-            {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}, NC, and
-            nearby.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="Is the finish safe for a dining table?">
-          <Paragraph>
-            Yes. Our usual finish is a zero-VOC hard wax oil that is safe
-            for food contact.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="How do I get an estimate?">
-          <Paragraph>
-            Call {BUSINESS.phone}, or send a sketch or photo of what you
-            have in mind and the space it's for through the{" "}
-            <a href="/contact/">contact page</a>.
-          </Paragraph>
-        </AccordionItem>
+        {visibleFaqs(faqs).map((faq) => (
+          <AccordionItem heading={faq.question}>
+            <Paragraph set:html={faq.answer} />
+          </AccordionItem>
+        ))}
       </Accordion>
     </ContentWrapper>
   </Section>
 
-  <!-- Call to action -->
-  <Section theme="brand" paddingTop="small" paddingBottom="small">
-    <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={18}>Have a Piece in Mind?</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        Call Noah to talk it through, or send a sketch and measurements
-        for an estimate.
-      </Paragraph>
-      <ButtonWrapper slot="column2" marginTop="4">
-        <Button element="link" href={PHONE_HREF}>Call Now</Button>
-      </ButtonWrapper>
-    </ContentWrapper>
-  </Section>
+  <RelatedServices current="/custom-furniture/" />
 </Layout>

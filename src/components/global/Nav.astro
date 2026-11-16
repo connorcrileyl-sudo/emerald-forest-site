@@ -13,6 +13,12 @@ interface Props {
 }
 
 const { render = true, overlap = false } = Astro.props;
+
+/** A dropdown parent is marked when the current page is one of its links. */
+const trim = (path: string) => path.replace(/\/+$/, "");
+const here = trim(Astro.url.pathname);
+const inGroup = (children: { href: string }[]) =>
+  children.some((child) => trim(child.href) === here);
 ---
 
 {render && (
@@ -33,9 +39,31 @@ const { render = true, overlap = false } = Astro.props;
       <nav class="nav_menu" id="nav-menu" aria-label="Main">
         <div class="nav_menu_inner">
           <ul class="nav_links">
-            {NAV_LINKS.map((link) => (
-              <NavLink href={link.href}>{link.label}</NavLink>
-            ))}
+            {NAV_LINKS.map((link, i) =>
+              link.children ? (
+                <li class="nav_group">
+                  <button
+                    class="nav_link nav_group_toggle"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls={`nav-sub-${i}`}
+                    data-current={inGroup(link.children) ? "true" : undefined}
+                  >
+                    {link.label}
+                    <svg class="nav_group_chevron" viewBox="0 0 12 12" aria-hidden="true">
+                      <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" />
+                    </svg>
+                  </button>
+                  <ul class="nav_sub" id={`nav-sub-${i}`}>
+                    {link.children.map((child) => (
+                      <NavLink href={child.href}>{child.label}</NavLink>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <NavLink href={link.href}>{link.label}</NavLink>
+              ),
+            )}
             {NAV_CTA && (
               <li class="nav_cta">
                 <Button element="link" href={NAV_CTA.href}>
@@ -80,11 +108,41 @@ const { render = true, overlap = false } = Astro.props;
       setOpen(toggle.getAttribute("aria-expanded") !== "true");
     });
 
+    const groups = nav.querySelectorAll<HTMLElement>(".nav_group");
+    const setGroup = (group: HTMLElement, open: boolean) => {
+      group.classList.toggle("open", open);
+      group
+        .querySelector(".nav_group_toggle")
+        ?.setAttribute("aria-expanded", String(open));
+    };
+    groups.forEach((group) => {
+      group
+        .querySelector(".nav_group_toggle")
+        ?.addEventListener("click", () => {
+          setGroup(group, !group.classList.contains("open"));
+        });
+    });
+    document.addEventListener("click", (event) => {
+      groups.forEach((group) => {
+        if (event.target instanceof Node && !group.contains(event.target)) {
+          setGroup(group, false);
+        }
+      });
+    });
+
     nav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => setOpen(false));
     });
 
     document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        groups.forEach((group) => {
+          if (group.classList.contains("open")) {
+            setGroup(group, false);
+            group.querySelector<HTMLElement>(".nav_group_toggle")?.focus();
+          }
+        });
+      }
       if (event.key === "Escape" && nav.classList.contains("open")) {
         setOpen(false);
         toggle.focus();
@@ -145,10 +203,10 @@ const { render = true, overlap = false } = Astro.props;
       display: flex;
       align-items: center;
       width: var(--logo-width-nav);
-      transition: opacity var(--hover-duration) var(--hover-ease);
+      transition: filter var(--hover-duration) var(--hover-ease);
       @media (hover: hover) {
         &:hover {
-          opacity: 0.6;
+          filter: brightness(1.2) saturate(1.1);
         }
       }
     }
@@ -163,10 +221,10 @@ const { render = true, overlap = false } = Astro.props;
       margin-right: calc((2.75rem - var(--_icon-width)) / -2);
       color: inherit;
       border-radius: var(--radius-small);
-      transition: opacity var(--hover-duration) var(--hover-ease);
+      transition: color var(--hover-duration) var(--hover-ease);
       @media (hover: hover) {
         &:hover {
-          opacity: 0.6;
+          color: var(--hover-gold, currentcolor);
         }
       }
     }
@@ -251,6 +309,43 @@ const { render = true, overlap = false } = Astro.props;
       padding-top: var(--space-4);
     }
 
+    /* Dropdown group. On phones it is a heading with its links listed
+       underneath; from 1024px it opens on hover, focus or click. */
+    .nav_link.nav_group_toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.35em;
+      width: 100%;
+      font: inherit;
+      text-align: left;
+      color: var(--text-2);
+      background: none;
+      border: 0;
+      cursor: pointer;
+      &[data-current] {
+        color: var(--text);
+      }
+      @media (hover: hover) {
+        &:hover {
+          color: var(--hover-gold, var(--text));
+        }
+      }
+    }
+
+    .nav_group_chevron {
+      width: 0.75em;
+      height: 0.75em;
+      transition: transform var(--hover-duration) var(--hover-ease);
+    }
+
+    .nav_sub {
+      padding-left: var(--space-4);
+      padding-bottom: var(--space-2);
+      & .nav_link {
+        padding-block: var(--space-2);
+      }
+    }
+
     .nav_link {
       display: block;
       padding-block: var(--space-3);
@@ -264,7 +359,7 @@ const { render = true, overlap = false } = Astro.props;
       }
       @media (hover: hover) {
         &:hover {
-          color: var(--text);
+          color: var(--hover-gold, var(--text));
         }
       }
     }
@@ -274,10 +369,17 @@ const { render = true, overlap = false } = Astro.props;
         display: none;
       }
 
+      /* A touch bigger than on phones. */
+      .nav_logo {
+        width: calc(var(--logo-width-nav) * 1.2);
+      }
+
       .nav_menu {
         position: static;
         display: block;
         visibility: visible;
+        max-height: none;
+        overflow: visible;
         background-color: transparent;
         border-bottom: 0;
       }
@@ -292,8 +394,8 @@ const { render = true, overlap = false } = Astro.props;
         flex-wrap: wrap;
         align-items: center;
         padding: 0;
-        gap: var(--space-4);
-        font-size: var(--text-small);
+        gap: var(--space-6);
+        font-size: var(--text-main);
         & > li + li {
           border-top: 0;
         }
@@ -307,6 +409,73 @@ const { render = true, overlap = false } = Astro.props;
         padding-block: 0;
         &[aria-current="page"] {
           text-decoration: underline;
+        }
+      }
+
+      .nav_group {
+        position: relative;
+      }
+
+      .nav_link.nav_group_toggle {
+        width: auto;
+        &[data-current] {
+          text-decoration: underline;
+        }
+      }
+
+      .nav_group_chevron {
+        display: block;
+      }
+
+      /* Hidden until hover, keyboard focus or a click opens it. The top
+         padding bridges the gap so the pointer can travel down to it. */
+      .nav_sub {
+        position: absolute;
+        top: 100%;
+        left: calc(var(--space-4) * -1);
+        z-index: 10;
+        min-width: 13rem;
+        padding: var(--space-3) 0 0;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-0.25rem);
+        transition:
+          opacity var(--hover-duration) var(--hover-ease),
+          transform var(--hover-duration) var(--hover-ease),
+          visibility var(--hover-duration) var(--hover-ease);
+
+        &::before {
+          content: "";
+          position: absolute;
+          inset: var(--space-3) 0 0;
+          z-index: -1;
+          background-color: var(--background-2);
+          border: var(--border-width) solid var(--border);
+          border-radius: var(--radius-small);
+        }
+
+        & > li:first-child {
+          padding-top: var(--space-2);
+        }
+
+        & > li:last-child {
+          padding-bottom: var(--space-2);
+        }
+
+        & .nav_link {
+          padding: var(--space-2) var(--space-4);
+          white-space: nowrap;
+        }
+      }
+
+      .nav_group:is(:hover, :focus-within, .open) {
+        & .nav_sub {
+          visibility: visible;
+          opacity: 1;
+          transform: none;
+        }
+        & .nav_group_chevron {
+          transform: rotate(180deg);
         }
       }
     }

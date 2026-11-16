@@ -5,6 +5,7 @@ import arrow from "@/assets/icons/arrow-full.svg";
 import close from "@/assets/icons/close.svg";
 import play from "@/assets/icons/play.svg";
 import pause from "@/assets/icons/pause.svg";
+import phone from "@/assets/icons/fa/phone.svg";
 import { slotContent } from "@/utils/slots.ts";
 
 type Emphasis = "primary" | "secondary";
@@ -116,6 +117,13 @@ const marks = { play, close, arrow };
 const isWritten = variant === "main" || variant === "link";
 const content = isWritten ? await slotContent(Astro.slots) : "";
 
+/* Written buttons that go to another page on the site get a small arrow
+   (not phone links, not in-page anchors). */
+const toPage = isLink && variant === "main" && !!href && href.startsWith("/") && !href.startsWith("/#");
+
+/* Phone links get a phone icon before the text. */
+const toPhone = isLink && variant === "main" && !!href && href.startsWith("tel:");
+
 const named = {
   play: pressed ? "Pause" : "Play",
   close: "Close",
@@ -137,10 +145,16 @@ const named = {
     {...tagAttrs}
     {...rest}
   >
+    {toPhone && (
+      <Icon class="button_phone" src={phone} variant="small" aria-hidden="true" />
+    )}
     {isWritten && (
       <span class="button_text text-style-trim">
         <Fragment set:html={content} />
       </span>
+    )}
+    {toPage && (
+      <Icon class="button_arrow" src={arrow} variant="small" aria-hidden="true" />
     )}
     {variant === "play" && (
       <Fragment>
@@ -167,6 +181,8 @@ const named = {
       padding: 1em 2em;
       font-size: 1.0625rem;
       background-color: var(--button-background);
+      background-image: var(--button-sheen, none);
+      box-shadow: var(--button-lift, none);
       color: var(--button-text);
       border: var(--border-width) solid var(--button-border);
       border-radius: var(--radius-small);
@@ -181,11 +197,16 @@ const named = {
       @media (hover: hover) {
         &:hover:not(:disabled) {
           background-color: var(--button-background-hover);
+          background-image: var(--button-sheen-hover, none);
           color: var(--button-text-hover);
           border-color: var(--button-border-hover);
         }
       }
       &.secondary {
+        /* Outline buttons: no fill, just a faint lit top edge. */
+        --button-sheen: none;
+        --button-sheen-hover: none;
+        --button-lift: inset 0 1px 0 rgb(232 189 92 / 0.12);
         --button-background: var(--button-2-background);
         --button-text: var(--button-2-text);
         --button-border: var(--button-2-border);
@@ -194,6 +215,8 @@ const named = {
         --button-border-hover: var(--button-2-border-hover);
       }
       &.link {
+        --button-lift: none;
+        --button-sheen-hover: none;
         --button-background: transparent;
         --button-text: color-mix(in lab, var(--link-text) 70%, transparent);
         --button-border: var(--link-border);
@@ -233,6 +256,27 @@ const named = {
         gap: 0;
         padding: 0.75em;
         border-radius: var(--radius-round);
+      }
+      & .button_phone {
+        width: 1.3em;
+        height: auto;
+        flex: none;
+        /* Optical nudge: the handset fills the lower left of its box,
+           so true centering reads high; a little extra space keeps it
+           from crowding the text. */
+        translate: 0 0.08em;
+        margin-inline-end: 0.2em;
+      }
+      & .button_arrow {
+        width: 1.15em;
+        height: auto;
+        flex: none;
+        transition: translate var(--hover-duration) var(--hover-ease);
+      }
+      @media (hover: hover) {
+        &:hover .button_arrow {
+          translate: 0.25em 0;
+        }
       }
       &.back .button_mark {
         rotate: 180deg;

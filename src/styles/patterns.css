@@ -196,7 +196,9 @@
   padding: var(--_field-pad-block) var(--_field-pad-inline);
   background-color: var(--background-2);
   color: inherit;
-  border: var(--border-width) solid transparent;
+  /* Muted gold edge so the field shows on the alt-section ground
+     (3.7:1, passes WCAG 1.4.11). */
+  border: var(--border-width) solid #7a6a48;
   border-radius: var(--radius-small);
   transition:
     background-color var(--hover-duration) var(--hover-ease),
@@ -227,32 +229,39 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: var(--heading-fill-text, currentcolor);
-  /* Room below the last line so Cormorant's deep descenders (g, y, comma
+  /* Room below the last line so the serif's descenders (g, y, comma
      tails) get painted; the margin below gives the same amount back. */
   padding-bottom: 0.3em;
+  /* Same at the top: tall ascenders (f, l) on the first line stick out
+     above the line box and the text clip would cut them off. */
+  padding-top: 0.15em;
+  background-origin: content-box;
+  filter: var(--heading-shadow, none);
 }
 
-/* Emerald Forest design system: near-black grounds (ground #070707,
-   surface-raised #0b0b0a), hairlines in line-subtle, and the emerald-glow
+/* Give the top padding back so spacing above headings is unchanged. */
+.container > .heading,
+.heading {
+  margin-top: calc(var(--_margin-top, 0px) - 0.15em);
+}
+
+/* Emerald Forest design system: near-black grounds (ground #060907,
+   surface-raised #090d0a), hairlines in line-subtle, and the emerald-glow
    (#0d1a12) as the only colour in the backgrounds. */
 .section-alt {
   background-color: var(--background-2);
   border-block: var(--border-width) solid #1d1a12;
 }
 
-/* The same faint emerald glow, always at the top centre. Home page only. */
-.section-glow {
-  background-image: radial-gradient(ellipse 70% 60% at 50% 0%, #0d1a12 0%, transparent 100%);
-}
-
-/* The home hero: emerald glow centred, fading out to the ground. */
+/* The faint emerald glow, centred in the section (never along the top).
+   Three slightly offset ellipses of different sizes overlap so the edge
+   reads as an uneven pool of light, not a perfect circle. */
+.section-glow,
 .section-glow-center {
-  background-image: radial-gradient(ellipse 65% 70% at 50% 50%, #0d1a12 0%, transparent 100%);
-}
-
-.footer_wrap {
-  background-color: #050505;
-  border-color: #1d1a12;
+  background-image:
+    radial-gradient(ellipse 58% 64% at 47% 52%, #0d1a12 0%, transparent 100%),
+    radial-gradient(ellipse 40% 46% at 58% 44%, rgb(13 26 18 / 0.7) 0%, transparent 100%),
+    radial-gradient(ellipse 34% 40% at 40% 60%, rgb(13 26 18 / 0.55) 0%, transparent 100%);
 }
 
 /* Home hero photo: contained to the content width, with the brand's big
@@ -263,6 +272,14 @@
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 0 clamp(2rem, 6vw, 4.5rem) 0 clamp(2rem, 6vw, 4.5rem);
+  /* Lit-gold edge (a gradient border) with a soft warm glow. */
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#000, #000) padding-box,
+    linear-gradient(160deg, #e2a948, #a8762a 45%, #d49a40 75%, #8f6222) border-box;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    0 10px 40px -10px rgb(203 144 51 / 0.35);
 
   & img {
     display: block;
@@ -291,3 +308,29 @@
   text-transform: uppercase;
   color: color-mix(in lab, currentcolor 60%, transparent);
 }
+
+
+/* Feature icons (Font Awesome Sharp Light): in the heading gold. */
+.feature-icon {
+  color: var(--heading-text, currentcolor);
+  /* Font Awesome 7 draws some shapes slightly past the viewBox (the
+     tree's tip, for one) and expects them to show. */
+  overflow: visible;
+}
+
+/* Body copy sits a little back (slightly see-through), and the key
+   words in <strong> step forward at full colour and medium weight. */
+.text {
+  color: color-mix(in lab, var(--text) 84%, transparent);
+  & strong,
+  & b {
+    font-weight: var(--primary-medium);
+    color: var(--text);
+  }
+}
+
+/* A little more room between a pair of buttons in each page hero. */
+.padding-top-navoverlap .button-wrapper:has(> :nth-child(2)) {
+  column-gap: var(--space-3);
+}
+

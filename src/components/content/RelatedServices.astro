@@ -1,0 +1,34 @@
+---
+/*
+ * "More from the shop" links at the foot of each service page, so every
+ * service page links to every other one. Pass the current page's href
+ * so it is left out.
+ */
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Button from "@/components/Button.astro";
+import { SERVICE_LINKS } from "@/consts.ts";
+
+interface Props {
+  /** The current page, e.g. "/custom-doors/". */
+  current: string;
+}
+
+const { current } = Astro.props;
+const links = SERVICE_LINKS.filter((link) => link.href !== current);
+---
+
+<Section paddingTop="small" paddingBottom="small">
+  <ContentWrapper>
+    <Heading tag="h2" variant="h4">More from the Shop</Heading>
+    <ButtonWrapper marginTop="4">
+      {links.map((link) => (
+        <Button element="link" href={link.href} emphasis="secondary">
+          {link.label}
+        </Button>
+      ))}
+    </ButtonWrapper>
+  </ContentWrapper>
+</Section>

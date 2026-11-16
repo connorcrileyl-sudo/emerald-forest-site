@@ -1,0 +1,194 @@
+---
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import RichText from "@/components/typography/RichText.astro";
+import Button from "@/components/Button.astro";
+import Img from "@/components/media/Img.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import RelatedServices from "@/components/content/RelatedServices.astro";
+import ServiceSchema from "@/components/content/ServiceSchema.astro";
+import floatingShelves from "@/assets/images/floating-shelves-bowtie-inlay.jpg";
+import wineBuiltIn from "@/assets/images/arched-wine-builtin.jpg";
+import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
+import kitchenDrawers from "@/assets/images/kitchen-cabinets-wood-drawers.jpg";
+import kitchenSink from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
+import wineRoom from "@/assets/images/arched-wine-builtin-dining-room.jpg";
+import Grid from "@/components/wrapper/Grid.astro";
+import Card from "@/components/item/Card.astro";
+import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
+
+const description =
+  "Custom kitchen cabinets, built-ins, bookshelves, floating shelves and mantels in solid hardwood, made in Black Mountain, NC for Asheville-area homes.";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Where do you install cabinets and built-ins?",
+    answer: `Cabinets and built-ins are made in our Black Mountain shop
+      and installed in homes in ${TOWN_LIST}, NC, and nearby.`,
+  },
+  {
+    question: "Do you install the cabinets too?",
+    answer: `Yes. We build the cabinets in the shop and fit them in your
+      home.`,
+  },
+  {
+    question: "Is the finish safe in a kitchen?",
+    answer: `Yes. Our usual finish is a zero-VOC hard wax oil that is
+      safe for food contact.`,
+  },
+  {
+    question: "How much do custom cabinets cost?",
+    answer: `It depends on how many cabinets you need, the wood, the door style and the installation. Give us a call or
+      send a few photos, and we'll gladly put together a free estimate.`,
+  },
+  {
+    question: "How do I get an estimate?",
+    answer: `Call ${BUSINESS.phone}, or send measurements and a few
+      photos of the space through the
+      <a href="/contact/">contact page</a>.`,
+  },
+];
+---
+
+<Layout
+  title="Custom Cabinets & Built-Ins | Black Mountain & Asheville, NC"
+  description={description}
+>
+  <ServiceSchema
+    slot="head"
+    name="Custom Cabinets and Built-Ins"
+    serviceType="Custom cabinets"
+    description={description}
+    image={wineBuiltIn}
+    faqs={faqs}
+  />
+
+  <!-- Hero -->
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
+    <ContentWrapper variant="columns" class="hero-photo-tall">
+      <Heading tag="h1" variant="h1" maxWidth={16}>
+        Custom Cabinets and <span style="white-space: nowrap">Built-Ins</span> in Black Mountain, NC
+      </Heading>
+      <Paragraph variant="large" maxWidth={36}>
+        We make solid hardwood kitchen cabinets, built-in bookshelves,
+        floating shelves and mantels to measure in our Black Mountain
+        shop, and install them in homes around Asheville.
+      </Paragraph>
+      <ButtonWrapper>
+        <Button element="link" href={PHONE_HREF}>Call Now</Button>
+        <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
+      </ButtonWrapper>
+      <Img
+        slot="column2"
+        src={wineBuiltIn}
+        alt="Arched built-in wine cabinet with lit shelves, diamond wine racks and wood doors below"
+        loading="eager"
+        fetchPriority="high"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Kitchen cabinets -->
+  <Section class="section-alt">
+    <ContentWrapper variant="columns" reverse>
+      <Heading tag="h2" maxWidth={24}>Custom Kitchen Cabinets</Heading>
+      <RichText maxWidth={60}>
+        <p>
+          We <strong>design, build and install</strong> kitchen cabinets in solid hardwood,
+          sized to your kitchen rather than to a catalog's standard boxes.
+          That means cabinets that fit awkward walls, sloped ceilings and
+          older homes where nothing is quite square.
+        </p>
+        <p>
+          Our usual finish is a zero-VOC hard wax oil that is safe for
+          food contact, which suits a kitchen.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={kitchenStone}
+        alt="L-shaped kitchen cabinets with a dark wood countertop below a stone wall, open shelves and a window"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Built-ins, shelves and mantels -->
+  <Section>
+    <ContentWrapper variant="columns">
+      <Heading tag="h2" maxWidth={24}>
+        <span style="white-space: nowrap">Built-Ins</span>, Bookshelves, Floating Shelves and Mantels
+      </Heading>
+      <RichText maxWidth={60}>
+        <p>
+          Built-in bookshelves and cabinets turn unused corners and
+          alcoves into storage that looks like it was always part of the
+          house. Want the trim, baseboards or wainscoting around them to
+          match? See{" "}
+          <a href="/finish-carpentry/">trim and finish carpentry</a>.
+        </p>
+        <p>
+          We also make solid wood floating shelves and fireplace mantels,
+          from the same local hardwood as the rest of our work. For
+          tables and one-off pieces, see{" "}
+          <a href="/custom-furniture/">custom furniture</a>.
+        </p>
+      </RichText>
+      <Img
+        slot="column2"
+        src={floatingShelves}
+        alt="Thick wood floating shelves wrapping a corner alcove, with a bow-tie inlay across a crack"
+      />
+    </ContentWrapper>
+  </Section>
+
+
+
+  <!-- Gallery: Noah's own cabinet work -->
+  <Section class="section-alt">
+    <ContentWrapper>
+      <Heading tag="h2" maxWidth={24}>Recent Cabinets</Heading>
+    </ContentWrapper>
+    <Grid xsmall={2} large={3}>
+      <Card
+        variant="stacked"
+        image={kitchenDrawers}
+        imageAlt="Solid wood kitchen cabinets and drawers with slim metal pulls, built around a gas range"
+      />
+      <Card
+        variant="stacked"
+        image={kitchenSink}
+        imageAlt="Wood kitchen cabinets with a hammered copper farmhouse sink and stone countertop"
+      />
+      <Card
+        variant="stacked"
+        image={wineRoom}
+        imageAlt="Arched built-in wine cabinet set into a dining room wall"
+      />
+    </Grid>
+  </Section>
+
+  <!-- FAQ -->
+  <Section>
+    <ContentWrapper variant="sticky-content">
+      <Heading tag="h2" maxWidth={24}>Cabinet Questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact/">Get in touch</a>.
+      </Paragraph>
+      <Accordion slot="column2" single>
+        {visibleFaqs(faqs).map((faq) => (
+          <AccordionItem heading={faq.question}>
+            <Paragraph set:html={faq.answer} />
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </ContentWrapper>
+  </Section>
+
+  <RelatedServices current="/custom-cabinets/" />
+</Layout>

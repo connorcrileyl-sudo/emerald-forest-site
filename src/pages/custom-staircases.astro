@@ -12,31 +12,76 @@ import Card from "@/components/item/Card.astro";
 import Img from "@/components/media/Img.astro";
 import Accordion from "@/components/interactive/Accordion.astro";
 import AccordionItem from "@/components/interactive/AccordionItem.astro";
-import QuoteCard from "@/components/content/QuoteCard.astro";
+import RelatedServices from "@/components/content/RelatedServices.astro";
+import ServiceSchema from "@/components/content/ServiceSchema.astro";
 import spiralAbove from "@/assets/images/spiral-staircase-from-above.jpg";
 import spiralTreads from "@/assets/images/spiral-staircase-hammered-treads.jpg";
 import spiralBalusters from "@/assets/images/spiral-staircase-walnut-balusters.jpg";
 import oakStair from "@/assets/images/oak-straight-staircase.jpg";
 import oakNewel from "@/assets/images/oak-stair-newel-post.jpg";
 import oakRail from "@/assets/images/oak-stair-handrail-detail.jpg";
-import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
+import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
+
+const description =
+  "Handcrafted spiral, curved and straight hardwood staircases, designed and built in Black Mountain, NC for homes in Asheville and the Swannanoa Valley.";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Where do you build staircases?",
+    answer: `Our shop is in Black Mountain, and we build and install
+      staircases in ${TOWN_LIST}, NC, and nearby.`,
+  },
+  {
+    question: "What wood do you use?",
+    answer: `Hardwood grown and milled in Western North Carolina, bought
+      from local sawmills, finished with a zero-VOC hard wax oil. The
+      spiral staircase on this page has a walnut handrail and
+      balusters; the straight staircase is oak.`,
+  },
+  {
+    question: "How much does a custom staircase cost?",
+    answer: `It depends on the type of stair (spiral, curved or straight), the wood, the height and the railings. Give us a call or
+      send a few photos, and we'll gladly put together a free estimate.`,
+  },
+  {
+    question: "How do I get an estimate?",
+    answer: `Call ${BUSINESS.phone}, or send the floor-to-floor height,
+      the space you have, and a few photos through the
+      <a href="/contact/">contact page</a>.`,
+  },
+  {
+    question: "How long does a custom staircase take?",
+    answer: `TODO (Noah): a typical time from go-ahead to installation.`,
+  },
+];
 ---
 
 <Layout
-  title="Spiral & Custom Staircases in Black Mountain, NC"
-  description="Handcrafted spiral, curved and straight staircases, stair railings and newel posts in solid hardwood, built in Black Mountain, NC for Asheville-area homes."
+  title="Spiral & Custom Staircases | Black Mountain & Asheville, NC"
+  description={description}
 >
+  <ServiceSchema
+    slot="head"
+    name="Spiral and Custom Staircases"
+    serviceType="Custom staircases"
+    description={description}
+    image={spiralBalusters}
+    faqs={faqs}
+  />
+
   <!-- Hero -->
-  <Section paddingTop="navoverlap" paddingBottom="large">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="columns">
       <Heading tag="h1" variant="h1" maxWidth={16}>
         Spiral and Custom Staircases in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        A staircase is the piece of woodwork you use every day. We design
-        and build spiral, curved and straight stairs, with handrails,
-        balusters and newel posts made to match, for homes around
-        Asheville and the Swannanoa Valley.
+        We design and build <strong>spiral, curved and straight
+        staircases</strong> in our Black Mountain shop for homes around
+        Asheville and the Swannanoa Valley. A staircase is the woodwork
+        you use every day, so the handrails and balusters are made to
+        match.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -55,25 +100,29 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- What we build -->
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={16}>
-        Spiral Staircases That Fit the Room, Not a Kit
+      <Heading tag="h2" maxWidth={24}>
+        Custom Spiral Staircases, Built to Fit
       </Heading>
       <RichText maxWidth={60}>
         <p>
-          Spiral stairs save floor space and become the centerpiece of a
-          room. Ours are built to the exact height and diameter of your
-          opening, with each tread, baluster and section of handrail made
-          in the shop.
+          A spiral staircase needs far less floor than a straight run, and
+          it's often the first thing people notice in a room. Kit spirals
+          come in set sizes. Ours are built to the exact height and
+          diameter of your opening, with every tread, baluster and length
+          of handrail made in our Black Mountain shop.
         </p>
         <p>
-          The staircase in these photos combines a walnut handrail and
-          turned balusters with hammered metal treads. We can work in the
-          hardwood and details that suit your home.
+          The staircase shown here pairs a curved walnut handrail and
+          turned balusters with hammered metal treads. Yours can be built
+          in whatever wood and details suit your home.
         </p>
-        <p>
-          TODO (Noah): what materials and tread options you offer, and
-          anything about code compliance or inspections clients should know.
-        </p>
+        {import.meta.env.DEV && (
+          <p>
+            TODO (Noah): what materials and tread options you offer, and
+            anything about code compliance or inspections clients should
+            know.
+          </p>
+        )}
       </RichText>
       <Img
         slot="column2"
@@ -85,8 +134,8 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
 
   <Section>
     <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={16}>
-        Straight Staircases, Stair Railings and Newel Posts
+      <Heading tag="h2" maxWidth={24}>
+        Straight Hardwood Staircases
       </Heading>
       <RichText maxWidth={60}>
         <p>
@@ -96,8 +145,10 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
           rounded handrail.
         </p>
         <p>
-          We can build a complete new staircase, or new rails and posts for
-          an existing one.
+          Only need a new railing for the stairs you have? See{" "}
+          <a href="/stair-railings/">stair railings</a>. For squeaky or
+          worn treads, see{" "}
+          <a href="/wood-rot-repair/">stair and wood rot repair</a>.
         </p>
       </RichText>
       <Img
@@ -111,7 +162,7 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Gallery -->
   <Section class="section-alt">
     <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>Recent Staircases</Heading>
+      <Heading tag="h2" maxWidth={24}>Recent Staircases</Heading>
     </ContentWrapper>
     <Grid xsmall={2} large={3}>
       <Card
@@ -147,76 +198,23 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
     </Grid>
   </Section>
 
-  <!-- Review -->
-  <Section>
-    <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>From a Recent Client</Heading>
-    </ContentWrapper>
-    <Grid medium={2}>
-      <QuoteCard
-        quote="Noah has excellent attention to detail and communication. He offered insights and solutions into some of the complications of our projects executed the vision perfectly. The price was great given the quality provided."
-        name="Mike W"
-        detail="Google review"
-        rating={5}
-      />
-      <QuoteCard
-        quote="Working with Emerald Forest was a pleasure. Excellent communication and workmanship. Great eye for detail aesthetic."
-        name="Brandon Greenstein"
-        detail="Google review"
-        rating={5}
-      />
-    </Grid>
-  </Section>
 
   <!-- FAQ -->
-  <Section class="section-alt">
+  <Section>
     <ContentWrapper variant="sticky-content">
-      <Heading tag="h2" maxWidth={14}>Staircase Questions</Heading>
+      <Heading tag="h2" maxWidth={24}>Staircase Questions</Heading>
       <Paragraph maxWidth={30}>
         Something else? <a href="/contact/">Get in touch</a>.
       </Paragraph>
       <Accordion slot="column2" single>
-        <AccordionItem heading="Where do you build staircases?">
-          <Paragraph>
-            Our shop is in Black Mountain, and we build and install
-            staircases in {TOWNS.slice(0, -1).join(", ")} and{" "}
-            {TOWNS.at(-1)}, NC, and nearby.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="What wood do you use?">
-          <Paragraph>
-            We use hardwood grown and milled in Western North Carolina,
-            bought from local sawmills, finished with a zero-VOC hard wax
-            oil.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="How do I get an estimate?">
-          <Paragraph>
-            Call {BUSINESS.phone}, or send the floor-to-floor height, the
-            space you have, and a few photos through the{" "}
-            <a href="/contact/">contact page</a>.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="How long does a custom staircase take?">
-          <Paragraph>
-            TODO (Noah): a typical time from go-ahead to installation.
-          </Paragraph>
-        </AccordionItem>
+        {visibleFaqs(faqs).map((faq) => (
+          <AccordionItem heading={faq.question}>
+            <Paragraph set:html={faq.answer} />
+          </AccordionItem>
+        ))}
       </Accordion>
     </ContentWrapper>
   </Section>
 
-  <!-- Call to action -->
-  <Section theme="brand" paddingTop="small" paddingBottom="small">
-    <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={18}>Planning a New Staircase?</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        Call Noah to talk through the space, or send photos and
-        measurements for an estimate.
-      </Paragraph>
-      <ButtonWrapper slot="column2" marginTop="4">
-        <Button element="link" href={PHONE_HREF}>Call Now</Button>
-      </ButtonWrapper>
-    </ContentWrapper>
-  </Section>
+  <RelatedServices current="/custom-staircases/" />
 </Layout>

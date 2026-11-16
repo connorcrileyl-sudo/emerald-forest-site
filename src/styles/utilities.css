@@ -1081,3 +1081,13 @@
   inset: 0% 0% auto;
   overflow: hidden;
 }
+
+/* Hero photo shapes. The columns layout crops its photo to 3:2, which
+   zooms in hard on square or tall photos. These show more of them.
+   In the utilities layer so they beat the components layer. */
+.layout.columns.hero-photo-square {
+  --_visual-ratio: 1 / 1;
+}
+.layout.columns.hero-photo-tall {
+  --_visual-ratio: 4 / 5;
+}

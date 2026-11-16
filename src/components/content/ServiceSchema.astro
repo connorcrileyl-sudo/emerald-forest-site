@@ -1,0 +1,56 @@
+---
+/*
+ * Structured data for a service page: the Service itself (offered by
+ * the business node in BusinessSchema), its breadcrumb trail, and its
+ * FAQ. Put it in the layout's head slot:
+ * <ServiceSchema slot="head" … />
+ */
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
+import FaqSchema from "@/components/content/FaqSchema.astro";
+import { SITE_URL, SERVICE_LINKS, TOWNS } from "@/consts.ts";
+import type { FaqItem } from "@/utils/faq.ts";
+
+interface Props {
+  /** Service name, e.g. "Custom Wood Pergolas". */
+  name: string;
+  /** The kind of service, as listed in BusinessSchema's offers. */
+  serviceType: string;
+  /** The page's meta description. */
+  description: string;
+  /** The page's hero image. */
+  image: ImageMetadata;
+  /** The page's FAQ items. */
+  faqs?: FaqItem[];
+}
+
+const { name, serviceType, description, image, faqs = [] } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/?$/, "/");
+const url = new URL(path, SITE_URL).href;
+const hero = await getImage({ src: image, width: 1200, format: "jpg" });
+const label = SERVICE_LINKS.find((link) => link.href === path)?.label ?? name;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${url}#service`,
+  name,
+  serviceType,
+  description,
+  url,
+  image: new URL(hero.src, SITE_URL).href,
+  provider: { "@id": `${SITE_URL}/#business` },
+  areaServed: TOWNS.map((town) => ({ "@type": "City", name: `${town}, NC` })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+<BreadcrumbSchema
+  trail={[
+    { label: "Services", href: "/services/" },
+    { label, href: path },
+  ]}
+/>
+<FaqSchema items={faqs} />

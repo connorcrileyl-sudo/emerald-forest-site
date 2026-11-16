@@ -2,7 +2,7 @@
   <defs>
     <style>
       .cls-1 {
-        fill: #b58942;
+        fill: #b9833a;
       }
 
       .cls-2 {
@@ -14,11 +14,11 @@
       }
 
       .cls-4 {
-        fill: #ddc47b;
+        fill: #d5b66c;
       }
 
       .cls-5 {
-        fill: #dcb45b;
+        fill: #dcab50;
       }
 
       .cls-6 {
@@ -30,7 +30,7 @@
       }
 
       .cls-8 {
-        fill: #dab75c;
+        fill: #d8ae51;
       }
 
       .cls-9 {
@@ -42,11 +42,11 @@
       }
 
       .cls-11 {
-        fill: #cea44d;
+        fill: #d19f45;
       }
 
       .cls-12 {
-        fill: #a17432;
+        fill: #a56e29;
       }
 
       .cls-13 {
@@ -74,7 +74,7 @@
       }
 
       .cls-19 {
-        fill: #a47732;
+        fill: #a87129;
       }
 
       .cls-20 {
@@ -86,7 +86,7 @@
       }
 
       .cls-22 {
-        fill: #997946;
+        fill: #9b7541;
       }
 
       .cls-23 {
@@ -118,7 +118,7 @@
       }
 
       .cls-30 {
-        fill: #d7b562;
+        fill: #d7ad58;
       }
 
       .cls-31 {
@@ -134,11 +134,11 @@
       }
 
       .cls-34 {
-        fill: #d1ad5f;
+        fill: #d4a858;
       }
 
       .cls-35 {
-        fill: #a97b31;
+        fill: #ad7528;
       }
 
       .cls-36 {
@@ -154,7 +154,7 @@
       }
 
       .cls-39 {
-        fill: #b68c45;
+        fill: #ba863d;
       }
 
       .cls-40 {
@@ -166,7 +166,7 @@
       }
 
       .cls-42 {
-        fill: #e3c064;
+        fill: #dcb254;
       }
 
       .cls-43 {
@@ -174,7 +174,7 @@
       }
 
       .cls-44 {
-        fill: #be9649;
+        fill: #c29041;
       }
 
       .cls-45 {
@@ -182,7 +182,7 @@
       }
 
       .cls-46 {
-        fill: #9c722d;
+        fill: #a06c24;
       }
 
       .cls-47 {
@@ -190,11 +190,11 @@
       }
 
       .cls-48 {
-        fill: #d4b05c;
+        fill: #d6ab54;
       }
 
       .cls-49 {
-        fill: #ba944d;
+        fill: #bd8f47;
       }
 
       .cls-50 {
@@ -206,7 +206,7 @@
       }
 
       .cls-52 {
-        fill: #b88d3f;
+        fill: #bc8737;
       }
 
       .cls-53 {
@@ -214,7 +214,7 @@
       }
 
       .cls-54 {
-        fill: #b88f46;
+        fill: #bc893e;
       }
 
       .cls-55 {
@@ -230,7 +230,7 @@
       }
 
       .cls-58 {
-        fill: #d8b45b;
+        fill: #d8ac51;
       }
 
       .cls-59 {
@@ -246,11 +246,11 @@
       }
 
       .cls-62 {
-        fill: #cfa655;
+        fill: #d2a14e;
       }
 
       .cls-63 {
-        fill: #be9141;
+        fill: #c28c39;
       }
 
       .cls-64 {
@@ -270,19 +270,19 @@
       }
 
       .cls-68 {
-        fill: #6c5d2f;
+        fill: #6d5b2c;
       }
 
       .cls-69 {
-        fill: #d3a851;
+        fill: #d7a348;
       }
 
       .cls-70 {
-        fill: #ac813b;
+        fill: #b07b33;
       }
 
       .cls-71 {
-        fill: #635a36;
+        fill: #655834;
       }
 
       .cls-72 {
@@ -302,7 +302,7 @@
       }
 
       .cls-76 {
-        fill: #ddc36f;
+        fill: #d6b660;
       }
 
       .cls-77 {
@@ -314,11 +314,11 @@
       }
 
       .cls-79 {
-        fill: #af8233;
+        fill: #b37c2a;
       }
 
       .cls-80 {
-        fill: #c39a4d;
+        fill: #c79445;
       }
 
       .cls-81 {
@@ -334,15 +334,15 @@
       }
 
       .cls-84 {
-        fill: #d8b056;
+        fill: #dba94d;
       }
 
       .cls-85 {
-        fill: #c19954;
+        fill: #c4934d;
       }
 
       .cls-86 {
-        fill: #a17d41;
+        fill: #a4783a;
       }
 
       .cls-87 {
@@ -354,11 +354,11 @@
       }
 
       .cls-89 {
-        fill: #bf964a;
+        fill: #c39042;
       }
 
       .cls-90 {
-        fill: #8e7334;
+        fill: #916f2e;
       }
 
       .cls-91 {
@@ -366,11 +366,11 @@
       }
 
       .cls-92 {
-        fill: #b78f3f;
+        fill: #bb8937;
       }
 
       .cls-93 {
-        fill: #c59a48;
+        fill: #c99540;
       }
 
       .cls-94 {
@@ -378,7 +378,7 @@
       }
 
       .cls-95 {
-        fill: #c69f53;
+        fill: #ca994c;
       }
 
       .cls-96 {
@@ -414,7 +414,7 @@
       }
 
       .cls-104 {
-        fill: #d7ab4d;
+        fill: #dba544;
       }
 
       .cls-105 {
@@ -426,7 +426,7 @@
       }
 
       .cls-107 {
-        fill: #d3be80;
+        fill: #cdb475;
       }
 
       .cls-108 {
@@ -434,7 +434,7 @@
       }
 
       .cls-109 {
-        fill: #896f35;
+        fill: #8b6b30;
       }
 
       .cls-110 {
@@ -454,7 +454,7 @@
       }
 
       .cls-114 {
-        fill: #74643a;
+        fill: #756237;
       }
 
       .cls-115 {
@@ -466,11 +466,11 @@
       }
 
       .cls-117 {
-        fill: #685a3a;
+        fill: #6a5838;
       }
 
       .cls-118 {
-        fill: #dcb354;
+        fill: #ddab48;
       }
 
       .cls-119 {
@@ -482,15 +482,15 @@
       }
 
       .cls-121 {
-        fill: #69653b;
+        fill: #6b6439;
       }
 
       .cls-122 {
-        fill: #554633;
+        fill: #574431;
       }
 
       .cls-123 {
-        fill: #ba9d64;
+        fill: #bc995f;
       }
 
       .cls-124 {
@@ -514,7 +514,7 @@
       }
 
       .cls-129 {
-        fill: #b48a43;
+        fill: #b8843b;
       }
 
       .cls-130 {
@@ -522,11 +522,11 @@
       }
 
       .cls-131 {
-        fill: #7c6b38;
+        fill: #7d6935;
       }
 
       .cls-132 {
-        fill: #d1a851;
+        fill: #d4a34a;
       }
 
       .cls-133 {
@@ -534,11 +534,11 @@
       }
 
       .cls-134 {
-        fill: #d3b973;
+        fill: #d1b169;
       }
 
       .cls-135 {
-        fill: #a77a30;
+        fill: #ab7427;
       }
 
       .cls-136 {
@@ -554,7 +554,7 @@
       }
 
       .cls-139 {
-        fill: #bd9040;
+        fill: #c18a38;
       }
 
       .cls-140 {
@@ -566,7 +566,7 @@
       }
 
       .cls-142 {
-        fill: #d2a953;
+        fill: #d5a44c;
       }
 
       .cls-143 {
@@ -574,7 +574,7 @@
       }
 
       .cls-144 {
-        fill: #d9ba6b;
+        fill: #d6b05f;
       }
 
       .cls-145 {
@@ -602,7 +602,7 @@
       }
 
       .cls-151 {
-        fill: #a77931;
+        fill: #ab7328;
       }
 
       .cls-152 {
@@ -634,7 +634,7 @@
       }
 
       .cls-159 {
-        fill: #e0b95c;
+        fill: #deae4d;
       }
 
       .cls-160 {
@@ -642,7 +642,7 @@
       }
 
       .cls-161 {
-        fill: #d1a34e;
+        fill: #d59d45;
       }
 
       .cls-162 {
@@ -650,7 +650,7 @@
       }
 
       .cls-163 {
-        fill: #a0742e;
+        fill: #a46e25;
       }
 
       .cls-164 {
@@ -662,7 +662,7 @@
       }
 
       .cls-166 {
-        fill: #6f673c;
+        fill: #706639;
       }
 
       .cls-167 {
@@ -674,7 +674,7 @@
       }
 
       .cls-169 {
-        fill: #d8be6d;
+        fill: #d3b361;
       }
 
       .cls-170 {
@@ -686,7 +686,7 @@
       }
 
       .cls-172 {
-        fill: #e1c673;
+        fill: #d8b761;
       }
 
       .cls-173 {
@@ -698,7 +698,7 @@
       }
 
       .cls-175 {
-        fill: #68532b;
+        fill: #6a5027;
       }
 
       .cls-176 {
@@ -718,7 +718,7 @@
       }
 
       .cls-180 {
-        fill: #e0b95d;
+        fill: #deae4e;
       }
 
       .cls-181 {
@@ -730,7 +730,7 @@
       }
 
       .cls-183 {
-        fill: #dcb560;
+        fill: #dbac55;
       }
 
       .cls-184 {
@@ -738,15 +738,15 @@
       }
 
       .cls-185 {
-        fill: #c69a47;
+        fill: #c9953f;
       }
 
       .cls-186 {
-        fill: #bd9142;
+        fill: #c18b3a;
       }
 
       .cls-187 {
-        fill: #d4ac58;
+        fill: #d7a751;
       }
 
       .cls-188 {
@@ -758,7 +758,7 @@
       }
 
       .cls-190 {
-        fill: #836f41;
+        fill: #846c3e;
       }
 
       .cls-191 {
@@ -782,7 +782,7 @@
       }
 
       .cls-196 {
-        fill: #d2b05c;
+        fill: #d5ab55;
       }
 
       .cls-197 {
@@ -806,7 +806,7 @@
       }
 
       .cls-202 {
-        fill: #cea455;
+        fill: #d19e4d;
       }
 
       .cls-203 {
@@ -830,7 +830,7 @@
       }
 
       .cls-208 {
-        fill: #dec576;
+        fill: #d5b766;
       }
 
       .cls-209 {
@@ -838,27 +838,27 @@
       }
 
       .cls-210 {
-        fill: #c9a657;
+        fill: #cca150;
       }
 
       .cls-211 {
-        fill: #5b4f28;
+        fill: #5d4e25;
       }
 
       .cls-212 {
-        fill: #ae8236;
+        fill: #b27c2e;
       }
 
       .cls-213 {
-        fill: #bc9140;
+        fill: #c08b38;
       }
 
       .cls-214 {
-        fill: #c89d47;
+        fill: #cb983f;
       }
 
       .cls-215 {
-        fill: #725525;
+        fill: #755120;
       }
 
       .cls-216 {
@@ -874,7 +874,7 @@
       }
 
       .cls-219 {
-        fill: #bb903f;
+        fill: #bf8a37;
       }
 
       .cls-220 {
@@ -890,7 +890,7 @@
       }
 
       .cls-223 {
-        fill: #dab75f;
+        fill: #d8ae54;
       }
 
       .cls-224 {
@@ -914,7 +914,7 @@
       }
 
       .cls-229 {
-        fill: #c29f53;
+        fill: #c59a4c;
       }
 
       .cls-230 {
@@ -926,7 +926,7 @@
       }
 
       .cls-232 {
-        fill: #b2883a;
+        fill: #b68232;
       }
 
       .cls-233 {
@@ -942,7 +942,7 @@
       }
 
       .cls-236 {
-        fill: #ddb559;
+        fill: #ddac4c;
       }
 
       .cls-237 {
@@ -950,11 +950,11 @@
       }
 
       .cls-238 {
-        fill: #c7a45a;
+        fill: #ca9f54;
       }
 
       .cls-239 {
-        fill: #bb9249;
+        fill: #bf8c41;
       }
 
       .cls-240 {
@@ -966,7 +966,7 @@
       }
 
       .cls-242 {
-        fill: #b4893c;
+        fill: #b88334;
       }
     </style>
   </defs>
@@ -1279,4 +1279,4 @@
       </g>
     </g>
   </g>
-<defs><linearGradient id="eff-frame-gold" x1="88" y1="24" x2="225" y2="166" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d2ae5e"/><stop offset="0.35" stop-color="#c79e4b"/><stop offset="0.7" stop-color="#ad833b"/><stop offset="1" stop-color="#c9a352"/></linearGradient></defs><g fill="none" stroke="url(#eff-frame-gold)" stroke-linejoin="miter"><rect x="89.8" y="25.4" width="132.9" height="138.6" stroke-width="3.3"/><rect x="96.2" y="30.9" width="120.6" height="127.6" stroke-width="1.8"/></g><defs><linearGradient id="eff-bar-gold" x1="110" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ad833b"/><stop offset="0.5" stop-color="#cba851"/><stop offset="1" stop-color="#ad833b"/></linearGradient></defs><g fill="url(#eff-bar-gold)"><rect x="114.4" y="143.4" width="83.4" height="3.0"/><rect x="123.6" y="149.6" width="65.2" height="3.0"/></g></svg>
+<defs><linearGradient id="eff-frame-gold" x1="88" y1="24" x2="225" y2="166" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d5a957"/><stop offset="0.35" stop-color="#ca9943"/><stop offset="0.7" stop-color="#b17d33"/><stop offset="1" stop-color="#cc9d4b"/></linearGradient></defs><g fill="none" stroke="url(#eff-frame-gold)" stroke-linejoin="miter"><rect x="89.8" y="25.4" width="132.9" height="138.6" stroke-width="3.3"/><rect x="96.2" y="30.9" width="120.6" height="127.6" stroke-width="1.8"/></g><defs><linearGradient id="eff-bar-gold" x1="110" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#b17d33"/><stop offset="0.5" stop-color="#cea44a"/><stop offset="1" stop-color="#b17d33"/></linearGradient></defs><g fill="url(#eff-bar-gold)"><rect x="114.4" y="143.4" width="83.4" height="3.0"/><rect x="123.6" y="149.6" width="65.2" height="3.0"/></g></svg>

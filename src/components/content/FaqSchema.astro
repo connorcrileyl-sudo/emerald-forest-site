@@ -1,0 +1,28 @@
+---
+/*
+ * FAQPage structured data, built from the same items as the page's
+ * accordion. Answers that are still a TODO are always left out.
+ */
+import { isTodo, plainText, type FaqItem } from "@/utils/faq.ts";
+
+interface Props {
+  /** The page's FAQ items. */
+  items: FaqItem[];
+}
+
+const items = Astro.props.items.filter((item) => !isTodo(item.answer));
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: plainText(item.answer) },
+  })),
+};
+---
+
+{items.length > 0 && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

@@ -7,11 +7,11 @@
   --light-100: #ffffff;
   --light-200: #faf5e5;
   --light-300: #efe6cc;
-  --dark-700: #0f0f0d;
-  --dark-800: #0b0b0a;
-  --dark-900: #070707;
-  --brand-300: #d9a742;
-  --brand-500: #d9a742;
+  --dark-700: #0d110e;
+  --dark-800: #090d0a;
+  --dark-900: #060907;
+  --brand-300: #d29a3c;
+  --brand-500: #d29a3c;
   --brand-700: #7a5512;
   --brand-text: #0a0a0a;
 
@@ -25,6 +25,7 @@
   /* Headings. Same as the body font until a second family is set up
      as --font-heading (docs/BRANDING.md). */
   --heading-family: var(--font-heading, var(--primary-family));
+  --heading-weight: 700;
   --primary-regular: 400;
   --primary-medium: 500;
   --primary-bold: 700;
@@ -35,7 +36,7 @@
 
   /* Line height */
   --line-height-small: 1;
-  --line-height-medium: 1.1;
+  --line-height-medium: 1.2;
   --line-height-large: 1.3;
   --line-height-huge: 1.5;
 
@@ -67,8 +68,11 @@
   --max-width-main: calc(var(--viewport-max) / 16 * 1rem);
   --max-width-full: 100%;
 
-  /* Nav */
+  /* Nav. Taller from 1024px, where the logo is 20% bigger (Nav.astro). */
   --nav-height: 9rem;
+  @media (width >= 64rem) {
+    --nav-height: 10.5rem;
+  }
 
   /* Typography styles */
   --display: clamp(var(--display-min) / 16 * 1rem, ((var(--display-min) - ((var(--display-max) - var(--display-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--display-max) - var(--display-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--display-max) / 16 * 1rem);
@@ -80,31 +84,31 @@
   --display-margin-top: var(--space-5);
   --display-margin-bottom: var(--space-4);
   --display-font-family: var(--heading-family);
-  --display-font-weight: var(--primary-bold);
+  --display-font-weight: var(--heading-weight);
   --display-text-wrap: balance;
 
   --h1: clamp(var(--h1-min) / 16 * 1rem, ((var(--h1-min) - ((var(--h1-max) - var(--h1-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--h1-max) - var(--h1-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--h1-max) / 16 * 1rem);
-  --h1-min: 38;
-  --h1-max: 66;
+  --h1-min: 34;
+  --h1-max: 56;
   --h1-line-height: var(--line-height-medium);
   --h1-letter-spacing: var(--letter-spacing-normal);
   --h1-text-transform: none;
   --h1-margin-top: var(--space-5);
   --h1-margin-bottom: var(--space-4);
   --h1-font-family: var(--heading-family);
-  --h1-font-weight: var(--primary-bold);
+  --h1-font-weight: var(--heading-weight);
   --h1-text-wrap: balance;
 
   --h2: clamp(var(--h2-min) / 16 * 1rem, ((var(--h2-min) - ((var(--h2-max) - var(--h2-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--h2-max) - var(--h2-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--h2-max) / 16 * 1rem);
-  --h2-min: 30;
-  --h2-max: 46;
+  --h2-min: 28;
+  --h2-max: 40;
   --h2-line-height: var(--line-height-medium);
   --h2-letter-spacing: var(--letter-spacing-normal);
   --h2-text-transform: none;
   --h2-margin-top: var(--space-5);
   --h2-margin-bottom: var(--space-4);
   --h2-font-family: var(--heading-family);
-  --h2-font-weight: var(--primary-bold);
+  --h2-font-weight: var(--heading-weight);
   --h2-text-wrap: balance;
 
   --h3: clamp(var(--h3-min) / 16 * 1rem, ((var(--h3-min) - ((var(--h3-max) - var(--h3-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--h3-max) - var(--h3-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--h3-max) / 16 * 1rem);
@@ -116,7 +120,7 @@
   --h3-margin-top: var(--space-4);
   --h3-margin-bottom: var(--space-3);
   --h3-font-family: var(--heading-family);
-  --h3-font-weight: var(--primary-medium);
+  --h3-font-weight: var(--heading-weight);
   --h3-text-wrap: balance;
 
   --h4: clamp(var(--h4-min) / 16 * 1rem, ((var(--h4-min) - ((var(--h4-max) - var(--h4-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--h4-max) - var(--h4-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--h4-max) / 16 * 1rem);
@@ -128,7 +132,7 @@
   --h4-margin-top: var(--space-6);
   --h4-margin-bottom: var(--space-4);
   --h4-font-family: var(--heading-family);
-  --h4-font-weight: var(--primary-medium);
+  --h4-font-weight: var(--heading-weight);
   --h4-text-wrap: balance;
 
   --h5: clamp(var(--h5-min) / 16 * 1rem, ((var(--h5-min) - ((var(--h5-max) - var(--h5-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--h5-max) - var(--h5-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--h5-max) / 16 * 1rem);
@@ -140,7 +144,7 @@
   --h5-margin-top: var(--space-5);
   --h5-margin-bottom: var(--space-4);
   --h5-font-family: var(--heading-family);
-  --h5-font-weight: var(--primary-medium);
+  --h5-font-weight: var(--heading-weight);
   --h5-text-wrap: balance;
 
   --h6: clamp(var(--h6-min) / 16 * 1rem, ((var(--h6-min) - ((var(--h6-max) - var(--h6-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--h6-max) - var(--h6-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--h6-max) / 16 * 1rem);
@@ -152,12 +156,12 @@
   --h6-margin-top: var(--space-5);
   --h6-margin-bottom: var(--space-3);
   --h6-font-family: var(--heading-family);
-  --h6-font-weight: var(--primary-medium);
+  --h6-font-weight: var(--heading-weight);
   --h6-text-wrap: balance;
 
   --text-large: clamp(var(--text-large-min) / 16 * 1rem, ((var(--text-large-min) - ((var(--text-large-max) - var(--text-large-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--text-large-max) - var(--text-large-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--text-large-max) / 16 * 1rem);
-  --text-large-min: 18;
-  --text-large-max: 20;
+  --text-large-min: 19;
+  --text-large-max: 22;
   --text-large-line-height: var(--line-height-large);
   --text-large-letter-spacing: var(--letter-spacing-normal);
   --text-large-text-transform: none;
@@ -168,8 +172,8 @@
   --text-large-text-wrap: pretty;
 
   --text-main: clamp(var(--text-main-min) / 16 * 1rem, ((var(--text-main-min) - ((var(--text-main-max) - var(--text-main-min)) / (var(--viewport-max) - var(--viewport-min)) * var(--viewport-min))) / 16 * 1rem + ((var(--text-main-max) - var(--text-main-min)) / (var(--viewport-max) - var(--viewport-min))) * 100vw), var(--text-main-max) / 16 * 1rem);
-  --text-main-min: 16;
-  --text-main-max: 18;
+  --text-main-min: 17;
+  --text-main-max: 19;
   --text-main-line-height: var(--line-height-huge);
   --text-main-letter-spacing: var(--letter-spacing-normal);
   --text-main-text-transform: none;
@@ -293,9 +297,24 @@
   --background-3: var(--dark-700);
   --background-skeleton: color-mix(in lab, currentcolor 10%, transparent);
   --text: #d6cdb9;
-  --heading-text: #d39d36;
-  /* Warm gold from the logo, shaded lightly down each line. */
-  --heading-fill: linear-gradient(180deg, #e8b850 0%, #d39d36 55%, #b5832a 100%);
+  --heading-text: #c99432;
+  /* Warm gold from the logo, lit like metal: a bright top edge, darker
+     through the middle, and a faint reflected light at the foot. */
+  --heading-fill: linear-gradient(
+    180deg,
+    #dba743 0%,
+    #c89231 30%,
+    #a87824 62%,
+    #bd8d38 84%,
+    #926722 100%
+  );
+  /* A crisp dark edge underneath, so the gold sits slightly raised. */
+  --heading-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.6))
+    drop-shadow(0 2px 8px rgb(0 0 0 / 0.35));
+  /* Primary buttons: the same lit-metal gold, very gently. */
+  --button-sheen: linear-gradient(180deg, #dca345 0%, #ca9234 48%, #b47e2b 100%);
+  --button-lift: inset 0 1px 0 rgb(255 214 140 / 0.4),
+    inset 0 -1px 0 rgb(0 0 0 / 0.18), 0 2px 6px rgb(0 0 0 / 0.35);
   --heading-fill-text: transparent;
   /* ≈ ink-muted #b9b09c on the ground */
   --text-2: color-mix(in lab, currentcolor 78%, transparent);
@@ -308,21 +327,25 @@
   --button-background: var(--brand-500);
   --button-border: var(--button-background);
   --button-text: var(--brand-text);
-  --button-background-hover: var(--text);
-  --button-border-hover: var(--button-background-hover);
-  --button-text-hover: var(--background);
+  /* One hover colour for everything: a brighter gold. Things light up
+     on hover; nothing turns white or fades darker. */
+  --hover-gold: #f0b950;
+  --button-background-hover: var(--hover-gold);
+  --button-border-hover: var(--hover-gold);
+  --button-text-hover: var(--brand-text);
+  --button-sheen-hover: linear-gradient(180deg, #f6c868 0%, #eab04a 48%, #d39a3a 100%);
 
   --button-2-background: transparent;
-  --button-2-border: #9a722c;
-  --button-2-text: #e8bd5c;
-  --button-2-background-hover: var(--text);
-  --button-2-border-hover: var(--button-2-background-hover);
-  --button-2-text-hover: var(--background);
+  --button-2-border: #94692b;
+  --button-2-text: #dfac52;
+  --button-2-background-hover: rgb(240 185 80 / 0.08);
+  --button-2-border-hover: var(--hover-gold);
+  --button-2-text-hover: var(--hover-gold);
 
   --link-text: var(--text);
   --link-border: var(--border);
-  --link-text-hover: var(--text);
-  --link-border-hover: var(--text);
+  --link-text-hover: var(--hover-gold);
+  --link-border-hover: var(--hover-gold);
 }
 
 .theme-brand {
@@ -400,6 +423,12 @@ a {
 }
 a:not([class]) {
   text-decoration: underline;
+  transition: color var(--hover-duration) var(--hover-ease);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--hover-gold, currentcolor);
+    }
+  }
 }
 
 img,

@@ -1,0 +1,29 @@
+---
+/*
+ * BreadcrumbList structured data. Home is added first; pass the rest of
+ * the trail in order, ending with the current page.
+ */
+import { SITE_URL, type Link } from "@/consts.ts";
+
+interface Props {
+  /** Pages after Home, e.g. Services then the current page. */
+  trail: Link[];
+}
+
+const { trail } = Astro.props;
+
+const crumbs = [{ label: "Home", href: "/" }, ...trail];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: crumbs.map((crumb, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: crumb.label,
+    item: new URL(crumb.href, SITE_URL).href,
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

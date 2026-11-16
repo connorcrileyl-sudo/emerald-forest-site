@@ -9,34 +9,97 @@ import Paragraph from "@/components/typography/Paragraph.astro";
 import RichText from "@/components/typography/RichText.astro";
 import Button from "@/components/Button.astro";
 import Card from "@/components/item/Card.astro";
+import ServiceCard from "@/components/item/ServiceCard.astro";
 import Img from "@/components/media/Img.astro";
 import Icon from "@/components/media/Icon.astro";
 import QuoteCard from "@/components/content/QuoteCard.astro";
-import check from "@/assets/icons/check.svg";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import FaqSchema from "@/components/content/FaqSchema.astro";
+import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
+import iconCraft from "@/assets/icons/fa/ruler-triangle.svg";
+import iconTree from "@/assets/icons/fa/tree.svg";
+import iconLeaf from "@/assets/icons/fa/leaf.svg";
 import spiralAbove from "@/assets/images/spiral-staircase-hero.png";
-import walnutDoor from "@/assets/images/walnut-entry-door-installed.jpg";
-import furniturePlaceholder from "@/assets/placeholders/photo-needed.svg";
-import pergola from "@/assets/images/pergola-front-view.jpg";
+import doorOpen from "@/assets/images/walnut-door-carved-panel.jpg";
+import doorWhole from "@/assets/images/walnut-entry-door-open-dimmed.jpg";
+import coffeeStation from "@/assets/images/coffee-station-arched-glass.jpg";
+import pergola from "@/assets/images/pergola-with-planters.jpg";
 import workshop from "@/assets/images/woodworker-in-workshop.jpg";
 import {
+  BUSINESS,
   PHONE_HREF,
   TOWNS,
 } from "@/consts.ts";
+
+const homeFaqs: FaqItem[] = [
+  {
+    question: "How much does custom woodwork cost?",
+    answer: `Every job is priced on its own. Give us a call or send a
+      few photos, and we'll gladly put together a free estimate.`,
+  },
+  {
+    question: "Is custom work more expensive than buying from a store?",
+    answer: `Up front, usually. Most store-bought pieces are
+      mass-produced overseas from particleboard and veneer, and they
+      chip, sag and get replaced. Ours are solid local hardwood, built
+      by hand with a zero-VOC finish, and can be repaired and refinished
+      for decades instead of thrown out.`,
+  },
+  {
+    question: "TODO (Noah): pricing",
+    answer: `TODO (Noah): is there a typical starting price, or a
+      smallest job you take on? Even a rough "most staircases start
+      around…" helps people decide to call.`,
+  },
+  {
+    question: "What do you build?",
+    answer: `Most things made of wood, from a single
+      <a href="/custom-furniture/">table</a> or
+      <a href="/custom-doors/">door</a> to a
+      <a href="/custom-staircases/">staircase</a>, a kitchen of
+      <a href="/custom-cabinets/">cabinets</a> or a
+      <a href="/pergolas/">pergola</a>. If you have an idea that isn't
+      on any list, ask. Noah handles most jobs himself and brings in
+      skilled local craftsmen he trusts for bigger projects. See
+      <a href="/services/">all services</a>.`,
+  },
+  {
+    question: "Do you do repairs as well as new work?",
+    answer: `Yes, and no repair is too small to ask about. If a window
+      sill or door frame has gone soft, a stair squeaks, a railing
+      wobbles or a deck is looking tired, we replace the damaged wood
+      with new wood matched to the old. See
+      <a href="/wood-rot-repair/">wood rot repair</a> and
+      <a href="/decks/">deck repair</a>.`,
+  },
+  {
+    question: "What area do you serve?",
+    answer: `The shop is in Black Mountain, and we work in homes in
+      ${TOWN_LIST}, NC, and nearby.`,
+  },
+  {
+    question: "How do I get started?",
+    answer: `Call ${BUSINESS.phone}, or send a few photos and details
+      through the <a href="/contact/">contact page</a>.`,
+  },
+];
 ---
 
 <Layout
   title="Carpenter & Woodworker in Black Mountain, NC"
-  description="Handcrafted spiral and custom staircases, solid hardwood doors and bespoke furniture from a Black Mountain, NC woodshop. Serving Asheville and nearby."
+  description="Handcrafted staircases, solid hardwood doors, custom cabinets and bespoke furniture from a Black Mountain, NC woodshop. Serving Asheville and nearby."
 >
+  <FaqSchema slot="head" items={homeFaqs} />
   <!-- Hero: text left, photo right with the big corners -->
-  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
-    <ContentWrapper variant="columns">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="medium">
+    <ContentWrapper variant="columns" class="home-hero_layout">
       <Heading tag="h1" variant="h1" class="home-hero_heading">
         <span>Fine Carpentry</span> <span>and Woodworking</span>
       </Heading>
       <Paragraph variant="large" maxWidth={46}>
-        Heirloom craftsmanship in staircases, hardwood doors and furniture,
-        built by hand from local lumber for homes in <span style="white-space: nowrap">Black Mountain, NC</span>.
+        <strong>Heirloom craftsmanship</strong> in staircases, hardwood doors and furniture,{" "}
+        <strong>built by hand from local lumber</strong> for homes in the <span style="white-space: nowrap">Black Mountain</span> area.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -58,76 +121,78 @@ import {
   <!-- Services -->
   <Section class="section-alt section-glow">
     <ContentWrapper>
-      <Heading tag="h2" maxWidth={18}>
+      <Heading tag="h2" maxWidth={24}>
         Custom Woodwork for Homes Around Asheville
       </Heading>
     </ContentWrapper>
     <Grid medium={2} large={4}>
-      <Card
-        variant="stacked"
+      <ServiceCard
+        href="/custom-staircases/"
         image={spiralAbove}
         imageAlt="Spiral staircase with walnut handrail curving down to the floor below"
         heading="Custom Staircases"
         headingTag="h3"
-        text="Spiral, curved and straight staircases, rails and newel posts in solid hardwood."
-        buttonLabel="Staircases"
-        buttonHref="/custom-staircases/"
+        text="The centerpiece of a home, in solid hardwood."
+        items={["Spiral and curved stairs", "Straight stairs", "Railings and newel posts"]}
+        label="Staircases"
       />
-      <Card
-        variant="stacked"
-        image={walnutDoor}
-        imageAlt="Solid walnut entry door with a carved geometric upper panel, installed"
+      <ServiceCard
+        href="/custom-doors/"
+        image={doorOpen}
+        imageAlt="Close-up of a solid walnut door with a carved geometric upper panel"
         heading="Solid Hardwood Doors"
         headingTag="h3"
-        text="Entry doors, arched doors and interior doors, made to fit your opening."
-        buttonLabel="Doors"
-        buttonHref="/custom-doors/"
+        text="Carved, paneled and plank doors, made for your opening and built to last."
+        items={["Entry doors", "Arched doors", "Interior and barn doors"]}
+        label="Doors"
       />
-      <Card
-        variant="stacked"
-        image={furniturePlaceholder}
-        imageAlt="Placeholder: furniture photo coming soon"
-        heading="Custom Furniture and Cabinets"
+      <ServiceCard
+        href="/custom-cabinets/"
+        image={coffeeStation}
+        imageAlt="Built-in coffee station cabinet with arched glass doors over an espresso machine"
+        heading="Cabinets and Furniture"
         headingTag="h3"
-        text="Furniture, cabinets and built-ins designed with you and finished with non-toxic oils."
-        buttonLabel="Furniture"
-        buttonHref="/custom-furniture/"
+        text="Kitchens, built-ins and tables in local hardwood, with food-safe finishes."
+        items={["Kitchen cabinets", "Built-ins and shelves", "Tables and furniture"]}
+        label="Cabinets"
       />
-      <Card
-        variant="stacked"
+      <ServiceCard
+        href="/pergolas/"
         image={pergola}
         imageAlt="Large timber pergola with built-in planter boxes along both sides"
-        heading="Pergolas and Outdoor Structures"
+        heading="Pergolas and Decks"
         headingTag="h3"
-        text="Pergolas and covered outdoor spaces built from solid timber."
-        buttonLabel="Pergolas"
-        buttonHref="/pergolas/"
+        text="Shade and outdoor living space, framed in solid timber."
+        items={["Pergolas", "New decks", "Deck repair and staining"]}
+        label="Pergolas and Decks"
       />
     </Grid>
+    <ContentWrapper>
+      <ButtonWrapper>
+        <Button element="link" href="/services/" emphasis="secondary">
+          All Services
+        </Button>
+      </ButtonWrapper>
+    </ContentWrapper>
   </Section>
 
   <!-- About -->
   <Section>
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={16}>
-        Local Wood, and Finishes That Are Safe at Home
+      <Heading tag="h2" maxWidth={24}>
+        Local Craftsmanship, Built to Last
       </Heading>
       <RichText maxWidth={60}>
         <p>
-          Emerald Forest Furnishings is Noah's carpentry, woodworking and
-          finish carpentry shop in Black Mountain. Every staircase, door and piece
-          of furniture is built to order for the client's home, from the
-          first sketch to the last coat of finish.
+          Emerald Forest Furnishings is Noah's woodshop in Black Mountain.
+          Every staircase, door and piece of furniture is custom made by
+          hand, from the first conversation to the last coat of finish, to a
+          standard meant to last generations.
         </p>
         <p>
-          We use lumber from trees grown and milled in Western North
-          Carolina, bought from local sawmills. Our usual finish is a
-          zero-VOC hard wax oil that is safe for food contact, and we choose
-          non-toxic hardware and finishes wherever we can.
-        </p>
-        <p>
-          TODO (Noah): how many years you have been doing carpentry and
-          woodworking, and where you learned the trade.
+          We build with hardwood grown and milled here in <strong>Western North
+          Carolina</strong>, and finish it with a zero-VOC hard wax oil that is <strong>safe
+          for food contact</strong> and for your family.
         </p>
       </RichText>
       <ButtonWrapper>
@@ -146,41 +211,32 @@ import {
   <!-- Why choose us -->
   <Section class="section-alt section-glow">
     <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={16}>Built for Your Home, Not from a Catalog</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        What our clients mention most, in their own reviews.
-      </Paragraph>
+      <Heading tag="h2" maxWidth={24}>Built for Your Home, Not from a Catalog</Heading>
     </ContentWrapper>
-    <Grid small={2} large={4}>
+    <Grid small={2} large={3}>
       <ContentWrapper>
-        <Icon src={check} variant="large" />
-        <Heading tag="h3" variant="h5">Made to Measure</Heading>
+        <Icon src={iconCraft} variant="large" class="feature-icon" />
+        <Heading tag="h3" variant="h5">Handcrafted to Fit</Heading>
         <Paragraph>
-          Each piece is designed for its space, including spiral stairs and
-          arched doorways that off-the-shelf parts don't fit.
+          Size, wood, shape and detail are all yours to choose. Each piece
+          is designed around its space, including spiral stairs and arched
+          doorways that off-the-shelf parts can't fit.
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
-        <Icon src={check} variant="large" />
-        <Heading tag="h3" variant="h5">Clear Communication</Heading>
-        <Paragraph>
-          Every one of our Google reviews mentions it, from the first call
-          through to the finished piece.
-        </Paragraph>
-      </ContentWrapper>
-      <ContentWrapper>
-        <Icon src={check} variant="large" />
+        <Icon src={iconTree} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Local Hardwood</Heading>
         <Paragraph>
           Lumber grown and milled in Western North Carolina, from local
-          sawmills.
+          sawmills. Your project supports local sawyers and craftsmen,
+          not a factory overseas.
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
-        <Icon src={check} variant="large" />
+        <Icon src={iconLeaf} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Non-Toxic Finishes</Heading>
         <Paragraph>
-          Zero-VOC hard wax oil, safe for food contact, and non-toxic
+          Zero-VOC hard wax oil, safe for food contact, and non-toxic{" "}
           hardware wherever possible.
         </Paragraph>
       </ContentWrapper>
@@ -190,7 +246,7 @@ import {
   <!-- Reviews -->
   <Section>
     <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>What Clients Say</Heading>
+      <Heading tag="h2" maxWidth={24}>What Clients Say</Heading>
     </ContentWrapper>
     <Grid medium={3}>
       <QuoteCard
@@ -216,8 +272,8 @@ import {
 
   <!-- Towns served -->
   <Section class="section-alt section-glow">
-    <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={16}>
+    <ContentWrapper variant="columns" class="hero-photo-square">
+      <Heading tag="h2" maxWidth={24}>
         Serving Black Mountain, Asheville and the Swannanoa Valley
       </Heading>
       <RichText maxWidth={60}>
@@ -233,26 +289,52 @@ import {
       </RichText>
       <Img
         slot="column2"
-        src={walnutDoor}
-        alt="Walnut entry door with a carved panel, fitted in a new home near Black Mountain"
+        src={doorWhole}
+        alt="Walnut entry door with a carved geometric upper panel, standing open in a home near Black Mountain"
       />
     </ContentWrapper>
   </Section>
 
-  <!-- Call to action -->
-  <Section theme="brand" paddingTop="small" paddingBottom="small">
-    <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={18}>Have a Project in Mind?</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        Call Noah to talk it through, or send a few details and photos of
-        the space and we'll get back to you with an estimate.
+  <!-- FAQ -->
+  <Section>
+    <ContentWrapper variant="sticky-content">
+      <Heading tag="h2" maxWidth={24}>Common Questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact/">Get in touch</a>.
       </Paragraph>
-      <ButtonWrapper slot="column2" marginTop="4">
-        <Button element="link" href={PHONE_HREF}>Call Now</Button>
-        <Button element="link" href="/contact/" emphasis="secondary">
-          Send details
-        </Button>
-      </ButtonWrapper>
+      <Accordion slot="column2" single>
+        {visibleFaqs(homeFaqs).map((faq) => (
+          <AccordionItem heading={faq.question}>
+            <Paragraph set:html={faq.answer} />
+          </AccordionItem>
+        ))}
+      </Accordion>
     </ContentWrapper>
   </Section>
 </Layout>
+
+<style is:global>
+  /* Home hero: pull the heading and photo a little closer together.
+     Unlayered so it beats the ContentWrapper component layer. */
+  .layout.columns.home-hero_layout {
+    column-gap: calc(var(--section-space-small) * 0.65);
+    @media (width >= 64rem) {
+      grid-template-columns: 0.85fr 1fr;
+    }
+  }
+  /* More air between heading, intro and buttons. */
+  .home-hero_layout .home-hero_heading {
+    margin-bottom: var(--space-6);
+  }
+  .home-hero_layout .button-wrapper {
+    margin-top: var(--space-8);
+    gap: var(--space-4);
+  }
+  /* Photo a touch smaller on desktop; full square, no crop. */
+  .home-hero_layout .home-hero_photo {
+    @media (width >= 64rem) {
+      width: 88%;
+      align-self: center;
+    }
+  }
+</style>

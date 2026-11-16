@@ -11,6 +11,8 @@ import Form from "@/components/form/Form.astro";
 import Fieldset from "@/components/form/Fieldset.astro";
 import Input from "@/components/form/Input.astro";
 import Textarea from "@/components/form/Textarea.astro";
+import Select from "@/components/form/Select.astro";
+import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
 ---
 
@@ -18,8 +20,9 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
   title="Contact & Estimates | Black Mountain, NC"
   description="Call Emerald Forest Furnishings on (828) 424-5401 or send project details for an estimate on custom staircases, doors and furniture near Asheville."
 >
+  <BreadcrumbSchema slot="head" trail={[{ label: "Contact", href: "/contact/" }]} />
   <!-- Hero -->
-  <Section paddingTop="navoverlap" paddingBottom="large">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper centered>
       <Heading tag="h1" variant="display" maxWidth={14}>
         Talk to Noah About Your Project
@@ -37,7 +40,7 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
   <!-- Contact details and form -->
   <Section class="section-alt">
     <ContentWrapper variant="sticky-content">
-      <Heading tag="h2" maxWidth={14}>Get in Touch</Heading>
+      <Heading tag="h2" maxWidth={24}>Get in Touch</Heading>
       <Paragraph maxWidth={32}>
         Tell us what you'd like built, where it's going, and roughly when.
         Measurements and photos help us give you an estimate.
@@ -69,10 +72,12 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
           <br />
           {TOWNS.join(", ")}, NC
         </p>
-        <p>
-          TODO (Noah): your real working hours, and how quickly you usually
-          reply to messages.
-        </p>
+        {import.meta.env.DEV && (
+          <p>
+            TODO (Noah): your real working hours, and how quickly you
+            usually reply to messages.
+          </p>
+        )}
         {BUSINESS.hours.length > 0 && (
           <p>
             <strong>Hours</strong>
@@ -86,7 +91,22 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
           <Input variant="first-name" required />
           <Input variant="email" required />
           <Input variant="phone" />
-          <Textarea label="What would you like built?" required />
+          <Textarea label="What would you like built or repaired?" required />
+          <Select
+            label="How did you hear about us?"
+            name="referral"
+            placeholder="Choose one (optional)"
+            options={[
+              "Google search",
+              "Google Maps",
+              "ChatGPT or another AI assistant",
+              "Instagram",
+              "Facebook",
+              "A friend or neighbor",
+              "Saw our work in person",
+              "Other",
+            ]}
+          />
         </Fieldset>
         <ButtonWrapper marginTop="4">
           <Button type="submit">Send message</Button>

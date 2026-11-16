@@ -10,26 +10,68 @@ import RichText from "@/components/typography/RichText.astro";
 import Button from "@/components/Button.astro";
 import Card from "@/components/item/Card.astro";
 import Img from "@/components/media/Img.astro";
+import Accordion from "@/components/interactive/Accordion.astro";
+import AccordionItem from "@/components/interactive/AccordionItem.astro";
+import RelatedServices from "@/components/content/RelatedServices.astro";
+import ServiceSchema from "@/components/content/ServiceSchema.astro";
 import pergolaPlanters from "@/assets/images/pergola-with-planters.jpg";
 import pergolaFront from "@/assets/images/pergola-front-view.jpg";
 import pergolaUnder from "@/assets/images/pergola-underneath.jpg";
-import { PHONE_HREF, TOWNS } from "@/consts.ts";
+import pergolaShade from "@/assets/images/pergola-dappled-shade.jpg";
+import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
+
+const description =
+  "Custom wood pergolas and covered outdoor structures, designed and built in solid timber by a Black Mountain, NC carpenter. Serving Asheville and nearby.";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Where do you build pergolas?",
+    answer: `Each pergola is designed for its spot and built at homes in
+      ${TOWN_LIST}, NC, and nearby.`,
+  },
+  {
+    question: "Can a pergola have built-in planters or seating?",
+    answer: `Yes. The pergola on this page has planter boxes built into
+      both sides. Tell us what you'd like the space to do and we'll
+      design around it.`,
+  },
+  {
+    question: "How much does a wood pergola cost?",
+    answer: `It depends on the size, the roof and any built-ins such as planters or benches. Give us a call or
+      send a few photos, and we'll gladly put together a free estimate.`,
+  },
+  {
+    question: "How do I get an estimate?",
+    answer: `Call ${BUSINESS.phone}, or send photos of the spot and rough
+      measurements through the <a href="/contact/">contact page</a>.`,
+  },
+];
 ---
 
 <Layout
-  title="Wood Pergolas & Outdoor Structures in Black Mountain, NC"
-  description="Custom wood pergolas and outdoor structures built by a Black Mountain, NC carpenter for homes in Asheville, Swannanoa, Montreat and nearby."
+  title="Custom Wood Pergolas | Black Mountain & Asheville, NC"
+  description={description}
 >
+  <ServiceSchema
+    slot="head"
+    name="Custom Wood Pergolas"
+    serviceType="Pergolas and outdoor structures"
+    description={description}
+    image={pergolaFront}
+    faqs={faqs}
+  />
+
   <!-- Hero -->
-  <Section paddingTop="navoverlap" paddingBottom="large">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="columns">
       <Heading tag="h1" variant="h1" maxWidth={16}>
-        Wood Pergolas and Outdoor Structures in Black Mountain, NC
+        Custom Wood Pergolas in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        Custom pergolas built from solid timber, designed for your yard,
-        patio or driveway, and built to the same standard as our indoor
-        work.
+        We design and build solid timber pergolas and covered outdoor
+        spaces for yards, patios and driveways around Black Mountain and
+        Asheville, to the same standard as our indoor work.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -37,8 +79,8 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
       </ButtonWrapper>
       <Img
         slot="column2"
-        src={pergolaFront}
-        alt="Large timber pergola with a slatted roof and planter boxes, against a mountain backdrop"
+        src={pergolaShade}
+        alt="Under a large timber pergola, sunlight through the slatted roof casting a grid of light across the concrete"
         loading="eager"
         fetchPriority="high"
       />
@@ -48,7 +90,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Project -->
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={16}>
+      <Heading tag="h2" maxWidth={24}>
         A Covered Space with Built-In Planters
       </Heading>
       <RichText maxWidth={60}>
@@ -58,14 +100,15 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
           It frames the view of the mountains beyond.
         </p>
         <p>
-          TODO (Noah): what kinds of outdoor builds you take on (pergolas,
-          decks, covered porches, sheds?) and the wood you use outdoors.
+          Every pergola is designed for its spot: the size of the space,
+          how much shade you want, and what it needs to connect to, from a
+          patio or driveway to the side of the house.
         </p>
       </RichText>
       <Img
         slot="column2"
-        src={pergolaUnder}
-        alt="View from under the pergola, sunlight falling through the roof slats onto the concrete"
+        src={pergolaFront}
+        alt="Large timber pergola with a slatted roof and planter boxes, against a mountain backdrop"
       />
     </ContentWrapper>
   </Section>
@@ -73,7 +116,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Gallery -->
   <Section>
     <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>The Finished Pergola</Heading>
+      <Heading tag="h2" maxWidth={24}>The Finished Pergola</Heading>
     </ContentWrapper>
     <Grid xsmall={2} large={3}>
       <Card
@@ -93,22 +136,29 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
       />
     </Grid>
     <Paragraph maxWidth={60}>
-      We build outdoor structures for homes in{" "}
-      {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}, NC.
+      Building a deck to go with it? See{" "}
+      <a href="/decks/">decks, deck repair and staining</a>. Porch posts
+      or railings going soft? See{" "}
+      <a href="/wood-rot-repair/">wood rot repair</a>.
     </Paragraph>
   </Section>
 
-  <!-- Call to action -->
-  <Section theme="brand" paddingTop="small" paddingBottom="small">
-    <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={18}>Planning an Outdoor Project?</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        Call Noah, or send photos of the space and rough measurements for
-        an estimate.
+  <!-- FAQ -->
+  <Section class="section-alt">
+    <ContentWrapper variant="sticky-content">
+      <Heading tag="h2" maxWidth={14}>Pergola Questions</Heading>
+      <Paragraph maxWidth={30}>
+        Something else? <a href="/contact/">Get in touch</a>.
       </Paragraph>
-      <ButtonWrapper slot="column2" marginTop="4">
-        <Button element="link" href={PHONE_HREF}>Call Now</Button>
-      </ButtonWrapper>
+      <Accordion slot="column2" single>
+        {visibleFaqs(faqs).map((faq) => (
+          <AccordionItem heading={faq.question}>
+            <Paragraph set:html={faq.answer} />
+          </AccordionItem>
+        ))}
+      </Accordion>
     </ContentWrapper>
   </Section>
+
+  <RelatedServices current="/pergolas/" />
 </Layout>

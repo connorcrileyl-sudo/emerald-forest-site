@@ -12,7 +12,8 @@ import Card from "@/components/item/Card.astro";
 import Img from "@/components/media/Img.astro";
 import Accordion from "@/components/interactive/Accordion.astro";
 import AccordionItem from "@/components/interactive/AccordionItem.astro";
-import QuoteCard from "@/components/content/QuoteCard.astro";
+import RelatedServices from "@/components/content/RelatedServices.astro";
+import ServiceSchema from "@/components/content/ServiceSchema.astro";
 import carvedPanel from "@/assets/images/walnut-door-carved-panel.jpg";
 import entryInstalled from "@/assets/images/walnut-entry-door-installed.jpg";
 import entryOpen from "@/assets/images/walnut-entry-door-open.jpg";
@@ -20,23 +21,65 @@ import arched from "@/assets/images/arched-hardwood-door.jpg";
 import archedTrim from "@/assets/images/arched-door-with-trim.jpg";
 import plankDoors from "@/assets/images/plank-interior-doors.jpg";
 import finishing from "@/assets/images/finishing-a-walnut-door.jpg";
-import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
+import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
+
+const description =
+  "Custom solid wood entry doors, arched doors, interior doors and sliding barn doors, handmade in Black Mountain, NC for homes in Asheville, Swannanoa and Montreat.";
+
+const faqs: FaqItem[] = [
+  {
+    question: "Where do you make and install doors?",
+    answer: `Doors are built in our Black Mountain shop for homes in
+      ${TOWN_LIST}, NC, and nearby.`,
+  },
+  {
+    question: "What wood and finish do you use?",
+    answer: `Hardwood grown and milled in Western North Carolina,
+      finished with a zero-VOC hard wax oil. The doors shown here are
+      walnut.`,
+  },
+  {
+    question: "How much does a custom wood door cost?",
+    answer: `It depends on the size, the wood, the design and whether it's an entry or interior door. Give us a call or
+      send a few photos, and we'll gladly put together a free estimate.`,
+  },
+  {
+    question: "How do I get an estimate?",
+    answer: `Call ${BUSINESS.phone}, or send the opening's width and
+      height, whether it's an entry or interior door, and a photo
+      through the <a href="/contact/">contact page</a>.`,
+  },
+  {
+    question: "How long does a custom door take?",
+    answer: `TODO (Noah): a typical time from go-ahead to installation.`,
+  },
+];
 ---
 
 <Layout
-  title="Custom Solid Wood Doors in Black Mountain, NC"
-  description="Custom solid wood entry doors, arched doors and interior doors, handmade in Black Mountain, NC for homes in Asheville, Swannanoa and Montreat."
+  title="Custom Solid Wood Doors | Black Mountain & Asheville, NC"
+  description={description}
 >
+  <ServiceSchema
+    slot="head"
+    name="Custom Solid Wood Doors"
+    serviceType="Solid hardwood doors"
+    description={description}
+    image={entryInstalled}
+    faqs={faqs}
+  />
+
   <!-- Hero -->
-  <Section paddingTop="navoverlap" paddingBottom="large">
-    <ContentWrapper variant="columns">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
+    <ContentWrapper variant="columns" class="hero-photo-square">
       <Heading tag="h1" variant="h1" maxWidth={16}>
         Custom Solid Wood Doors in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        Entry doors, arched doors and interior doors in solid hardwood,
-        built in our Black Mountain shop to fit the opening exactly and
-        finished by hand.
+        We build solid hardwood entry doors, arched doors and interior
+        doors in our Black Mountain shop for homes around Asheville,
+        each made to fit its opening exactly and finished by hand.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -55,12 +98,12 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Entry doors -->
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={16}>Solid Wood Front Doors</Heading>
+      <Heading tag="h2" maxWidth={24}>Solid Wood Front Doors</Heading>
       <RichText maxWidth={60}>
         <p>
           A front door is the first thing visitors touch. We build entry
           doors in solid hardwood, with carved or raised panels designed
-          with you, sized to your opening.
+          with you.
         </p>
         <p>
           The walnut door shown here has a carved geometric upper panel
@@ -68,9 +111,15 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
           wax oil.
         </p>
         <p>
-          TODO (Noah): do you supply and fit hardware, glass and weather
-          sealing, or does the client's builder handle that?
+          Door frame or threshold gone soft? We repair those too: see{" "}
+          <a href="/wood-rot-repair/">wood rot repair</a>.
         </p>
+        {import.meta.env.DEV && (
+          <p>
+            TODO (Noah): do you supply and fit hardware, glass and weather
+            sealing, or does the client's builder handle that?
+          </p>
+        )}
       </RichText>
       <Img
         slot="column2"
@@ -83,18 +132,24 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Arched and interior -->
   <Section>
     <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={16}>
-        Arched Doors and Solid Wood Interior Doors
+      <Heading tag="h2" maxWidth={24}>
+        Arched, Interior and Sliding Barn Doors
       </Heading>
       <RichText maxWidth={60}>
         <p>
           Arched doorways need a door made for them. We build arched doors
-          with matching curved trim, and plank and panel interior doors in
-          solid hardwood for closets, bedrooms and pantries.
+          with matching curved trim (see{" "}
+          <a href="/finish-carpentry/">trim and finish carpentry</a>), and
+          plank and panel interior doors in solid hardwood for closets,
+          bedrooms and pantries.
         </p>
         <p>
           Solid wood interior doors feel heavier and quieter than hollow
           ones, and can be sanded and refinished rather than replaced.
+        </p>
+        <p>
+          We also build sliding barn doors in solid hardwood, a good fit
+          where a swinging door would take up too much room.
         </p>
       </RichText>
       <Img
@@ -108,7 +163,7 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
   <!-- Gallery -->
   <Section class="section-alt">
     <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>Recent Doors</Heading>
+      <Heading tag="h2" maxWidth={24}>Recent Doors</Heading>
     </ContentWrapper>
     <Grid xsmall={2} large={3}>
       <Card
@@ -144,75 +199,23 @@ import { BUSINESS, PHONE_HREF, TOWNS } from "@/consts.ts";
     </Grid>
   </Section>
 
-  <!-- Review -->
-  <Section>
-    <ContentWrapper>
-      <Heading tag="h2" maxWidth={16}>From a Recent Client</Heading>
-    </ContentWrapper>
-    <Grid medium={2}>
-      <QuoteCard
-        quote="Working with Emerald Forest was a pleasure. Excellent communication and workmanship. Great eye for detail aesthetic. Reasonable pricing for high quality work. We will definitely use this service again."
-        name="Brandon Greenstein"
-        detail="Google review"
-        rating={5}
-      />
-      <QuoteCard
-        quote="Great experience. Very happy with the end product, timeline, and communication"
-        name="Cameron White"
-        detail="Google review"
-        rating={5}
-      />
-    </Grid>
-  </Section>
 
   <!-- FAQ -->
-  <Section class="section-alt">
+  <Section>
     <ContentWrapper variant="sticky-content">
-      <Heading tag="h2" maxWidth={14}>Door Questions</Heading>
+      <Heading tag="h2" maxWidth={24}>Door Questions</Heading>
       <Paragraph maxWidth={30}>
         Something else? <a href="/contact/">Get in touch</a>.
       </Paragraph>
       <Accordion slot="column2" single>
-        <AccordionItem heading="Where do you make and install doors?">
-          <Paragraph>
-            Doors are built in our Black Mountain shop for homes in{" "}
-            {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}, NC, and
-            nearby.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="What wood and finish do you use?">
-          <Paragraph>
-            Hardwood grown and milled in Western North Carolina, finished
-            with a zero-VOC hard wax oil. The doors shown here are walnut.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="How do I get an estimate?">
-          <Paragraph>
-            Call {BUSINESS.phone}, or send the opening's width and height,
-            whether it's an entry or interior door, and a photo through
-            the <a href="/contact/">contact page</a>.
-          </Paragraph>
-        </AccordionItem>
-        <AccordionItem heading="How long does a custom door take?">
-          <Paragraph>
-            TODO (Noah): a typical time from go-ahead to installation.
-          </Paragraph>
-        </AccordionItem>
+        {visibleFaqs(faqs).map((faq) => (
+          <AccordionItem heading={faq.question}>
+            <Paragraph set:html={faq.answer} />
+          </AccordionItem>
+        ))}
       </Accordion>
     </ContentWrapper>
   </Section>
 
-  <!-- Call to action -->
-  <Section theme="brand" paddingTop="small" paddingBottom="small">
-    <ContentWrapper variant="auto-width">
-      <Heading tag="h2" maxWidth={18}>Need a Door Made?</Heading>
-      <Paragraph slot="column2" maxWidth={32}>
-        Call Noah, or send a photo and measurements of the doorway for an
-        estimate.
-      </Paragraph>
-      <ButtonWrapper slot="column2" marginTop="4">
-        <Button element="link" href={PHONE_HREF}>Call Now</Button>
-      </ButtonWrapper>
-    </ContentWrapper>
-  </Section>
+  <RelatedServices current="/custom-doors/" />
 </Layout>

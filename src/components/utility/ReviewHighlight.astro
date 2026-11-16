@@ -1,0 +1,93 @@
+---
+/**
+ * Review mode for Noah's private preview (the Kitchen embed). Only in a
+ * build with PUBLIC_REVIEW=1:
+ *   PUBLIC_REVIEW=1 npx astro build
+ * Highlights each claim his questions form asks him to check, with a
+ * note saying which question covers it, plus a slim banner explaining
+ * the highlights. The real site never sets the flag, so none of this
+ * ships. Keep PHRASES in step with the "Check the wording" and pricing
+ * items in esteemed-intake/clients/emerald-forest.json.
+ */
+const review = import.meta.env.PUBLIC_REVIEW === "1";
+
+/* match: text to find (case-insensitive). note: shown on hover/tap. */
+const PHRASES = [
+  { match: "Free Estimate", note: "Check: \"Free Estimate\" (questions form, Check the wording)" },
+  { match: "free estimate", note: "Check: \"Free Estimate\" (questions form, Check the wording)" },
+  { match: "design, build and install", note: "Check: do you install kitchen cabinets? (questions form, services list)" },
+  { match: "new wood decks", note: "Check: do you build new decks? (questions form, services list)" },
+  { match: "We build new decks", note: "Check: do you build new decks? (questions form, services list)" },
+  { match: "coffered ceilings", note: "Check: do you do coffered ceilings? (questions form, services list)" },
+  { match: "restore original woodwork", note: "Check: historic woodwork (questions form, services list)" },
+  { match: "Historic woodwork", note: "Check: historic woodwork (questions form, services list)" },
+  { match: "brings in skilled local craftsmen he trusts for bigger projects", note: "Check: help on bigger jobs (questions form, Check the wording)" },
+  { match: "priced on its own", note: "Pricing: is there a starting price? (questions form, Your work)" },
+];
+---
+
+{review && (
+  <>
+    <style is:global>
+      .review-banner {
+        position: fixed;
+        inset: auto 0 0 0;
+        box-shadow: 0 -4px 16px rgb(0 0 0 / 0.4);
+        z-index: 1000;
+        padding: 0.55rem 1rem;
+        background: #ffe066;
+        color: #1c1600;
+        font: 600 0.9rem/1.35 system-ui, sans-serif;
+        text-align: center;
+      }
+      body { padding-bottom: 4.5rem; }
+      mark.review-mark,
+      .review-mark-box {
+        background: rgb(255 224 102 / 0.28);
+        color: inherit;
+        outline: 2px solid #ffe066;
+        outline-offset: 2px;
+        border-radius: 0.2em;
+        cursor: help;
+      }
+      mark.review-mark { padding: 0 0.15em; }
+    </style>
+    <div class="review-banner" role="note">
+      Preview for Noah. Anything <span style="background:#fff3b0;outline:2px solid #1c1600;padding:0 .25em;border-radius:.2em">highlighted</span>
+      is something your questions form asks you to check. Hover or tap it to see which question.
+    </div>
+    <script is:inline define:vars={{ PHRASES }}>
+      (() => {
+        const skip = new Set(["SCRIPT", "STYLE", "MARK", "TEXTAREA", "INPUT"]);
+        const nodes = [];
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+          if (!n.parentElement || skip.has(n.parentElement.tagName)) continue;
+          if (n.parentElement.closest(".review-banner")) continue;
+          nodes.push(n);
+        }
+        for (const node of nodes) {
+          const text = node.nodeValue;
+          const lower = text.toLowerCase();
+          const hit = PHRASES.find((p) => lower.includes(p.match.toLowerCase()));
+          if (!hit) continue;
+          // A button or link label: outline the whole control.
+          const control = node.parentElement.closest(".button_wrap, button");
+          if (control) {
+            control.classList.add("review-mark-box");
+            control.title = hit.note;
+            continue;
+          }
+          const i = lower.indexOf(hit.match.toLowerCase());
+          const mark = document.createElement("mark");
+          mark.className = "review-mark";
+          mark.title = hit.note;
+          mark.textContent = text.slice(i, i + hit.match.length);
+          const after = node.splitText(i);
+          after.nodeValue = after.nodeValue.slice(hit.match.length);
+          node.parentNode.insertBefore(mark, after);
+        }
+      })();
+    </script>
+  </>
+)}

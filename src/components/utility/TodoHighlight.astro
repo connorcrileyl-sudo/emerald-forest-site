@@ -1,0 +1,60 @@
+---
+/**
+ * Dev only: makes every "TODO (Noah): …" placeholder impossible to miss
+ * (bright dashed box with a "Needs Noah" tag), wherever it sits: body
+ * copy, FAQ answers, lists. Nothing is rendered in a build, and the
+ * TODOs themselves are already dev-only.
+ */
+const dev = import.meta.env.DEV;
+---
+
+{dev && (
+  <>
+    <style is:global>
+      .todo-noah {
+        position: relative;
+        display: block;
+        margin-block: 0.75em;
+        padding: 0.9em 1em 0.8em;
+        border: 2px dashed #ff5fa2;
+        border-radius: 0.4rem;
+        background: rgb(255 95 162 / 0.12);
+        color: #ffd2e6 !important;
+        font-weight: 500;
+      }
+      .todo-noah::before {
+        content: "Needs Noah";
+        display: inline-block;
+        margin-right: 0.6em;
+        padding: 0.1em 0.5em;
+        border-radius: 0.25rem;
+        background: #ff5fa2;
+        color: #1a0410;
+        font-size: 0.7em;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        vertical-align: 0.15em;
+      }
+    </style>
+    <script is:inline>
+      (() => {
+        const mark = () => {
+          const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            if (!n.nodeValue.includes("TODO (")) continue;
+            // Smallest sensible box: a whole FAQ item, else the paragraph.
+            const el = n.parentElement?.closest("details, p, li, dd, td");
+            if (el) el.classList.add("todo-noah");
+          }
+        };
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", mark);
+        } else {
+          mark();
+        }
+        document.addEventListener("astro:page-load", mark);
+      })();
+    </script>
+  </>
+)}
