@@ -292,7 +292,7 @@
   --background-2: var(--dark-800);
   --background-3: var(--dark-700);
   --background-skeleton: color-mix(in lab, currentcolor 10%, transparent);
-  --text: #e9e1cf;
+  --text: #d6cdb9;
   --heading-text: #d39d36;
   /* Warm gold from the logo, shaded lightly down each line. */
   --heading-fill: linear-gradient(180deg, #e8b850 0%, #d39d36 55%, #b5832a 100%);

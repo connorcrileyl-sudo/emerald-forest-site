@@ -1,5 +1,5 @@
 .heading:has(+ .text) {
-  margin-bottom: var(--_margin-bottom);
+  margin-bottom: calc(var(--_margin-bottom) - 0.15em);
 }
 
 .heading,
@@ -227,8 +227,9 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: var(--heading-fill-text, currentcolor);
-  /* Room below the last line so comma tails and descenders get painted. */
-  padding-bottom: 0.15em;
+  /* Room below the last line so Cormorant's deep descenders (g, y, comma
+     tails) get painted; the margin below gives the same amount back. */
+  padding-bottom: 0.3em;
 }
 
 /* Emerald Forest design system: near-black grounds (ground #070707,
@@ -277,4 +278,16 @@
   .home-hero_heading > span {
     display: block;
   }
+}
+
+/* Small label: the third level under gold headings and body text.
+   Smaller, uppercase, bold, spaced out and dimmed. Card links and
+   review captions use the same treatment in their components. */
+.label {
+  font-family: var(--primary-family);
+  font-size: 0.75rem;
+  font-weight: var(--primary-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in lab, currentcolor 60%, transparent);
 }

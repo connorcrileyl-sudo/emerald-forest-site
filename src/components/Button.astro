@@ -195,11 +195,16 @@ const named = {
       }
       &.link {
         --button-background: transparent;
-        --button-text: var(--link-text);
+        --button-text: color-mix(in lab, var(--link-text) 70%, transparent);
         --button-border: var(--link-border);
         --button-background-hover: transparent;
         --button-text-hover: var(--link-text-hover);
         --button-border-hover: var(--link-border);
+
+        /* Small label style: the quietest level of text. */
+        font-size: 0.75rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
 
         padding: 0.4em 0;
         border: 0;
