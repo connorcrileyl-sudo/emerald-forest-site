@@ -1091,3 +1091,26 @@
 .layout.columns.hero-photo-tall {
   --_visual-ratio: 4 / 5;
 }
+
+/* Section photos (the image column of a two-column layout): the same
+   big corners and lit-gold edge as the home hero. Cards and small
+   images keep their plain style. In the utilities layer to beat the
+   layout component's small radius. */
+.layout > :last-child:not(:has(> :not(.image, .video, .overlay))) {
+  overflow: hidden;
+  border-radius: 0 clamp(1.5rem, 4vw, 3rem) 0 clamp(1.5rem, 4vw, 3rem);
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#000, #000) padding-box,
+    linear-gradient(160deg, #e2a948, #a8762a 45%, #d49a40 75%, #8f6222) border-box;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.6),
+    0 10px 40px -10px rgb(203 144 51 / 0.35);
+  & > :is(.image, .video, .overlay) {
+    border-radius: 0;
+  }
+  /* Page heroes keep the full home-hero curve. */
+  .padding-top-navoverlap & {
+    border-radius: 0 clamp(2rem, 6vw, 4.5rem) 0 clamp(2rem, 6vw, 4.5rem);
+  }
+}

@@ -46,7 +46,7 @@
   flex-flow: wrap;
   align-items: center;
   justify-content: var(--_alignment, start);
-  grid-column-gap: var(--space-2);
+  grid-column-gap: var(--space-4);
   grid-row-gap: var(--space-2);
 }
 
@@ -329,8 +329,4 @@
   }
 }
 
-/* A little more room between a pair of buttons in each page hero. */
-.padding-top-navoverlap .button-wrapper:has(> :nth-child(2)) {
-  column-gap: var(--space-3);
-}
 
