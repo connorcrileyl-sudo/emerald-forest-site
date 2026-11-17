@@ -13,8 +13,8 @@ import AccordionItem from "@/components/interactive/AccordionItem.astro";
 import RelatedServices from "@/components/content/RelatedServices.astro";
 import ServiceSchema from "@/components/content/ServiceSchema.astro";
 /* Stock photos (Envato): general close-ups, not Noah's work. */
-import deckBoards from "@/assets/images/stock-deck-boards-drill.jpg";
-import bridgeRail from "@/assets/images/timber-bridge-guardrail.jpg";
+import deckPergola from "@/assets/images/raised-deck-and-pergola.jpg";
+import deckClose from "@/assets/images/stock-deck-boards-close-up.jpg";
 import staining from "@/assets/images/stock-staining-wood-brush.jpg";
 import { BUSINESS, PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
@@ -63,7 +63,7 @@ const faqs: FaqItem[] = [
     name="Decks, Deck Repair and Staining"
     serviceType="Deck building and repair"
     description={description}
-    image={deckBoards}
+    image={deckPergola}
     faqs={faqs}
   />
 
@@ -84,8 +84,8 @@ const faqs: FaqItem[] = [
       </ButtonWrapper>
       <Img
         slot="column2"
-        src={deckBoards}
-        alt="Hands driving screws into new pine deck boards with a power drill"
+        src={deckPergola}
+        alt="Raised wood deck with wire-panel railings beside a pergola and planters, with mountains behind"
         loading="eager"
         fetchPriority="high"
       />
@@ -94,7 +94,7 @@ const faqs: FaqItem[] = [
 
   <!-- New decks -->
   <Section class="section-alt">
-    <ContentWrapper variant="columns" reverse class="hero-photo-square">
+    <ContentWrapper variant="columns" reverse>
       <Heading tag="h2" maxWidth={24}>New Wood Decks</Heading>
       <RichText maxWidth={60}>
         <p>
@@ -105,8 +105,8 @@ const faqs: FaqItem[] = [
       </RichText>
       <Img
         slot="column2"
-        src={bridgeRail}
-        alt="Heavy dark-stained timber guardrail along a small concrete bridge over a creek"
+        src={deckClose}
+        alt="Close-up of evenly spaced, freshly stained wooden deck boards"
       />
     </ContentWrapper>
   </Section>
