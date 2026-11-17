@@ -216,6 +216,17 @@ const companyLinks = [
       font-weight: var(--heading-weight);
       line-height: 1.2;
       color: var(--heading-text, var(--text));
+      /* The same lit gold and shadow as the page headings. The padding
+         keeps descenders inside the text clip; the margin gives it back. */
+      background-image: var(--heading-fill, none);
+      background-size: 100% 1lh;
+      background-origin: content-box;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: var(--heading-fill-text, currentcolor);
+      filter: var(--heading-shadow, none);
+      padding-block: 0.15em 0.3em;
+      margin-block: -0.15em -0.3em;
     }
 
     .footer_cta_body {

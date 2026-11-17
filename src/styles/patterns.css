@@ -239,6 +239,13 @@
   filter: var(--heading-shadow, none);
 }
 
+/* h3 and smaller: a subtler version of the lit gold. */
+.heading:is(.text-style-h3, .text-style-h4, .text-style-h5, .text-style-h6),
+.heading:is(h3, h4, h5, h6):not([class*="text-style-"]) {
+  background-image: var(--heading-fill-soft, var(--heading-fill, none));
+  filter: var(--heading-shadow-soft, none);
+}
+
 /* Give the top padding back so spacing above headings is unchanged. */
 .container > .heading,
 .heading {

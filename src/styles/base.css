@@ -311,6 +311,16 @@
   /* A crisp dark edge underneath, so the gold sits slightly raised. */
   --heading-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.6))
     drop-shadow(0 2px 8px rgb(0 0 0 / 0.35));
+  /* Smaller headings (h3 and down, card titles): the same gold, lit
+     more gently, with only the crisp edge and no soft halo. */
+  --heading-fill-soft: linear-gradient(
+    180deg,
+    #d29f3e 0%,
+    #c48f32 45%,
+    #b3802a 80%,
+    #bb8a34 100%
+  );
+  --heading-shadow-soft: drop-shadow(0 1px 1px rgb(0 0 0 / 0.45));
   /* Primary buttons: the same lit-metal gold, very gently. */
   --button-sheen: linear-gradient(180deg, #dca345 0%, #ca9234 48%, #b47e2b 100%);
   --button-lift: inset 0 1px 0 rgb(255 214 140 / 0.4),

@@ -1114,3 +1114,25 @@
     border-radius: 0 clamp(2rem, 6vw, 4.5rem) 0 clamp(2rem, 6vw, 4.5rem);
   }
 }
+
+/* Photo-only card galleries (e.g. "Recent Cabinets"): every photo in
+   the same square frame, square corners, and a dimmer version of the
+   section photos' gold edge. */
+.photo-cards .card_visual {
+  aspect-ratio: 1 / 1;
+  height: auto;
+  border-radius: 0;
+  border: 2px solid transparent;
+  background:
+    linear-gradient(#000, #000) padding-box,
+    linear-gradient(160deg, #8a6a33, #5e4520 45%, #7d5f2e 75%, #4f3a1b) border-box;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.6);
+  & > :is(.image, .video) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
+}

@@ -14,7 +14,7 @@ import RelatedServices from "@/components/content/RelatedServices.astro";
 import ServiceSchema from "@/components/content/ServiceSchema.astro";
 /* Stock photos (Envato): general close-ups, not Noah's work. */
 import deckBoards from "@/assets/images/stock-deck-boards-drill.jpg";
-import deckClose from "@/assets/images/stock-deck-boards-close-up.jpg";
+import bridgeRail from "@/assets/images/timber-bridge-guardrail.jpg";
 import staining from "@/assets/images/stock-staining-wood-brush.jpg";
 import { BUSINESS, PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
@@ -94,7 +94,7 @@ const faqs: FaqItem[] = [
 
   <!-- New decks -->
   <Section class="section-alt">
-    <ContentWrapper variant="columns" reverse>
+    <ContentWrapper variant="columns" reverse class="hero-photo-square">
       <Heading tag="h2" maxWidth={24}>New Wood Decks</Heading>
       <RichText maxWidth={60}>
         <p>
@@ -105,8 +105,8 @@ const faqs: FaqItem[] = [
       </RichText>
       <Img
         slot="column2"
-        src={deckClose}
-        alt="Close-up of evenly spaced, freshly stained wooden deck boards"
+        src={bridgeRail}
+        alt="Heavy dark-stained timber guardrail along a small concrete bridge over a creek"
       />
     </ContentWrapper>
   </Section>

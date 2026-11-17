@@ -90,7 +90,7 @@ const {
     }
 
     .service-card_visual {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
       border-radius: 0.375rem;
       & img {
@@ -117,6 +117,16 @@ const {
       line-height: 1.2;
       color: var(--heading-text, var(--text));
       text-wrap: balance;
+      /* The subtler lit gold used for h3 and smaller headings. */
+      background-image: var(--heading-fill-soft, none);
+      background-size: 100% 1lh;
+      background-origin: content-box;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: var(--heading-fill-text, currentcolor);
+      filter: var(--heading-shadow-soft, none);
+      padding-block: 0.15em 0.3em;
+      margin-block: -0.15em -0.3em;
     }
 
     .service-card_text {

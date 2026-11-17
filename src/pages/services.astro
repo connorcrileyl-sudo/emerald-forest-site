@@ -28,14 +28,15 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
 >
   <BreadcrumbSchema slot="head" trail={[{ label: "Services", href: "/services/" }]} />
   <!-- Hero -->
-  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="small">
     <ContentWrapper centered>
-      <Heading tag="h1" variant="h1" maxWidth={16}>
+      <Heading tag="h1" variant="h2" maxWidth={30}>
         Carpentry and Woodworking in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={40}>
-        Everything we build is made to order in our Black Mountain shop,
-        for homes in {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}.
+        Custom pieces are made to order in our Black Mountain shop, and
+        trim and repairs are done in your home, across{" "}
+        {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -44,7 +45,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   </Section>
 
   <!-- Services -->
-  <Section class="section-alt">
+  <Section class="section-alt" paddingTop="small">
     <ContentWrapper>
       <Heading tag="h2" maxWidth={24}>Choose a Service</Heading>
     </ContentWrapper>
@@ -142,37 +143,4 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
     </Grid>
   </Section>
 
-  <!-- Finish carpentry -->
-  <Section>
-    <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={24}>Trim and Finish Carpentry</Heading>
-      <RichText slot="column2" maxWidth={60}>
-        <p>
-          Alongside the larger pieces, we take on finish carpentry: the
-          trim, casings, wainscoting and details that make a room look
-          complete. See <a href="/finish-carpentry/">trim and finish
-          carpentry</a>.
-        </p>
-      </RichText>
-    </ContentWrapper>
-  </Section>
-
-  <!-- Repairs and restoration -->
-  <Section class="section-alt">
-    <ContentWrapper variant="columns">
-      <Heading tag="h2" maxWidth={24}>Repairs and Restoration</Heading>
-      <RichText slot="column2" maxWidth={60}>
-        <p>
-          Not every job is a new build. We repair wood rot, fix squeaky
-          or worn wooden stairs, and take on smaller wood repairs around
-          the house.
-        </p>
-        <p>
-          For older and historic homes, we restore original woodwork where
-          it can be saved and make matching pieces where it can't. See{" "}
-          <a href="/wood-rot-repair/">wood rot repair and restoration</a>.
-        </p>
-      </RichText>
-    </ContentWrapper>
-  </Section>
 </Layout>
