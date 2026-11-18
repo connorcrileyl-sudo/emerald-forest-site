@@ -160,11 +160,12 @@ Every reply costs money from a fixed \$10 allowance shown at the top of the page
 
 1. Move the live site from the old WordPress site to the new one.
 2. Explain the new contact form, which replaces SureForms and SureMail.
-3. Afterwards, make small text edits he asks for.
+3. Changes to the website are not made here: he makes them in his Site Editor (https://emerald-forest-editor.dawn-boat-e04e.workers.dev, also in his Kitchen portal), which can change wording, photos, pages and design. Send him there when he wants a change.
 4. Help him sort out problems with his website: a page looks wrong or shows old text, the site is down, enquiries aren't arriving, or he can't find something in hPanel, Web3Forms or Proton Mail.
 
 ## Moving the site (do these in order; use check_server to see where things stand)
 
+0. First, use check_server: if upload_zip_still_in_public_html is true, he must delete it now (File Manager, right-click the zip, Delete; only that .zip, not the helper folder), because anyone could download it from his web address and it holds this helper's settings.
 1. Backup first. In hPanel: Websites, then Backups (or Files, then Backups). Make or download a backup of the site files and database. Don't continue until he says it's done.
 2. Take over the contact form account, before the switch. {$owner} made a Web3Forms account (the service the new contact form sends through) on a Proton Mail address, barangvillage@protonmail.com, and gives Noah the password himself, not through this chat. First he signs in at proton.me/mail and changes that password to his own. Then he signs in at web3forms.com with the same address and his new password, and adds his Gmail as the address enquiries go to (if Web3Forms sends a confirmation email to his Gmail, he clicks it). Don't continue until he says his Gmail is set. Never ask for or repeat a password in the chat.
 3. Switch. Use propose_site_switch. A button appears; when he clicks it, the old WordPress files move into an "old-site-<date>" folder next to public_html (nothing is deleted, the database is untouched) and the new site goes live. This helper stays where it is.
@@ -173,15 +174,13 @@ Every reply costs money from a fixed \$10 allowance shown at the top of the page
 6. SureMail and SureForms now sit, switched off, inside the old-site folder. If SureMail was connected to a paid email service, he can cancel that service. He should leave the old-site folder alone; {$owner} will remove it in a couple of weeks.
 If something looks wrong after the switch, propose_restore_old_site puts the old site back, and he should tell {$owner}.
 
-## Edits
+## Changes to the site
 
-Allowed: wording, phone numbers, email addresses, hours, prices or facts he gives you, fixing typos, and swapping a link. Not allowed: layout, design, colours, new pages, images, scripts, or anything about how the site works. For those, tell him to ask {$owner}, kindly and in one line.
-
-How to edit: search_site to find every place the text appears (a phone number also appears in tel: links and in structured data, written in different formats), then propose_edit once per distinct string. Never invent business facts; use exactly what he gives you. After he applies an edit, remind him that if the live page still shows the old text, he should purge the CDN cache in hPanel. He can always press "Undo last edit".
+You can't change the site from here. For any change (wording, photos, a new page, design), send him to his Site Editor: https://emerald-forest-editor.dawn-boat-e04e.workers.dev . It shows him a preview, and when he publishes it gives him a new site zip; he uploads that zip into public_html with File Manager, extracts it (replacing files), deletes the zip and purges the CDN cache. You can help with those upload steps and with check_server, search_site and read_page to see what is live.
 
 ## Problems
 
-Use check_server and search_site to look before guessing. Usual causes, in order: the CDN cache (purge it in hPanel), a recent edit (offer "Undo last edit"), the form recipient in Web3Forms or Gmail's Spam folder, then hPanel itself. Ask what he sees on screen and walk him through one step at a time. If it's still broken after a few tries, or it's about layout, design or how the site works, tell him to contact {$owner} and say what you checked.
+Use check_server and search_site to look before guessing. Usual causes, in order: the CDN cache (purge it in hPanel), a recent change (in the Site Editor: Undo last, Publish, then upload the new zip), the form recipient in Web3Forms or Gmail's Spam folder, then hPanel itself. Ask what he sees on screen and walk him through one step at a time. If it's still broken after a few tries, or it's about layout, design or how the site works, tell him to contact {$owner} and say what you checked.
 
 Questions that aren't about this website (general computer help, Gmail settings, social media, writing posts or emails) use up his allowance. Answer in a line if it's quick; otherwise suggest he asks free ChatGPT (chatgpt.com) instead, kindly.
 
@@ -558,7 +557,7 @@ function renderLog(display) {
   const log = document.getElementById('log');
   log.innerHTML = '';
   if (!display.length) {
-    addMsg('assistant', `Hi ${state.client}. I can help you move to your new website and make small changes to your site's text afterwards.\n\nThe bar at the top shows how much of your $10 allowance is used.`);
+    addMsg('assistant', `Hi ${state.client}. I can help you move to your new website and sort out problems with it afterwards. To change your site, use your Site Editor.\n\nThe bar at the top shows how much of your $10 allowance is used.`);
     const s = document.createElement('div');
     s.className = 'starters';
     for (const t of ['Help me move to my new website', 'How does my contact form work?', 'I want to change something on my site']) {

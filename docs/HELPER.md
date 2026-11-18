@@ -51,7 +51,9 @@ A meter at the top shows how much of the $10 has been used.
    npx wrangler d1 execute storehouse --remote --file schema.sql
    npx wrangler deploy
    node scripts/new-caller.mjs emerald-helper anthropic --no-lock
-   node scripts/budget.mjs emerald-helper anthropic 10
+   node scripts/budget.mjs emerald-helper anthropic 9.5
+   # 9.5, not 10: the cap is checked before each call, and one call
+   # can cost up to ~$0.40, so the real total stays under $10.
    ```
    `--no-lock` means the helper works without an Ente unlock. The
    $10 budget and the single service are what limit it.
@@ -62,7 +64,10 @@ A meter at the top shows how much of the $10 has been used.
    `emerald-helper.zip`.
 4. Send Noah the zip and the setup code **separately**. He uploads
    the zip in hPanel File Manager into `public_html`, extracts it,
-   opens `/helper/`, enters the code and picks a password.
+   **deletes the zip** (it holds `config.php` and would be
+   downloadable), opens `/helper/`, enters the code and picks a
+   password. The temporary Kitchen setup guide (esteemed-intake,
+   `/<slug>/setup`) walks him through all of this.
 
 ## Not tested yet
 

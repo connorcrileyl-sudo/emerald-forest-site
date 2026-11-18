@@ -1,0 +1,80 @@
+# Builds the site on every push.
+#   draft  -> private preview at emerald-forest-draft (noindex, no GA).
+#             This is what Noah's Site Editor shows him before Publish.
+#   main   -> production build, saved as the "site" artifact. The Site
+#             Editor's "Download site zip" hands Noah that artifact to
+#             upload to his Hostinger public_html.
+# Secrets: CLOUDFLARE_API_TOKEN (Workers edit), CLOUDFLARE_ACCOUNT_ID.
+name: Site
+
+on:
+  push:
+    branches: [main, draft]
+  workflow_dispatch:
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DRAFT_URL: https://emerald-forest-draft.dawn-boat-e04e.workers.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type check
+        run: npx astro check
+
+      - name: Build (draft preview)
+        if: github.ref == 'refs/heads/draft'
+        env:
+          PREVIEW_SITE: ${{ env.DRAFT_URL }}
+          PUBLIC_DRAFT: "1"
+        run: npx astro build
+
+      - name: Build (production)
+        if: github.ref == 'refs/heads/main'
+        run: npx astro build
+
+      - name: Deploy draft preview
+        if: github.ref == 'refs/heads/draft'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          printf '\n/*\n  X-Robots-Tag: noindex, nofollow\n' >> dist/_headers
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          mkdir -p .draft
+          cat > .draft/wrangler.jsonc <<'EOF'
+          {
+            // Site Editor draft preview. Unique Worker name: never reuse
+            // another project's, or this deploy overwrites it.
+            "name": "emerald-forest-draft",
+            "compatibility_date": "2026-08-21",
+            "assets": { "directory": "../dist", "not_found_handling": "404-page" }
+          }
+          EOF
+          cd .draft && npx --yes wrangler@4.164.0 deploy
+
+      - name: Save production site
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: dist/
+          include-hidden-files: true   # keeps .htaccess
+          retention-days: 90
+          compression-level: 6

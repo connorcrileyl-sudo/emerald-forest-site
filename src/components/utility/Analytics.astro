@@ -7,10 +7,14 @@
  */
 import { GA_MEASUREMENT_ID } from "@/consts.ts";
 
-// Off in dev and in the review preview, so our own visits and Noah's
-// aren't counted.
+// Off in dev, in the review preview and in the Site Editor's draft
+// preview (PUBLIC_DRAFT=1), so our own visits and Noah's aren't counted.
 const id =
-  import.meta.env.PROD && import.meta.env.PUBLIC_REVIEW !== "1" ? GA_MEASUREMENT_ID : "";
+  import.meta.env.PROD &&
+  import.meta.env.PUBLIC_REVIEW !== "1" &&
+  import.meta.env.PUBLIC_DRAFT !== "1"
+    ? GA_MEASUREMENT_ID
+    : "";
 ---
 
 {id && (

@@ -141,16 +141,6 @@ function tool_definitions(): array
             'input_schema' => $obj(['path' => ['type' => 'string', 'description' => 'Path from list_pages, e.g. "about/index.html".']], ['path']),
         ],
         [
-            'name' => 'propose_edit',
-            'description' => 'Propose a text change for Noah to approve. It replaces every exact, case-sensitive occurrence of `find` with `replace` in the listed pages. Nothing changes until he clicks Apply. Keep `find` short but unique enough (copy it exactly from search_site or read_page). Only text and simple inline HTML; no scripts, styles or layout changes. Make one proposal per logical change.',
-            'input_schema' => $obj([
-                'summary' => ['type' => 'string', 'description' => 'One plain sentence for Noah, e.g. "Change the phone number to (828) 555-0100 on every page".'],
-                'find' => ['type' => 'string'],
-                'replace' => ['type' => 'string'],
-                'pages' => ['type' => 'array', 'items' => ['type' => 'string'], 'description' => 'Page paths, or ["ALL"] for every page that contains `find`.'],
-            ], ['summary', 'find', 'replace', 'pages']),
-        ],
-        [
             'name' => 'propose_site_switch',
             'description' => 'Propose switching the live site: the old WordPress files move out of public_html into a dated "old-site-..." folder next to it (nothing is deleted, the database is untouched), and the new site goes in. Noah must click to do it. Only after he has made a Hostinger backup.',
             'input_schema' => $obj(['summary' => ['type' => 'string']], ['summary']),
@@ -192,6 +182,8 @@ function server_status(): array
         'wordpress_is_live' => is_file(PUBLIC_HTML . '/wp-config.php') || is_dir(PUBLIC_HTML . '/wp-content'),
         'new_site_is_live' => is_dir(PUBLIC_HTML . '/_astro') && is_file(PUBLIC_HTML . '/index.html'),
         'new_site_bundle_ready' => is_file(__DIR__ . '/site.zip'),
+        // The uploaded zip holds config.php; it must not stay downloadable.
+        'upload_zip_still_in_public_html' => (bool)glob(PUBLIC_HTML . '/emerald-helper*.zip'),
         'zip_support' => class_exists('ZipArchive'),
         'php_version' => PHP_VERSION,
         'last_switch' => $switch,

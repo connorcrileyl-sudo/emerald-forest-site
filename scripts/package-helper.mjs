@@ -49,5 +49,5 @@ zip(dist, siteEntries, join(helper, "site.zip"));
 zip(build, ["helper"], out);
 rmSync(build, { recursive: true, force: true });
 console.log(`Wrote ${out} (${(statSync(out).size / 1e6).toFixed(1)} MB).`);
-console.log("Noah: hPanel > File Manager > public_html > Upload this zip > right-click > Extract.");
+console.log("Noah: hPanel > File Manager > public_html > Upload this zip > right-click > Extract > then DELETE the zip (it holds config.php).");
 console.log("Then he opens https://<domain>/helper/ and enters the setup code.");
