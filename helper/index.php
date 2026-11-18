@@ -1,0 +1,692 @@
+<?php
+// Website helper: a password-protected page on the client's own hosting
+// where Claude walks them through moving to the new site, sets up the
+// contact form, and makes small text edits they approve.
+//
+// Claude is reached through Connor's api-storehouse, which holds the real
+// Anthropic key and enforces this caller's lifetime dollar budget. This
+// file only holds a storehouse token (config.php) that Connor can revoke.
+
+declare(strict_types=1);
+
+header('Cache-Control: no-store');
+header('X-Robots-Tag: noindex, nofollow');
+header('X-Frame-Options: DENY');
+header('Referrer-Policy: no-referrer');
+
+if (!is_file(__DIR__ . '/config.php')) {
+    http_response_code(500);
+    exit('Helper is missing config.php. Ask Connor for a new helper zip.');
+}
+$CFG = require __DIR__ . '/config.php';
+
+define('PUBLIC_HTML', dirname(__DIR__));
+define('DATA', (static function (): string {
+    $outside = dirname(PUBLIC_HTML) . '/helper-data';
+    if (is_dir($outside) || @mkdir($outside, 0700, true)) {
+        if (is_writable($outside)) return $outside;
+    }
+    $inside = __DIR__ . '/data';
+    @mkdir($inside, 0700, true);
+    if (!is_file("$inside/.htaccess")) {
+        file_put_contents("$inside/.htaccess", "Require all denied\nDeny from all\n");
+    }
+    return $inside;
+})());
+
+require __DIR__ . '/tools.php';
+
+const MAX_TOOL_ROUNDS = 12;
+const MAX_CONTEXT_TOKENS = 150000;
+// USD per million tokens, Nov 2026. Only used to update the meter right
+// away; the storehouse's own count is the one that is enforced.
+const RATES = [
+    'claude-opus-5-5' => [4, 20, 0.2],
+    'claude-sonnet-5-5' => [2, 10, 0.1],
+    'claude-haiku-5-5' => [0.5, 2.5, 0.05],
+];
+
+// ---------- session + auth ----------
+
+session_name('helper_sess');
+session_set_cookie_params([
+    'lifetime' => 0, 'path' => dirname($_SERVER['SCRIPT_NAME']) . '/',
+    'secure' => !empty($_SERVER['HTTPS']) || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https',
+    'httponly' => true, 'samesite' => 'Strict',
+]);
+session_start();
+
+function authed(): bool { return !empty($_SESSION['ok']) && ($_SESSION['exp'] ?? 0) > time(); }
+
+function out(array $body, int $status = 200): never
+{
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($body, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+function too_many_logins(): bool
+{
+    $key = hash('sha256', $_SERVER['REMOTE_ADDR'] ?? '');
+    $tries = array_filter(store_read('logins')[$key] ?? [], static fn($t) => $t > time() - 3600);
+    return count($tries) >= 10;
+}
+
+function count_login_failure(): void
+{
+    $all = store_read('logins');
+    $key = hash('sha256', $_SERVER['REMOTE_ADDR'] ?? '');
+    $all[$key] = array_values(array_filter($all[$key] ?? [], static fn($t) => $t > time() - 3600));
+    $all[$key][] = time();
+    store_write('logins', $all);
+}
+
+function login_ok(): void
+{
+    session_regenerate_id(true);
+    $_SESSION['ok'] = true;
+    $_SESSION['exp'] = time() + 12 * 3600;
+}
+
+// ---------- storehouse ----------
+
+function storehouse(string $method, string $path, ?array $body = null): array
+{
+    global $CFG;
+    $ch = curl_init(rtrim($CFG['storehouse_url'], '/') . $path);
+    $headers = [
+        'x-api-key: ' . $CFG['storehouse_token'],
+        'anthropic-version: 2023-06-01',
+        'content-type: application/json',
+    ];
+    if ($body !== null && str_starts_with($path, '/anthropic/')) {
+        $headers[] = 'anthropic-beta: server-side-fallback-2026-07-01';
+    }
+    curl_setopt_array($ch, [
+        CURLOPT_CUSTOMREQUEST => $method,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => $headers,
+        CURLOPT_TIMEOUT => 240,
+        CURLOPT_CONNECTTIMEOUT => 15,
+    ]);
+    if ($body !== null) curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    $raw = curl_exec($ch);
+    $status = (int)curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+    $err = curl_error($ch);
+    curl_close($ch);
+    if ($raw === false) return ['_status' => 0, 'error' => ['message' => "network error: $err"]];
+    $json = json_decode((string)$raw, true);
+    return (is_array($json) ? $json : ['error' => ['message' => substr((string)$raw, 0, 300)]]) + ['_status' => $status];
+}
+
+function meter(): array
+{
+    global $CFG;
+    $r = storehouse('GET', '/_budget');
+    foreach ($r['budgets'] ?? [] as $b) {
+        if (in_array($b['service'], ['anthropic', '*'], true)) {
+            return ['spent' => (float)$b['spent_usd'], 'max' => (float)$b['max_usd']];
+        }
+    }
+    return ['spent' => null, 'max' => (float)($CFG['budget_usd'] ?? 5), 'error' => 'meter unavailable'];
+}
+
+function call_cost(array $resp): float
+{
+    $u = $resp['usage'] ?? [];
+    [$in, $outRate, $read] = RATES[$resp['model'] ?? ''] ?? [10, 50, 1];
+    return (($u['input_tokens'] ?? 0) * $in + ($u['cache_creation_input_tokens'] ?? 0) * $in * 1.25
+        + ($u['cache_read_input_tokens'] ?? 0) * $read + ($u['output_tokens'] ?? 0) * $outRate) / 1e6;
+}
+
+// ---------- Claude ----------
+
+function system_prompt(): string
+{
+    global $CFG;
+    $client = $CFG['client_name'];
+    $biz = $CFG['business'];
+    $domain = $CFG['domain'];
+    $owner = $CFG['owner_name'];
+    return <<<TXT
+You are the website helper for {$client}, who owns {$biz} ({$domain}). {$owner} built {$client} a new website. This page runs on {$client}'s own Hostinger hosting, inside public_html/helper/.
+
+{$client} is not technical. Write short, plain replies: one step at a time, numbered when there are several, no jargon, no code unless he must copy it. Hostinger's menu names change now and then; if he can't find something, ask what he sees on screen.
+
+Every reply costs money from a fixed \$5 allowance shown at the top of the page. Be efficient: don't read pages you don't need, don't repeat yourself, and keep answers brief.
+
+## Your three jobs
+
+1. Move the live site from the old WordPress site to the new one.
+2. Set up the new contact form, replacing SureForms and SureMail.
+3. Afterwards, make small text edits he asks for.
+
+## Moving the site (do these in order; use check_server to see where things stand)
+
+1. Backup first. In hPanel: Websites, then Backups (or Files, then Backups). Make or download a backup of the site files and database. Don't continue until he says it's done.
+2. Mailbox for the form. The old form used SureMail inside WordPress; that stops when WordPress is moved out. The new form sends through an email account on his own domain. In hPanel, Emails: create a mailbox such as website@{$domain} and give it a strong password he writes down. If his plan has no email, tell him to ask {$owner}.
+3. Contact form settings. He clicks "Contact form settings" at the top of this page and fills in: the mailbox address, its password, and the address that should receive enquiries (his Gmail). Mail server smtp.hostinger.com, port 465 are already filled in. NEVER ask for a password in the chat. If he types one here, tell him to change that password and enter the new one only in the settings panel.
+4. Test. Use send_test_email, then ask him to look in that inbox, including Spam. If it fails, explain the error simply (usually a wrong password or address) and have him fix the settings.
+5. Switch. Use propose_site_switch. A button appears; when he clicks it, the old WordPress files move into an "old-site-<date>" folder next to public_html (nothing is deleted, the database is untouched) and the new site goes live. This helper stays where it is.
+6. After the switch: in hPanel, purge the CDN cache (Websites, then Performance or CDN, then Purge cache). Then he opens {$domain} in a private window, checks a few pages, and sends himself a message through the contact page.
+7. SureMail and SureForms now sit, switched off, inside the old-site folder. If SureMail was connected to a paid email service, he can cancel that service. He should leave the old-site folder alone; {$owner} will remove it in a couple of weeks.
+If something looks wrong after the switch, propose_restore_old_site puts the old site back, and he should tell {$owner}.
+
+## Edits
+
+Allowed: wording, phone numbers, email addresses, hours, prices or facts he gives you, fixing typos, and swapping a link. Not allowed: layout, design, colours, new pages, images, scripts, or anything about how the site works. For those, tell him to ask {$owner}, kindly and in one line.
+
+How to edit: search_site to find every place the text appears (a phone number also appears in tel: links and in structured data, written in different formats), then propose_edit once per distinct string. Never invent business facts; use exactly what he gives you. After he applies an edit, remind him that if the live page still shows the old text, he should purge the CDN cache in hPanel. He can always press "Undo last edit".
+
+Notes in brackets at the start of his messages, like [Noah applied ...], are from this page, not from him; use them to know what happened.
+TXT;
+}
+
+function call_claude(array $messages): array
+{
+    global $CFG;
+    // Stored turns go through json_decode(…, true), which turns an empty
+    // tool input {} into []; the API rejects that, so restore the object.
+    foreach ($messages as &$msg) {
+        if (!is_array($msg['content'])) continue;
+        foreach ($msg['content'] as &$blk) {
+            if (($blk['type'] ?? '') === 'tool_use' && ($blk['input'] ?? null) === []) $blk['input'] = new stdClass();
+        }
+        unset($blk);
+    }
+    unset($msg);
+    return storehouse('POST', '/anthropic/v1/messages', [
+        'model' => $CFG['model'] ?? 'claude-opus-5-5',
+        'max_tokens' => 8000,
+        'system' => [['type' => 'text', 'text' => system_prompt(), 'cache_control' => ['type' => 'ephemeral']]],
+        'tools' => tool_definitions(),
+        'messages' => $messages,
+        'output_config' => ['effort' => 'medium'],
+        'cache_control' => ['type' => 'ephemeral'],
+        'fallbacks' => 'default',
+    ]);
+}
+
+function api_error_text(array $r): string
+{
+    $msg = (string)($r['error']['message'] ?? $r['error'] ?? 'unknown error');
+    if (($r['_status'] ?? 0) === 429 && str_contains($msg, 'budget')) {
+        return 'The $5 allowance for this helper is used up. Ask ' . ($GLOBALS['CFG']['owner_name'] ?? 'Connor') . ' if you need more.';
+    }
+    if (($r['_status'] ?? 0) === 429) return 'Too many requests right now. Wait a minute and try again.';
+    return 'The helper could not reach Claude (' . ($r['_status'] ?? 0) . '): ' . mb_substr($msg, 0, 200);
+}
+
+function chat_turn(string $text): array
+{
+    $chat = store_read('chat', ['messages' => [], 'display' => [], 'last_input' => 0]);
+    if (($chat['last_input'] ?? 0) > MAX_CONTEXT_TOKENS) {
+        return ['error' => 'This conversation has got long, which makes every reply cost more. Press "New chat" to start fresh.'];
+    }
+    $m = meter();
+    if ($m['spent'] !== null && $m['spent'] >= $m['max']) {
+        return ['error' => api_error_text(['_status' => 429, 'error' => ['message' => 'budget']])];
+    }
+
+    $content = [];
+    $notes = store_read('notes');
+    if ($notes) {
+        $content[] = ['type' => 'text', 'text' => '[' . implode(' ', $notes) . ']'];
+        store_write('notes', []);
+    }
+    $content[] = ['type' => 'text', 'text' => $text];
+    $chat['messages'][] = ['role' => 'user', 'content' => $content];
+    $chat['display'][] = ['role' => 'user', 'text' => $text];
+
+    $spent = 0.0;
+    $replyParts = [];
+    $error = null;
+    for ($round = 0; $round < MAX_TOOL_ROUNDS; $round++) {
+        $resp = call_claude($chat['messages']);
+        if (!empty($resp['error']) || !isset($resp['content'])) {
+            $error = api_error_text($resp);
+            break;
+        }
+        $spent += call_cost($resp);
+        $u = $resp['usage'] ?? [];
+        $chat['last_input'] = ($u['input_tokens'] ?? 0) + ($u['cache_read_input_tokens'] ?? 0) + ($u['cache_creation_input_tokens'] ?? 0);
+        if (!$resp['content']) {
+            $replyParts[] = ($resp['stop_reason'] ?? '') === 'refusal'
+                ? 'Sorry, I can\'t help with that one. Please ask ' . ($GLOBALS['CFG']['owner_name'] ?? 'Connor') . '.'
+                : '(No answer came back. Please try again.)';
+            break;
+        }
+        $chat['messages'][] = ['role' => 'assistant', 'content' => $resp['content']];
+
+        $toolResults = [];
+        foreach ($resp['content'] as $block) {
+            if (($block['type'] ?? '') === 'text' && trim($block['text']) !== '') $replyParts[] = $block['text'];
+            if (($block['type'] ?? '') === 'tool_use') {
+                $result = run_tool((string)$block['name'], is_array($block['input'] ?? null) ? $block['input'] : []);
+                $toolResults[] = [
+                    'type' => 'tool_result', 'tool_use_id' => $block['id'],
+                    'content' => json_encode($result, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+                    'is_error' => isset($result['error']),
+                ];
+            }
+        }
+        if ($toolResults) {
+            $chat['messages'][] = ['role' => 'user', 'content' => $toolResults];
+        }
+
+        $stop = $resp['stop_reason'] ?? '';
+        if ($stop === 'refusal') {
+            $replyParts[] = 'Sorry, I can\'t help with that one. Please ask ' . ($GLOBALS['CFG']['owner_name'] ?? 'Connor') . '.';
+            break;
+        }
+        if ($stop === 'tool_use' || $stop === 'pause_turn') continue;
+        if ($stop === 'max_tokens') $replyParts[] = '(My answer was cut short. Ask me to continue.)';
+        break;
+    }
+
+    $reply = trim(implode("\n\n", $replyParts));
+    if ($reply !== '') $chat['display'][] = ['role' => 'assistant', 'text' => $reply];
+    if ($error) $chat['display'][] = ['role' => 'error', 'text' => $error];
+    store_write('chat', $chat);
+    log_line('usage.log', ['turn_cost_estimate' => round($spent, 4)]);
+
+    if ($m['spent'] !== null) $m['spent'] += $spent;
+    return ['reply' => $reply, 'error' => $error, 'meter' => $m];
+}
+
+// ---------- API ----------
+
+$api = $_GET['api'] ?? null;
+if ($api !== null) {
+    $isPost = ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST';
+    // Same-site JSON requests only (blocks cross-site form posts).
+    if ($isPost && ($_SERVER['HTTP_X_HELPER'] ?? '') !== '1') out(['error' => 'bad request'], 400);
+    $in = $isPost ? (json_decode((string)file_get_contents('php://input'), true) ?: []) : [];
+    $auth = store_read('auth', null);
+
+    if ($api === 'state') {
+        if (!authed()) out(['authed' => false, 'needs_setup' => !$auth]);
+        $chat = store_read('chat', ['display' => []]);
+        $cfg = ef_form_config_raw();
+        out([
+            'authed' => true,
+            'client' => $CFG['client_name'],
+            'meter' => meter(),
+            'display' => $chat['display'],
+            'pending' => array_values(store_read('pending')),
+            'can_undo' => (bool)array_filter(store_read('history'), static fn($h) => !$h['undone']),
+            'form' => $cfg ? [
+                'smtp_host' => $cfg['smtp_host'] ?? '', 'smtp_port' => $cfg['smtp_port'] ?? 465,
+                'smtp_user' => $cfg['smtp_user'] ?? '', 'to' => $cfg['to'] ?? '',
+                'from_name' => $cfg['from_name'] ?? '', 'has_pass' => !empty($cfg['smtp_pass']),
+            ] : null,
+        ]);
+    }
+    if (!$isPost) out(['error' => 'POST only'], 405);
+
+    if ($api === 'setup') {
+        if ($auth) out(['error' => 'Already set up. Log in instead.'], 400);
+        if (too_many_logins()) out(['error' => 'Too many tries. Wait an hour.'], 429);
+        if (!hash_equals((string)$CFG['setup_code'], trim((string)($in['code'] ?? '')))) {
+            count_login_failure();
+            out(['error' => 'That setup code is not right.'], 403);
+        }
+        $pw = (string)($in['password'] ?? '');
+        if (mb_strlen($pw) < 10) out(['error' => 'Use at least 10 characters.'], 400);
+        store_write('auth', ['hash' => password_hash($pw, PASSWORD_DEFAULT), 'at' => date('c')]);
+        login_ok();
+        out(['ok' => true]);
+    }
+    if ($api === 'login') {
+        if (!$auth) out(['error' => 'Not set up yet.'], 400);
+        if (too_many_logins()) out(['error' => 'Too many tries. Wait an hour.'], 429);
+        if (!password_verify((string)($in['password'] ?? ''), $auth['hash'])) {
+            count_login_failure();
+            out(['error' => 'Wrong password.'], 403);
+        }
+        login_ok();
+        out(['ok' => true]);
+    }
+    if (!authed()) out(['error' => 'Please log in again.'], 401);
+
+    switch ($api) {
+        case 'logout':
+            $_SESSION = [];
+            session_destroy();
+            out(['ok' => true]);
+        case 'chat':
+            $text = trim(mb_substr((string)($in['message'] ?? ''), 0, 4000));
+            if ($text === '') out(['error' => 'Type a message first.'], 400);
+            $lock = fopen(DATA . '/chat.lock', 'c');
+            if (!flock($lock, LOCK_EX | LOCK_NB)) out(['error' => 'Still working on your last message.'], 409);
+            session_write_close(); // don't block other requests while Claude thinks
+            $res = chat_turn($text);
+            flock($lock, LOCK_UN);
+            out($res + ['pending' => array_values(store_read('pending'))]);
+        case 'newchat':
+            store_write('chat', ['messages' => [], 'display' => [], 'last_input' => 0]);
+            store_write('notes', []);
+            out(['ok' => true]);
+        case 'apply':
+            out(apply_pending((string)($in['id'] ?? '')) + ['pending' => array_values(store_read('pending'))]);
+        case 'discard':
+            discard_pending((string)($in['id'] ?? ''));
+            out(['ok' => true, 'pending' => array_values(store_read('pending'))]);
+        case 'undo':
+            out(undo_last_edit());
+        case 'form':
+            $err = write_form_config($in);
+            if ($err) out(['error' => $err], 400);
+            add_note('Noah saved the contact form settings.');
+            out(['ok' => true]);
+        case 'password':
+            if (!password_verify((string)($in['old'] ?? ''), $auth['hash'])) out(['error' => 'Current password is wrong.'], 403);
+            if (mb_strlen((string)($in['new'] ?? '')) < 10) out(['error' => 'Use at least 10 characters.'], 400);
+            store_write('auth', ['hash' => password_hash((string)$in['new'], PASSWORD_DEFAULT), 'at' => date('c')]);
+            out(['ok' => true]);
+    }
+    out(['error' => 'unknown action'], 404);
+}
+
+// ---------- page ----------
+header('Content-Type: text/html; charset=utf-8');
+?><!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Website Helper</title>
+<style>
+:root {
+  --bg: #f6f5f1; --panel: #ffffff; --text: #1f2a24; --muted: #5b675f;
+  --line: #dcdcd4; --accent: #2f5d45; --accent-text: #ffffff;
+  --warn: #9a5b00; --bad: #a3262a; --you: #e6efe9;
+  --meter-bg: #e4e4dc; --meter-fill: #2f5d45;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141816; --panel: #1d2320; --text: #e8ece9; --muted: #a2ada6;
+    --line: #333b37; --accent: #7cc39b; --accent-text: #0f1512;
+    --warn: #e0a54a; --bad: #ef7a7d; --you: #24312a;
+    --meter-bg: #2b322e; --meter-fill: #7cc39b;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 17px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+.wrap { max-width: 46rem; margin: 0 auto; padding: 0 16px 24px; }
+header { position: sticky; top: 0; z-index: 2; background: var(--bg);
+  border-bottom: 1px solid var(--line); padding: 12px 0 10px; }
+.top { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.top h1 { font-size: 1.05rem; margin: 0 auto 0 0; }
+.meter { margin-top: 8px; }
+.meter .bar { height: 10px; border-radius: 6px; background: var(--meter-bg); overflow: hidden; }
+.meter .fill { height: 100%; width: 0; background: var(--meter-fill); transition: width .4s; }
+.meter .label { font-size: .85rem; color: var(--muted); margin-top: 3px; }
+.meter.low .fill { background: var(--warn); }
+button, .btn { font: inherit; font-size: .9rem; border: 1px solid var(--line);
+  background: var(--panel); color: var(--text); border-radius: 8px;
+  padding: 6px 12px; cursor: pointer; }
+button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: default; }
+#log { display: flex; flex-direction: column; gap: 12px; padding: 16px 0; }
+.msg { max-width: 75ch; padding: 10px 14px; border-radius: 12px; background: var(--panel);
+  border: 1px solid var(--line); overflow-wrap: anywhere; }
+.msg.user { align-self: flex-end; background: var(--you); }
+.msg.error { border-color: var(--bad); color: var(--bad); }
+.msg p { margin: 0 0 .6em; } .msg p:last-child { margin: 0; }
+.msg ol, .msg ul { margin: 0 0 .6em; padding-left: 1.3em; }
+.msg code { font-size: .9em; background: var(--bg); padding: 1px 4px; border-radius: 4px; }
+.starters { display: flex; flex-wrap: wrap; gap: 8px; }
+.card { border: 2px solid var(--accent); border-radius: 12px; padding: 12px 14px;
+  background: var(--panel); margin-bottom: 10px; }
+.card h3 { margin: 0 0 6px; font-size: 1rem; }
+.card .diff { font: .85rem/1.4 ui-monospace, Consolas, monospace; white-space: pre-wrap;
+  overflow-wrap: anywhere; max-height: 10rem; overflow: auto; padding: 6px 8px;
+  border-radius: 6px; margin: 4px 0; background: var(--bg); }
+.card .row { display: flex; gap: 8px; margin-top: 8px; }
+.small { font-size: .85rem; color: var(--muted); }
+form.ask { display: flex; gap: 8px; position: sticky; bottom: 0; background: var(--bg);
+  padding: 10px 0 14px; border-top: 1px solid var(--line); }
+form.ask textarea { flex: 1; font: inherit; resize: vertical; min-height: 2.8em; max-height: 12em;
+  padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line);
+  background: var(--panel); color: var(--text); }
+.gate { max-width: 26rem; margin: 12vh auto; padding: 0 16px; }
+.gate input, dialog input { width: 100%; font: inherit; padding: 8px 10px; margin: 4px 0 12px;
+  border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--text); }
+label { font-size: .9rem; color: var(--muted); }
+dialog { border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
+  color: var(--text); max-width: min(30rem, calc(100vw - 32px)); padding: 18px; }
+dialog::backdrop { background: rgba(0,0,0,.4); }
+.err { color: var(--bad); min-height: 1.4em; }
+.thinking { color: var(--muted); font-style: italic; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<dialog id="formDlg">
+  <h2 style="margin-top:0;font-size:1.1rem">Contact form settings</h2>
+  <p class="small">The password is saved privately on your hosting and is never sent to the AI.</p>
+  <label>Website mailbox (the address you created in hPanel)</label>
+  <input id="f_user" type="email" autocomplete="off" placeholder="website@yourdomain.com">
+  <label>Mailbox password <span id="f_passnote"></span></label>
+  <input id="f_pass" type="password" autocomplete="new-password">
+  <label>Send enquiries to (your usual email)</label>
+  <input id="f_to" type="email" autocomplete="off">
+  <details><summary class="small">Mail server (normally leave as is)</summary>
+    <label>Server</label><input id="f_host" value="smtp.hostinger.com">
+    <label>Port</label><input id="f_port" value="465" inputmode="numeric">
+  </details>
+  <p class="err" id="f_err"></p>
+  <div class="row" style="display:flex;gap:8px;justify-content:flex-end">
+    <button type="button" onclick="formDlg.close()">Cancel</button>
+    <button type="button" class="primary" id="f_save">Save</button>
+  </div>
+</dialog>
+
+<script>
+const app = document.getElementById('app');
+let state = null, busy = false;
+
+async function api(name, body) {
+  const opt = body === undefined ? {} : {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Helper': '1' },
+    body: JSON.stringify(body)
+  };
+  try {
+    const r = await fetch('?api=' + name, opt);
+    return await r.json();
+  } catch (e) { return { error: 'Could not reach the helper. Check your connection.' }; }
+}
+
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// Small, safe Markdown: paragraphs, numbered and bullet lists, **bold**, `code`.
+function md(text) {
+  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/`([^`]+)`/g, '<code>$1</code>');
+  return text.split(/\n{2,}/).map(block => {
+    const lines = block.split('\n');
+    if (lines.every(l => /^\s*\d+[.)]\s/.test(l))) return '<ol>' + lines.map(l => '<li>' + inline(l.replace(/^\s*\d+[.)]\s/, '')) + '</li>').join('') + '</ol>';
+    if (lines.every(l => /^\s*[-*]\s/.test(l))) return '<ul>' + lines.map(l => '<li>' + inline(l.replace(/^\s*[-*]\s/, '')) + '</li>').join('') + '</ul>';
+    return '<p>' + lines.map(inline).join('<br>') + '</p>';
+  }).join('');
+}
+
+function money(n) { return '$' + Number(n).toFixed(2); }
+
+function gate(needsSetup) {
+  app.innerHTML = `<div class="gate">
+    <h1 style="font-size:1.3rem">Website Helper</h1>
+    ${needsSetup ? `<p>First time here. Enter the setup code you were given, then choose a password.</p>
+      <label>Setup code</label><input id="g_code" autocomplete="off">
+      <label>New password (10+ characters)</label><input id="g_pw" type="password" autocomplete="new-password">`
+    : `<label>Password</label><input id="g_pw" type="password" autocomplete="current-password">`}
+    <p class="err" id="g_err"></p>
+    <button class="primary" id="g_go">${needsSetup ? 'Set password' : 'Log in'}</button></div>`;
+  const go = async () => {
+    const body = { password: document.getElementById('g_pw').value };
+    if (needsSetup) body.code = document.getElementById('g_code').value;
+    const r = await api(needsSetup ? 'setup' : 'login', body);
+    if (r.error) document.getElementById('g_err').textContent = r.error; else load();
+  };
+  document.getElementById('g_go').onclick = go;
+  document.getElementById('g_pw').onkeydown = e => { if (e.key === 'Enter') go(); };
+}
+
+function renderMeter(m) {
+  const el = document.getElementById('meter');
+  if (!el) return;
+  if (m.spent === null) { el.querySelector('.label').textContent = 'Usage meter unavailable right now'; return; }
+  const pct = Math.min(100, (m.spent / m.max) * 100);
+  el.querySelector('.fill').style.width = pct + '%';
+  el.classList.toggle('low', m.max - m.spent < 1);
+  el.querySelector('.label').textContent =
+    `${money(m.spent)} of ${money(m.max)} used · ${money(Math.max(0, m.max - m.spent))} left`;
+}
+
+function shell() {
+  app.innerHTML = `<header><div class="wrap">
+      <div class="top"><h1>Website Helper</h1>
+        <button id="b_form">Contact form settings</button>
+        <button id="b_undo">Undo last edit</button>
+        <button id="b_new">New chat</button>
+        <button id="b_out">Log out</button></div>
+      <div class="meter" id="meter"><div class="bar"><div class="fill"></div></div><div class="label">Checking usage…</div></div>
+    </div></header>
+    <main class="wrap"><div id="log"></div><div id="pending"></div>
+      <form class="ask" id="ask"><textarea id="q" rows="2" placeholder="Ask the helper…"></textarea>
+      <button class="primary" id="send">Send</button></form></main>`;
+  document.getElementById('b_form').onclick = openForm;
+  document.getElementById('b_undo').onclick = async () => {
+    const r = await api('undo', {});
+    addMsg(r.error ? 'error' : 'assistant', r.error || `Undone: ${r.undone}. If the live site still shows it, purge the CDN cache in hPanel.`);
+    load(true);
+  };
+  document.getElementById('b_new').onclick = async () => { await api('newchat', {}); load(); };
+  document.getElementById('b_out').onclick = async () => { await api('logout', {}); load(); };
+  const q = document.getElementById('q');
+  document.getElementById('ask').onsubmit = e => { e.preventDefault(); send(q.value); };
+  q.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(q.value); } };
+}
+
+function addMsg(role, text) {
+  const d = document.createElement('div');
+  d.className = 'msg ' + role;
+  d.innerHTML = role === 'user' ? esc(text).replace(/\n/g, '<br>') : md(text);
+  document.getElementById('log').appendChild(d);
+  d.scrollIntoView({ block: 'end' });
+  return d;
+}
+
+function renderLog(display) {
+  const log = document.getElementById('log');
+  log.innerHTML = '';
+  if (!display.length) {
+    addMsg('assistant', `Hi ${state.client}. I can help you move to your new website, set up the contact form, and make small changes to your site's text afterwards.\n\nThe bar at the top shows how much of your $5 allowance is used.`);
+    const s = document.createElement('div');
+    s.className = 'starters';
+    for (const t of ['Help me move to my new website', 'Set up my contact form', 'I want to change something on my site']) {
+      const b = document.createElement('button');
+      b.textContent = t; b.onclick = () => send(t);
+      s.appendChild(b);
+    }
+    log.appendChild(s);
+  }
+  for (const m of display) addMsg(m.role, m.text);
+}
+
+function renderPending(list) {
+  const box = document.getElementById('pending');
+  box.innerHTML = '';
+  for (const p of list) {
+    const c = document.createElement('div');
+    c.className = 'card';
+    let body = '';
+    if (p.type === 'edit') {
+      const pages = Object.keys(p.files);
+      const n = Object.values(p.files).reduce((a, b) => a + b, 0);
+      body = `<div class="small">Change ${n} place${n > 1 ? 's' : ''} on ${pages.length} page${pages.length > 1 ? 's' : ''}</div>
+        <div class="small">Now:</div><div class="diff">${esc(p.find)}</div>
+        <div class="small">Becomes:</div><div class="diff">${esc(p.replace)}</div>`;
+    } else if (p.type === 'switch') {
+      body = `<p class="small">Your old WordPress site moves into a backup folder (nothing is deleted) and the new site goes live. Only do this after your Hostinger backup and a working test email.</p>`;
+    } else {
+      body = `<p class="small">The new site moves out and the old WordPress site comes back.</p>`;
+    }
+    const label = p.type === 'edit' ? 'Apply' : p.type === 'switch' ? 'Switch to the new site' : 'Put the old site back';
+    c.innerHTML = `<h3>${esc(p.summary)}</h3>${body}
+      <div class="row"><button class="primary">${label}</button><button>Discard</button></div>`;
+    const [yes, no] = c.querySelectorAll('button');
+    yes.onclick = async () => {
+      yes.disabled = no.disabled = true;
+      if (p.type !== 'edit') yes.textContent = 'Working…';
+      const r = await api('apply', { id: p.id });
+      addMsg(r.error ? 'error' : 'assistant', r.error || ('Done. ' + (r.note || '')));
+      renderPending(r.pending || []);
+      document.getElementById('b_undo').disabled = false;
+    };
+    no.onclick = async () => { const r = await api('discard', { id: p.id }); renderPending(r.pending || []); };
+    box.appendChild(c);
+  }
+}
+
+async function send(text) {
+  text = text.trim();
+  if (!text || busy) return;
+  busy = true;
+  const q = document.getElementById('q'), btn = document.getElementById('send');
+  q.value = ''; btn.disabled = true;
+  document.querySelector('.starters')?.remove();
+  addMsg('user', text);
+  const wait = addMsg('assistant', 'Thinking…');
+  wait.classList.add('thinking');
+  const r = await api('chat', { message: text });
+  wait.remove();
+  if (r.reply) addMsg('assistant', r.reply);
+  if (r.error) addMsg('error', r.error);
+  if (r.meter) renderMeter(r.meter);
+  if (r.pending) renderPending(r.pending);
+  busy = false; btn.disabled = false; q.focus();
+}
+
+function openForm() {
+  const f = state.form || {};
+  document.getElementById('f_user').value = f.smtp_user || '';
+  document.getElementById('f_to').value = f.to || '';
+  document.getElementById('f_host').value = f.smtp_host || 'smtp.hostinger.com';
+  document.getElementById('f_port').value = f.smtp_port || 465;
+  document.getElementById('f_pass').value = '';
+  document.getElementById('f_passnote').textContent = f.has_pass ? '(saved; leave blank to keep it)' : '';
+  document.getElementById('f_err').textContent = '';
+  document.getElementById('formDlg').showModal();
+}
+document.getElementById('f_save').onclick = async () => {
+  const r = await api('form', {
+    smtp_user: document.getElementById('f_user').value, smtp_pass: document.getElementById('f_pass').value,
+    to: document.getElementById('f_to').value, smtp_host: document.getElementById('f_host').value,
+    smtp_port: document.getElementById('f_port').value,
+  });
+  if (r.error) { document.getElementById('f_err').textContent = r.error; return; }
+  document.getElementById('formDlg').close();
+  addMsg('assistant', 'Saved. Ask me to send a test email.');
+  load(true);
+};
+
+async function load(keepLog) {
+  const s = await api('state');
+  if (s.error && !('authed' in s)) { app.innerHTML = `<div class="gate"><p class="err">${esc(s.error)}</p></div>`; return; }
+  if (!s.authed) { state = null; return gate(s.needs_setup); }
+  const first = !state;
+  state = s;
+  if (first || !keepLog) { shell(); renderLog(s.display); }
+  renderMeter(s.meter);
+  renderPending(s.pending);
+  document.getElementById('b_undo').disabled = !s.can_undo;
+}
+load();
+</script>
+</body>
+</html>

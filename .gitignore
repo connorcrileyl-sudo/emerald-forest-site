@@ -28,3 +28,8 @@ pnpm-debug.log*
 
 # check:pages screenshots
 .site-check/
+
+# website helper: real config (token, setup code) and packaged zips
+helper/config.php
+.helper-build/
+emerald-helper*.zip
