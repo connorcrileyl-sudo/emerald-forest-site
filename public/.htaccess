@@ -1,8 +1,17 @@
 # Old WordPress URLs -> new site (Hostinger / Apache / LiteSpeed).
 # /about/, /contact/ and /services/ keep their addresses.
 RewriteEngine On
-RewriteRule ^(sample-page|hello-world|post-[123]|blog|feed|category/uncategorized)/?$ / [R=301,L]
-RewriteRule ^form/simple-contact-form/?$ /contact/ [R=301,L]
+RewriteRule ^(home|sample-page|hello-world|post-[123]|blog|category/uncategorized)/?$ / [R=301,L]
+RewriteRule ^form(/simple-contact-form)?/?$ /contact/ [R=301,L]
+# Feeds (/feed/, /comments/feed/, /<post>/feed/), date archives
+# (/2026/, /2026/04/) and author pages.
+RewriteRule ^(.+/)?feed/?$ / [R=301,L]
+RewriteRule ^20[0-9][0-9](/.*)?$ / [R=301,L]
+RewriteRule ^author(/.*)?$ / [R=301,L]
+# WordPress short links (/?p=1, /?page_id=2) and Elementor kit pages.
+# The trailing ? drops the query string.
+RewriteCond %{QUERY_STRING} (^|&)(p|page_id|elementor_library)= [NC]
+RewriteRule ^$ /? [R=301,L]
 RewriteRule ^(sitemap_index\.xml|.*-sitemap-1\.xml)$ /sitemap-index.xml [R=301,L]
 ErrorDocument 404 /404.html
 
