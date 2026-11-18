@@ -1,0 +1,8 @@
+
+
+# Esteemed brand kit: let the poster creator and the analytics
+# dashboard (other sites) read the brand file and its fonts.
+/brand.json
+  Access-Control-Allow-Origin: *
+/brand/fonts/*
+  Access-Control-Allow-Origin: *

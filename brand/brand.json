@@ -1,0 +1,419 @@
+{
+  "version": 1,
+  "updated": "2026-11-18",
+  "status": "draft",
+  "business": {
+    "name": "Emerald Forest Furnishings",
+    "industry": "Custom woodworking and finish carpentry",
+    "description": "A woodworking and finish carpentry shop in Black Mountain, North Carolina, run by Noah. Handmade staircases, stair railings, doors, kitchens, cabinets, built-ins, furniture and pergolas from local hardwood.",
+    "audience": "Homeowners and builders in Black Mountain, Asheville, Weaverville, Swannanoa, Montreat, Fairview, Hendersonville and Canton who want something made to fit their home rather than bought off the shelf.",
+    "offer": "Custom staircases, stair railings, solid hardwood doors, kitchens, cabinets and built-ins, furniture, pergolas and finish carpentry. Lumber grown and milled in Western North Carolina. Free estimates. Open to custom projects beyond the list.",
+    "why": "People hire Noah for pieces that can't be bought: a spiral stair, an arched door, a built-in that fits an odd alcove. Posts should lead with the real finished work and the local wood, because the craftsmanship is the proof."
+  },
+  "theme": {
+    "name": "Gold leaf on forest black",
+    "why": "The site sets lit-metal gold headings and the logo's gold and emerald tree on near-black backgrounds, like a carved and gilded shop sign. It feels old-world, handmade and expensive without being flashy, which fits heirloom woodwork."
+  },
+  "voice": {
+    "tone": [
+      "warm",
+      "plain-spoken",
+      "local",
+      "proud of the craft"
+    ],
+    "why": "The site talks like a craftsman at his bench: what was built, what wood, where, and how it was made, in short plain sentences. Homeowners trust a real person showing real work far more than marketing language.",
+    "do": [
+      "Say what was built, what wood it is, and the town it's in.",
+      "Mention local lumber from Western North Carolina sawmills when it applies.",
+      "Write as \"we\", the shop, the way the website does.",
+      "Keep captions short: two to four sentences, then a call to action.",
+      "End with a simple call to action: call (828) 424-5401 or visit emeraldforestfurnishings.com for a free estimate."
+    ],
+    "dont": [
+      "Don't name a finish product or brand, or say a finish is always zero-VOC. Say we choose the safest, most eco-friendly finish for each job, local where possible.",
+      "Don't promise warranties, deposits, prices or turnaround times.",
+      "Don't use hype words like \"stunning\", \"game-changer\" or \"elevate your space\".",
+      "Don't use more than a handful of emoji, and none in headlines.",
+      "Don't claim work Noah didn't do."
+    ],
+    "samples": [
+      "Fine Carpentry and Woodworking",
+      "Handmade staircases, doors and furniture from local lumber, for homes around Black Mountain.",
+      "Handcrafted Quality in Every Detail",
+      "Every piece starts with a conversation about what you want.",
+      "Lumber grown and milled in Western North Carolina, from local sawmills."
+    ]
+  },
+  "colors": {
+    "why": "Gold and near-black come from the logo: gold lettering and frame on black, with an emerald tree. The website keeps the same pairing so everything reads as one brand.",
+    "primary": {
+      "role": "Gold: headings, buttons, icons and highlights (the site's --brand-500).",
+      "why": "The gold is taken straight from the logo lettering, so headlines and buttons match the mark and stand out on the dark background."
+    },
+    "accent": {
+      "role": "Same gold as primary. The emerald green appears only inside the logo's tree and as a faint glow, never as text.",
+      "why": "One gold for everything that needs attention keeps posts calm and expensive-looking; the green belongs to the logo and would compete if used on text."
+    },
+    "neutral": {
+      "role": "Near-black backgrounds with a faint green tint (--dark-*), warm parchment for body text (#d6cdb9), cream (--light-*) for rare light layouts.",
+      "why": "The darks lean very slightly green, like a forest at night, and the body text is warm parchment rather than pure white, so nothing looks cold or digital."
+    }
+  },
+  "fonts": {
+    "why": "A classic book serif for headings and a clean geometric sans for everything else: heritage craft on top, easy reading underneath. Both are free Google Fonts, so Canva and other tools have them.",
+    "heading": {
+      "role": "Headlines and titles, in gold, Title Case.",
+      "why": "Libre Caslon Text is an 18th-century style serif, which suits handmade, traditional woodwork and echoes the carved feel of the logo.",
+      "source": "Google Fonts",
+      "license": "SIL Open Font License"
+    },
+    "body": {
+      "role": "Captions, body text, small labels (uppercase, spaced out) and buttons.",
+      "why": "Jost is a clean, slightly geometric sans that stays readable small on phones, where most people see social posts.",
+      "source": "Google Fonts",
+      "license": "SIL Open Font License"
+    }
+  },
+  "spacing": {
+    "why": "Lumos spacing is fluid; these are rough pixel values for things that aren't web pages, like posters.",
+    "unitPx": 4,
+    "sectionPaddingPx": 96,
+    "gutterPx": 24,
+    "maxContentWidthPx": 1120
+  },
+  "radii": {
+    "why": "Most corners are square, like cut timber. The one signature shape is a photo frame with a large rounded top-right and bottom-left corner and square other two, edged in a thin gold line.",
+    "control": "0 (square)",
+    "card": "0 (square); feature photos use the signature corners: 0 top-left, about 8% of the width top-right, 0 bottom-right, about 8% bottom-left",
+    "button": "0 (square), solid gold with near-black text"
+  },
+  "logo": {
+    "why": "The gold-framed emerald tree over the gold wordmark is the shop's sign. Using it the same way everywhere makes every post recognisable as Noah's work.",
+    "variants": [
+      {
+        "name": "Standard (full colour)",
+        "file": "brand/logo.svg",
+        "useOn": "Dark or black backgrounds. The gold and emerald original; the letter holes are filled black, so not on light backgrounds. PNG: brand/logo.png."
+      },
+      {
+        "name": "Standard on black",
+        "file": "brand/logo-on-black.png",
+        "useOn": "Anywhere, including light backgrounds and busy photos; it brings its own black square."
+      },
+      {
+        "name": "Light (one colour, cream)",
+        "file": "brand/logo-light.svg",
+        "useOn": "Dark backgrounds and over dark parts of photos, when the full colour logo is too busy. PNG: brand/logo-light.png."
+      },
+      {
+        "name": "Dark (one colour, forest black)",
+        "file": "brand/logo-dark.svg",
+        "useOn": "Light and cream backgrounds, light photos, and anything printed on white paper. PNG: brand/logo-dark.png."
+      }
+    ],
+    "clearSpace": "Keep empty space around the logo at least a fifth of its width.",
+    "minWidthPx": 120,
+    "placement": "A corner or the bottom centre, small. Never stretch, recolour, crop, add effects to, or redraw the logo with AI."
+  },
+  "imagery": {
+    "why": "Noah's own photos of finished pieces and the shop are the proof of the work. They must stay real: a buyer who sees an AI-made staircase and then meets the real one loses trust.",
+    "expectSuppliedImages": true,
+    "treatment": [
+      "Only real photos of Noah's own work, his shop and his lumber.",
+      "Show the wood grain: natural light, true colours, sharp detail shots next to wide shots.",
+      "Warm, slightly dark edits suit the brand; keep wood its real colour."
+    ],
+    "textOverImages": [
+      "Put text on a near-black band or a soft dark gradient over the photo, never straight on busy grain.",
+      "Gold headline, parchment small text."
+    ],
+    "dont": [
+      "Never use AI to generate or change what the work looks like. AI may only add text, the logo, icons or a background band.",
+      "No stock photos presented as Noah's work.",
+      "No heavy filters that change the colour of the wood."
+    ]
+  },
+  "effects": {
+    "why": "Gold on the site is never flat: headings and icons are lit like polished metal, bright at the top, darker through the middle, with a faint reflected light near the bottom and a crisp dark edge underneath so they look slightly raised. Posts should copy this so they look like the website.",
+    "items": [
+      {
+        "name": "Lit gold (large headings)",
+        "use": "Big headlines",
+        "plain": "Vertical gradient top to bottom: #dba743, #c89231 at 30%, #a87824 at 62%, #bd8d38 at 84%, #926722 at the bottom. Then a crisp black shadow 1px down at 60% opacity, plus a soft one 2px down blurred 8px at 35%.",
+        "css": "background: linear-gradient(180deg, #dba743 0%, #c89231 30%, #a87824 62%, #bd8d38 84%, #926722 100%); -webkit-background-clip: text; color: transparent; filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.6)) drop-shadow(0 2px 8px rgb(0 0 0 / 0.35));"
+      },
+      {
+        "name": "Soft gold (small headings and icons)",
+        "use": "Smaller titles, labels and every icon",
+        "plain": "Same idea, gentler: #d29f3e at the top, #c48f32 at 45%, #b3802a at 80%, #bb8a34 at the bottom, with only the crisp black shadow 1px down at 45% opacity.",
+        "css": "background: linear-gradient(180deg, #d29f3e 0%, #c48f32 45%, #b3802a 80%, #bb8a34 100%); -webkit-background-clip: text; color: transparent; filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.45));"
+      },
+      {
+        "name": "Gold button",
+        "use": "Call to action buttons, e.g. Call Now",
+        "plain": "Solid gold with a slight sheen, #dca345 at the top to #b47e2b at the bottom, square corners, near-black text, a thin light line along the top edge and a small dark shadow under it.",
+        "css": "background: linear-gradient(180deg, #dca345 0%, #ca9234 48%, #b47e2b 100%); color: #0a0a0a; border-radius: 0; box-shadow: inset 0 1px 0 rgb(255 214 140 / 0.4), inset 0 -1px 0 rgb(0 0 0 / 0.18), 0 2px 6px rgb(0 0 0 / 0.35);"
+      },
+      {
+        "name": "Gold photo frame",
+        "use": "Feature photos",
+        "plain": "A 2px gold edge going from #e2a948 to #8f6222 diagonally, with the signature corners (big rounded top-right and bottom-left) and a faint warm glow below.",
+        "css": "border: 2px solid transparent; background: linear-gradient(#000,#000) padding-box, linear-gradient(160deg, #e2a948, #a8762a 45%, #d49a40 75%, #8f6222) border-box; border-radius: 0 8% 0 8%; box-shadow: 0 10px 40px -10px rgb(203 144 51 / 0.35);"
+      }
+    ]
+  },
+  "icons": {
+    "why": "Thin, sharp-cornered line icons in the same lit gold as the headings, the same style the website uses. Tools and wood for the craft, house parts for what we build, contact and social icons. Using only this set keeps every post consistent.",
+    "source": "Font Awesome Pro 7, Sharp Light (brand logos: Font Awesome Brands). Each icon comes as SVG and as a 256px-tall transparent PNG with the same name.",
+    "license": "Font Awesome Pro, under Emerald Forest Furnishings' own licence. For his posts and pages; not for reuse by other businesses.",
+    "color": "Already coloured with the lit-gold gradient and soft shadow (see effects). Use on near-black. Never recolour to other hues or multicolour.",
+    "items": [
+      {
+        "name": "hammer",
+        "file": "brand/icons/hammer.svg",
+        "use": "Carpentry, building, work in progress."
+      },
+      {
+        "name": "screwdriver-wrench",
+        "file": "brand/icons/screwdriver-wrench.svg",
+        "use": "Repairs and installation."
+      },
+      {
+        "name": "screwdriver",
+        "file": "brand/icons/screwdriver.svg",
+        "use": "Hardware, fitting and hanging."
+      },
+      {
+        "name": "toolbox",
+        "file": "brand/icons/toolbox.svg",
+        "use": "The shop, tools, behind the scenes."
+      },
+      {
+        "name": "axe",
+        "file": "brand/icons/axe.svg",
+        "use": "Rough lumber, the forest-to-shop story."
+      },
+      {
+        "name": "ruler-triangle",
+        "file": "brand/icons/ruler-triangle.svg",
+        "use": "Made to measure, custom fit (the site uses this one)."
+      },
+      {
+        "name": "ruler-combined",
+        "file": "brand/icons/ruler-combined.svg",
+        "use": "Measuring and layout."
+      },
+      {
+        "name": "pen-ruler",
+        "file": "brand/icons/pen-ruler.svg",
+        "use": "Design and planning stage."
+      },
+      {
+        "name": "tree",
+        "file": "brand/icons/tree.svg",
+        "use": "Local hardwood, Western NC lumber."
+      },
+      {
+        "name": "trees",
+        "file": "brand/icons/trees.svg",
+        "use": "Forests, local sourcing."
+      },
+      {
+        "name": "tree-deciduous",
+        "file": "brand/icons/tree-deciduous.svg",
+        "use": "Hardwood species like oak, walnut, cherry."
+      },
+      {
+        "name": "leaf",
+        "file": "brand/icons/leaf.svg",
+        "use": "Safe, eco-friendly finishes."
+      },
+      {
+        "name": "seedling",
+        "file": "brand/icons/seedling.svg",
+        "use": "Sustainability, new projects."
+      },
+      {
+        "name": "mountain-sun",
+        "file": "brand/icons/mountain-sun.svg",
+        "use": "Black Mountain, the Blue Ridge, local area."
+      },
+      {
+        "name": "house",
+        "file": "brand/icons/house.svg",
+        "use": "Homes, whole-house finish carpentry."
+      },
+      {
+        "name": "stairs",
+        "file": "brand/icons/stairs.svg",
+        "use": "Staircases and railings."
+      },
+      {
+        "name": "door-open",
+        "file": "brand/icons/door-open.svg",
+        "use": "Custom doors."
+      },
+      {
+        "name": "window-frame",
+        "file": "brand/icons/window-frame.svg",
+        "use": "Window and door trim."
+      },
+      {
+        "name": "fence",
+        "file": "brand/icons/fence.svg",
+        "use": "Outdoor work, pergolas, railings."
+      },
+      {
+        "name": "shelves",
+        "file": "brand/icons/shelves.svg",
+        "use": "Shelving and built-ins."
+      },
+      {
+        "name": "table",
+        "file": "brand/icons/table.svg",
+        "use": "Tables and furniture."
+      },
+      {
+        "name": "couch",
+        "file": "brand/icons/couch.svg",
+        "use": "Furniture."
+      },
+      {
+        "name": "chair",
+        "file": "brand/icons/chair.svg",
+        "use": "Chairs and seating."
+      },
+      {
+        "name": "kitchen-set",
+        "file": "brand/icons/kitchen-set.svg",
+        "use": "Kitchens and cabinets."
+      },
+      {
+        "name": "paint-roller",
+        "file": "brand/icons/paint-roller.svg",
+        "use": "Finishing."
+      },
+      {
+        "name": "brush",
+        "file": "brand/icons/brush.svg",
+        "use": "Finishing and detail work."
+      },
+      {
+        "name": "star",
+        "file": "brand/icons/star.svg",
+        "use": "Customer reviews (five in a row)."
+      },
+      {
+        "name": "award-simple",
+        "file": "brand/icons/award-simple.svg",
+        "use": "Quality and integrity (the site uses this one)."
+      },
+      {
+        "name": "quote-left",
+        "file": "brand/icons/quote-left.svg",
+        "use": "Opening a customer quote."
+      },
+      {
+        "name": "hand-holding-heart",
+        "file": "brand/icons/hand-holding-heart.svg",
+        "use": "Care, community, thank-you posts."
+      },
+      {
+        "name": "phone",
+        "file": "brand/icons/phone.svg",
+        "use": "Next to the phone number."
+      },
+      {
+        "name": "envelope",
+        "file": "brand/icons/envelope.svg",
+        "use": "Next to the email address."
+      },
+      {
+        "name": "location-dot",
+        "file": "brand/icons/location-dot.svg",
+        "use": "Next to a town name."
+      },
+      {
+        "name": "camera",
+        "file": "brand/icons/camera.svg",
+        "use": "Photo posts, project galleries."
+      },
+      {
+        "name": "calendar-check",
+        "file": "brand/icons/calendar-check.svg",
+        "use": "Free estimate, booking a visit."
+      },
+      {
+        "name": "instagram",
+        "file": "brand/icons/instagram.svg",
+        "use": "Instagram @emerald_forest_furnishings."
+      },
+      {
+        "name": "facebook",
+        "file": "brand/icons/facebook.svg",
+        "use": "Facebook page."
+      },
+      {
+        "name": "google",
+        "file": "brand/icons/google.svg",
+        "use": "Google reviews."
+      },
+      {
+        "name": "pinterest",
+        "file": "brand/icons/pinterest.svg",
+        "use": "Pinterest, if a page is made."
+      },
+      {
+        "name": "youtube",
+        "file": "brand/icons/youtube.svg",
+        "use": "YouTube, if a channel is made."
+      },
+      {
+        "name": "tiktok",
+        "file": "brand/icons/tiktok.svg",
+        "use": "TikTok, if an account is made."
+      }
+    ]
+  },
+  "creation": {
+    "why": "Posts should feel like the website: one real photo, a short gold headline, plain words and one call to action. Calm and confident, never busy.",
+    "forms": [
+      "Ask what they'd like built, roughly where, and how to reach them, like the site's contact form."
+    ],
+    "posters": [
+      "One real photo, one short gold headline in Libre Caslon Text, one line of Jost underneath.",
+      "Logo small in a corner, phone number and website at the bottom.",
+      "Near-black background or band; lots of empty space."
+    ],
+    "socialPosts": [
+      "Finished project: best photo first, then detail shots of joinery and grain. Caption: what it is, the wood, the town, one detail about how it was made.",
+      "Before and after: same angle both times, labelled Before and After in small uppercase Jost.",
+      "In the shop: lumber, tools, work in progress, with a one-line explanation.",
+      "Customer review: the quote in parchment text on near-black, five gold stars, first name and last initial only.",
+      "Square 1080x1080 or portrait 1080x1350 for Instagram and Facebook feeds; 1080x1920 for stories, with text kept out of the top and bottom 250px."
+    ],
+    "copy": [
+      "Headlines in Title Case, under eight words.",
+      "Add up to five local hashtags, e.g. #BlackMountainNC #AshevilleNC #WNC #Woodworking #CustomCarpentry."
+    ]
+  },
+  "contact": {
+    "phone": "(828) 424-5401",
+    "email": "emerald.forest.furnishings@gmail.com",
+    "address": "",
+    "hours": "",
+    "tagline": "Handcrafted staircases, doors and furniture in Black Mountain, NC",
+    "googleProfileUrl": "",
+    "googlePlaceId": "",
+    "socials": [
+      {
+        "name": "Instagram",
+        "url": "https://www.instagram.com/emerald_forest_furnishings/"
+      },
+      {
+        "name": "Facebook",
+        "url": "https://www.facebook.com/profile.php?id=61574237970112"
+      }
+    ]
+  }
+}

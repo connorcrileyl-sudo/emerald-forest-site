@@ -1,0 +1,16 @@
+{
+  "kit": "esteemed-lumos-kit",
+  "version": "1.0.0",
+  "commit": "8b2eb9b",
+  "installed": "2026-11-18",
+  "files": [
+    "brand/brand.json",
+    "brand/README.md",
+    "scripts/esteemed-brand-check.mjs",
+    "src/esteemed/brand/build.mjs",
+    "src/esteemed/brand/schema.mjs",
+    "src/esteemed/brand/tokens.mjs",
+    "src/pages/brand/fonts/[file].ts",
+    "src/pages/brand.json.ts"
+  ]
+}

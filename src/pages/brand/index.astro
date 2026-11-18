@@ -1,0 +1,360 @@
+---
+/**
+ * /brand/: Noah's brand kit, for making social posts that match the
+ * site with free AI tools (ChatGPT, Gemini) and Canva. Built from the
+ * same data as /brand.json (brand/brand.json + the site's tokens), so it
+ * never drifts. Not in search (NOINDEX_ROUTES) or the nav.
+ */
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import { buildBrand } from "../../esteemed/brand/build.mjs";
+
+// buildBrand is plain JS; its inferred type is too narrow for the scale
+// and summary fields, so treat the result loosely here.
+const b: any = buildBrand(process.cwd(), Astro.site ? Astro.site.origin : "");
+const n = b.colors.neutral.scale;
+
+const swatches = [
+  { name: "Gold", hex: b.colors.primary.hex, use: "Buttons, icons, highlights" },
+  { name: "Heading gold", hex: "#c99432", use: "Headline text (flat version)" },
+  { name: "Forest black", hex: n["900"], use: "Main background" },
+  { name: "Deep forest", hex: n["700"], use: "Bands and panels" },
+  { name: "Parchment", hex: "#d6cdb9", use: "Body text on dark" },
+  { name: "Emerald", hex: "#204c2a", use: "Logo tree only, never text" },
+  { name: "Cream", hex: n["50"], use: "Rare light layouts" },
+];
+
+const prompts = [
+  {
+    title: "Caption for a finished project",
+    text: `Using the Emerald Forest Furnishings brand brief I gave you, write an Instagram and Facebook caption for this project.
+What it is: [e.g. walnut spiral staircase]
+Wood: [e.g. black walnut from a Western NC sawmill]
+Town: [e.g. Black Mountain]
+One detail about how it was made: [e.g. every baluster turned by hand]
+Keep it to 2 to 4 short sentences in our voice, end with a call to action for a free estimate, and add up to 5 local hashtags.`,
+  },
+  {
+    title: "Before and after post",
+    text: `Using the Emerald Forest Furnishings brand brief, write a short before-and-after caption.
+Before: [what was there]
+After: [what we built, wood, town]
+Then tell me exactly how to lay it out in Canva at 1080x1350: where the two photos go, the small uppercase "BEFORE" / "AFTER" labels in Jost, the headline in Libre Caslon Text, colours by hex, and where the logo goes.`,
+  },
+  {
+    title: "Customer review graphic",
+    text: `Using the Emerald Forest Furnishings brand brief, turn this review into a post.
+Review: "[paste the review]"
+Name: [first name and last initial]
+Give me: a shortened quote (under 30 words, no changed meaning), the caption, and a Canva layout at 1080x1080: forest black background, five gold star icons, the quote in parchment Jost, name in small uppercase, logo small at the bottom.`,
+  },
+  {
+    title: "Text and layout for my photo",
+    text: `Using the Emerald Forest Furnishings brand brief, I'm posting this photo: [describe it or upload it].
+Suggest a headline under 8 words in Title Case, one line underneath, and where to put them so they don't cover the work. Use a dark band or gradient behind the text. Do not change, redraw or generate any part of the woodwork itself.`,
+  },
+];
+---
+
+<Layout
+  title="Brand Kit"
+  description="Logo, colours, fonts, icons and AI prompts for Emerald Forest Furnishings social posts."
+>
+  <Section paddingTop="navoverlap" paddingBottom="small">
+    <ContentWrapper>
+      <Heading tag="h1" variant="h1" maxWidth={18}>Brand Kit</Heading>
+      <Paragraph variant="large" maxWidth={44}>
+        Everything you need to make posts that look like the website.
+        Start a chat in free ChatGPT or Gemini, paste the brand brief
+        first, then use a prompt below. Logo, icons, colours and fonts
+        are further down for Canva.
+      </Paragraph>
+    </ContentWrapper>
+  </Section>
+
+  <!-- 1. Brief -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">1. Paste This First</Heading>
+      <Paragraph maxWidth={52}>
+        It tells the AI who you are, how you write and what the brand
+        looks like. Paste it at the start of every new chat.
+      </Paragraph>
+    </ContentWrapper>
+    <div class="kit-copy">
+      <button class="kit-copy_btn" type="button" data-copy="brief">Copy brand brief</button>
+      <pre class="kit-pre" id="brief">{b.summary}</pre>
+    </div>
+  </Section>
+
+  <!-- 2. Prompts -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">2. Then Ask For What You Need</Heading>
+      <Paragraph maxWidth={52}>
+        Fill in the parts in [brackets]. The AI writes the words and the
+        layout; the photos are always your own.
+      </Paragraph>
+    </ContentWrapper>
+    <div class="kit-prompts">
+      {prompts.map((p, i) => (
+        <div class="kit-copy">
+          <h3 class="kit-h">{p.title}</h3>
+          <button class="kit-copy_btn" type="button" data-copy={`prompt-${i}`}>Copy prompt</button>
+          <pre class="kit-pre" id={`prompt-${i}`}>{p.text}</pre>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 3. Logo -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">Logo</Heading>
+      <Paragraph maxWidth={52}>{b.logo.placement} {b.logo.clearSpace}</Paragraph>
+    </ContentWrapper>
+    <div class="kit-grid kit-grid--logos">
+      {b.logo.variants.map((v: any) => {
+        const png = v.file.replace(/\.svg$/, ".png");
+        const isSvg = v.file.endsWith(".svg");
+        return (
+          <div class:list={["kit-tile", v.file.includes("logo-dark") && "kit-tile--light"]}>
+            <img src={`/${png}`} alt="" width="200" height="200" />
+            <span class="kit-tile_name">{v.name}</span>
+            <span class="kit-tile_note">{v.useOn.replace(/ PNG: .*$/, "")}</span>
+            <span class="kit-tile_links">
+              <a href={`/${png}`} download>PNG</a>
+              {isSvg && <a href={`/${v.file}`} download>SVG</a>}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- 4. Colours -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">Colours</Heading>
+      <Paragraph maxWidth={52}>Tap a colour to copy its code, then paste it into Canva's colour picker.</Paragraph>
+    </ContentWrapper>
+    <div class="kit-grid">
+      {swatches.map((s) => (
+        <button class="kit-swatch" type="button" data-hex={s.hex}>
+          <span class="kit-swatch_chip" style={`background:${s.hex}`}></span>
+          <span class="kit-tile_name">{s.name}</span>
+          <span class="kit-swatch_hex">{s.hex}</span>
+          <span class="kit-tile_note">{s.use}</span>
+        </button>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 5. Fonts -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">Fonts</Heading>
+      <Paragraph maxWidth={52}>Both are free and already in Canva: search the names in Canva's font list.</Paragraph>
+    </ContentWrapper>
+    <div class="kit-grid kit-grid--fonts">
+      <div class="kit-tile">
+        <span class="kit-font-sample kit-font-sample--heading">Handmade Walnut Stairs</span>
+        <span class="kit-tile_name">{b.fonts.heading.family}</span>
+        <span class="kit-tile_note">{b.fonts.heading.role}</span>
+      </div>
+      <div class="kit-tile">
+        <span class="kit-font-sample">Lumber grown and milled in Western North Carolina.</span>
+        <span class="kit-tile_name">{b.fonts.body.family}</span>
+        <span class="kit-tile_note">{b.fonts.body.role}</span>
+      </div>
+    </div>
+  </Section>
+
+  <!-- 6. Gold -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">The Gold</Heading>
+      <Paragraph maxWidth={52}>{b.effects?.why}</Paragraph>
+    </ContentWrapper>
+    <div class="kit-grid kit-grid--fonts">
+      {b.effects?.items.map((e: any) => (
+        <div class="kit-tile">
+          <span class="kit-tile_name">{e.name}</span>
+          <span class="kit-tile_note">{e.plain}</span>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 7. Icons -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">Icons</Heading>
+      <Paragraph maxWidth={52}>
+        Tap an icon to download it as a PNG (for Canva and phone apps).
+        SVG versions are next to each one. {b.icons?.license}
+      </Paragraph>
+    </ContentWrapper>
+    <div class="kit-grid kit-grid--icons">
+      {b.icons?.items.map((i: any) => (
+        <div class="kit-icon">
+          <a href={`/${i.file.replace(/\.svg$/, ".png")}`} download title={i.use}>
+            <img src={`/${i.file}`} alt="" width="48" height="48" />
+            <span class="kit-tile_name">{i.name}</span>
+          </a>
+          <span class="kit-tile_note">{i.use} <a href={`/${i.file}`} download>SVG</a></span>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- 8. Rules -->
+  <Section paddingTop="small" paddingBottom="large">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">Never</Heading>
+      <ul class="kit-list">
+        {[...b.imagery.dont, ...b.voice.dont].map((d: string) => <li>{d}</li>)}
+      </ul>
+    </ContentWrapper>
+  </Section>
+</Layout>
+
+<script>
+  const flash = (el: HTMLElement, msg: string) => {
+    const old = el.dataset.label ?? el.textContent ?? "";
+    el.dataset.label = old;
+    el.textContent = msg;
+    setTimeout(() => (el.textContent = old), 1600);
+  };
+  const copy = async (text: string, el: HTMLElement) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      flash(el, "Copied");
+    } catch {
+      flash(el, "Select and copy");
+    }
+  };
+  document.addEventListener("click", (e) => {
+    const t = e.target as HTMLElement;
+    const btn = t.closest<HTMLElement>("[data-copy]");
+    if (btn) copy(document.getElementById(btn.dataset.copy!)?.textContent ?? "", btn);
+    const sw = t.closest<HTMLElement>("[data-hex]");
+    if (sw) copy(sw.dataset.hex!, sw.querySelector(".kit-swatch_hex") as HTMLElement);
+  });
+</script>
+
+<style>
+  .kit-copy,
+  .kit-prompts,
+  .kit-grid {
+    width: 100%;
+  }
+  .kit-copy {
+    position: relative;
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .kit-h {
+    font-family: var(--heading-family);
+    font-size: 1.25rem;
+    color: var(--heading-text);
+  }
+  .kit-copy_btn {
+    justify-self: start;
+    padding: 0.6em 1.1em;
+    font: inherit;
+    font-weight: var(--primary-bold);
+    color: var(--brand-text);
+    background: var(--button-sheen, var(--brand-500));
+    border: 0;
+    box-shadow: var(--button-lift, none);
+    cursor: pointer;
+  }
+  .kit-pre {
+    max-height: 22rem;
+    overflow: auto;
+    padding: var(--space-4);
+    font-family: var(--primary-family);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    background: var(--background-2);
+    border: var(--border-width) solid #1d1a12;
+    max-width: 75ch;
+  }
+  .kit-prompts {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .kit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+  .kit-grid--logos { grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); }
+  .kit-grid--fonts { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+  .kit-grid--icons { grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); }
+  .kit-tile,
+  .kit-swatch,
+  .kit-icon {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    text-decoration: none;
+    background: var(--background-2);
+    border: var(--border-width) solid #1d1a12;
+  }
+  .kit-swatch { cursor: pointer; }
+  .kit-tile--light {
+    background: #faf5e5;
+    color: #060907;
+  }
+  .kit-tile_links {
+    display: flex;
+    gap: var(--space-4);
+    & a { color: var(--heading-text); font-weight: var(--primary-bold); }
+  }
+  .kit-tile--light .kit-tile_links a { color: #7a5512; }
+  .kit-tile img { width: 100%; height: auto; }
+  .kit-icon img { width: 3rem; height: 3rem; }
+  .kit-icon a { color: inherit; text-decoration: none; display: grid; gap: var(--space-2); }
+  .kit-icon .kit-tile_note a { display: inline; color: var(--heading-text); text-decoration: underline; }
+  .kit-swatch_chip {
+    height: 4rem;
+    border: var(--border-width) solid rgb(255 255 255 / 0.12);
+  }
+  .kit-tile,
+  .kit-swatch,
+  .kit-icon { min-width: 0; overflow-wrap: anywhere; }
+  .kit-tile_name { font-weight: var(--primary-bold); }
+  .kit-swatch_hex { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+  .kit-tile_note {
+    font-size: 0.85rem;
+    color: color-mix(in lab, currentcolor 70%, transparent);
+  }
+  .kit-font-sample { font-size: 1.15rem; line-height: 1.3; }
+  .kit-font-sample--heading {
+    font-family: var(--heading-family);
+    font-size: 1.6rem;
+    background: var(--heading-fill);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: var(--heading-shadow);
+  }
+  .kit-list {
+    display: grid;
+    gap: var(--space-2);
+    padding-left: 1.2em;
+    max-width: 65ch;
+  }
+</style>

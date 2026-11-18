@@ -16,18 +16,36 @@ export default defineConfig({
     llmsTxt(),
     noTodo(),
   ],
+  // Both fonts are OFL, kept in the repo (latin subset, copied from
+  // what Google served) so builds never fetch them and /brand.json can
+  // hand the same files to the poster tools.
   fonts: [
     {
       name: "Libre Caslon Text",
       cssVariable: "--font-heading",
-      provider: fontProviders.google(),
-      weights: [400, 700],
+      provider: fontProviders.local(),
+      options: {
+        variants: [
+          { weight: 400, style: "normal", src: ["./src/assets/fonts/libre-caslon-text-400.woff2"] },
+          { weight: 400, style: "italic", src: ["./src/assets/fonts/libre-caslon-text-400-italic.woff2"] },
+          { weight: 700, style: "normal", src: ["./src/assets/fonts/libre-caslon-text-700.woff2"] },
+        ],
+      },
     },
     {
       name: "Jost",
       cssVariable: "--font-primary",
-      provider: fontProviders.google(),
-      weights: [400, 500, 700],
+      provider: fontProviders.local(),
+      options: {
+        variants: [
+          // One variable file covers every weight; listed per weight so
+          // the brand kit can read them.
+          { weight: 400, style: "normal", src: ["./src/assets/fonts/jost-variable.woff2"] },
+          { weight: 500, style: "normal", src: ["./src/assets/fonts/jost-variable.woff2"] },
+          { weight: 700, style: "normal", src: ["./src/assets/fonts/jost-variable.woff2"] },
+          { weight: 400, style: "italic", src: ["./src/assets/fonts/jost-variable-italic.woff2"] },
+        ],
+      },
     },
   ],
   vite: { build: { cssTarget: "safari15.4" } },

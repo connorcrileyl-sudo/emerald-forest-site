@@ -22,6 +22,7 @@ export const NOINDEX_ROUTES: string[] = [
   "/sections",
   "/example-components",
   "/hero-options",
+  "/brand",
 ];
 
 export type Link = {

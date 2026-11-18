@@ -16,7 +16,8 @@
     "check:brand": "node scripts/check-brand.mjs",
     "check:site": "astro build && node scripts/check-site.mjs",
     "check:pages": "astro build && node scripts/check-pages.mjs",
-    "postinstall": "node scripts/link-skills.mjs"
+    "postinstall": "node scripts/link-skills.mjs",
+    "brand:check": "node scripts/esteemed-brand-check.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",

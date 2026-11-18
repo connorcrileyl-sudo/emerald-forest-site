@@ -6,3 +6,13 @@ RewriteRule ^form/simple-contact-form/?$ /contact/ [R=301,L]
 RewriteRule ^portfolio/?$ /services/ [R=301,L]
 RewriteRule ^(sitemap_index\.xml|.*-sitemap-1\.xml)$ /sitemap-index.xml [R=301,L]
 ErrorDocument 404 /404.html
+
+# Brand kit (/brand.json, /brand/fonts, /brand/icons, logos): readable
+# by other sites, e.g. the poster creator and AI tools. Same as the
+# Cloudflare-only public/_headers lines; Hostinger reads this file.
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m#^/brand(\.json|/)#">
+    Header set Access-Control-Allow-Origin "*"
+    Header set X-Robots-Tag "noindex"
+  </If>
+</IfModule>
