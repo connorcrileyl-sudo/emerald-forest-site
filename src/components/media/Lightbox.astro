@@ -129,7 +129,7 @@
     scale: 1.04;
   }
   [data-lightbox] img {
-    transition: filter var(--hover-duration) var(--hover-ease), scale 400ms ease;
+    transition: filter var(--hover-duration) var(--hover-ease), scale 1.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* <Img zoom> photos: the same hover, drawn on the photo's own box
@@ -140,7 +140,7 @@
   }
   img[data-full] {
     cursor: pointer;
-    transition: filter var(--hover-duration) var(--hover-ease), scale 400ms ease;
+    transition: filter var(--hover-duration) var(--hover-ease), scale 1.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
   img[data-full]:focus-visible {
     outline: var(--focus-width) solid var(--brand-300);
@@ -186,7 +186,7 @@
   /* Hero photos (the page's first, high-priority image): a smaller,
      slower zoom, as they're so large. */
   img[data-full][fetchpriority="high"] {
-    transition: filter 700ms ease, scale 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: filter 700ms cubic-bezier(0.4, 0, 0.2, 1), scale 1600ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   img[data-full][fetchpriority="high"]:is(:hover, :focus-visible) {
     scale: 1.015;

@@ -29,7 +29,8 @@ const {
       position: fixed;
       top: var(--space-2);
       inset-inline-start: var(--space-2);
-      z-index: 100;
+      /* Above the nav (100), which comes later and would cover it. */
+      z-index: 1000;
       translate: 0 calc(-100% - var(--space-2) * 2);
 
       &:focus {

@@ -39,14 +39,15 @@ const homeFaqs: FaqItem[] = [
   },
   {
     question: "What do you build?",
-    answer: `Most things made of wood, from a single
-      <a href="/custom-furniture/">table</a> or
-      <a href="/custom-doors/">door</a> to a
-      <a href="/custom-staircases/">staircase</a>, a full
-      <a href="/custom-kitchens/">kitchen</a>,
-      <a href="/custom-cabinets/">built-ins</a> or a
-      <a href="/pergolas/">pergola</a>. If you have an idea that isn't
-      on any list, ask. See <a href="/services/">all services</a>.`,
+    answer: `We specialize in
+      <a href="/custom-staircases/">staircases</a>,
+      <a href="/custom-doors/">doors</a>,
+      <a href="/custom-kitchens/">kitchens</a>,
+      <a href="/custom-cabinets/">built-ins</a>,
+      <a href="/custom-furniture/">furniture</a> and
+      <a href="/pergolas/">pergolas</a>, but we're always open to
+      custom projects. If you have an idea that isn't on the list,
+      ask. See <a href="/services/">all services</a>.`,
   },
   {
     question: "What area do you serve?",
@@ -57,8 +58,8 @@ const homeFaqs: FaqItem[] = [
 ---
 
 <Layout
-  title="Carpenter & Woodworker in Black Mountain, NC"
-  description="Handcrafted staircases, solid hardwood doors, custom cabinets and bespoke furniture from a Black Mountain, NC woodshop. Serving Asheville and nearby."
+  title="Emerald Forest Furnishings | Carpenter in Black Mountain, NC"
+  description="Handcrafted staircases, solid hardwood doors, custom cabinets and custom furniture from a Black Mountain, NC woodshop. Serving Asheville and nearby."
 >
   <FaqSchema slot="head" items={homeFaqs} />
   <!-- Hero: text left, photo right with the big corners -->
@@ -84,6 +85,7 @@ const homeFaqs: FaqItem[] = [
           alt="Walnut spiral staircase seen from above, with hammered metal treads and turned balusters"
           loading="eager"
           fetchPriority="high"
+          sizes="(min-width: 90rem) 42rem, (min-width: 64rem) 46vw, 100vw"
         />
       </div>
     </ContentWrapper>
@@ -153,7 +155,7 @@ const homeFaqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>
         Local Craftsmanship, Built to Last
       </Heading>
-      <RichText maxWidth={60}>
+      <RichText maxWidth={54}>
         <p>
           Emerald Forest Furnishings is our woodshop in Black Mountain.
           Every staircase, door and piece of furniture is made by hand, to last for generations.
@@ -165,7 +167,7 @@ const homeFaqs: FaqItem[] = [
       </RichText>
       <ButtonWrapper>
         <Button element="link" href="/about/" emphasis="secondary">
-          About the shop
+          About the Shop
         </Button>
       </ButtonWrapper>
       <Img
@@ -204,8 +206,8 @@ const homeFaqs: FaqItem[] = [
         <Icon src={iconLeaf} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Safe Finishes</Heading>
         <Paragraph>
-          Food-safe, eco-friendly finishes like zero-VOC hard wax oil,
-          chosen with care to keep your family safe.
+          The safest, most eco-friendly finish for each job, sourced
+          locally where we can.
         </Paragraph>
       </ContentWrapper>
     </Grid>
@@ -247,7 +249,7 @@ const homeFaqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>
         Serving Black Mountain, Asheville and the Swannanoa Valley
       </Heading>
-      <RichText maxWidth={60}>
+      <RichText maxWidth={54}>
         <p>
           The shop is in Black Mountain, and we build and install
           staircases, doors, furniture and pergolas for homes across
@@ -295,6 +297,12 @@ const homeFaqs: FaqItem[] = [
   /* More air between heading, intro and buttons. */
   .home-hero_layout .home-hero_heading {
     margin-bottom: var(--space-6);
+  }
+  /* "Fine Carpentry / and Woodworking", never a lone "and". */
+  @media (width >= 40rem) {
+    .home-hero_heading > span {
+      white-space: nowrap;
+    }
   }
   .home-hero_layout .button-wrapper {
     margin-top: var(--space-8);

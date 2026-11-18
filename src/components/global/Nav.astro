@@ -102,9 +102,18 @@ const inGroup = (children: { href: string }[]) =>
   const toggle = nav?.querySelector<HTMLButtonElement>(".nav_toggle");
 
   if (nav && toggle) {
+    const desktop = window.matchMedia("(width >= 64rem)");
+    /* While the phone menu is open, everything behind it is inert so
+       Tab can't wander into the hidden page. */
+    const behind = () =>
+      Array.from(document.body.children).filter(
+        (el) => el !== nav && !el.contains(nav) && el.tagName !== "SCRIPT",
+      ) as HTMLElement[];
     const setOpen = (open: boolean) => {
       nav.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", String(open));
+      const lock = open && !desktop.matches;
+      behind().forEach((el) => (el.inert = lock));
     };
 
     toggle.addEventListener("click", () => {
@@ -112,18 +121,46 @@ const inGroup = (children: { href: string }[]) =>
     });
 
     const groups = nav.querySelectorAll<HTMLElement>(".nav_group");
-    const setGroup = (group: HTMLElement, open: boolean) => {
-      group.classList.toggle("open", open);
+    /* On desktop the dropdown also shows on hover and keyboard focus
+       (CSS), so aria-expanded follows what is actually visible, and
+       Escape hides it even while hovered ("dismissed" until the
+       pointer or focus leaves). */
+    const shown = (group: HTMLElement) =>
+      !group.classList.contains("dismissed") &&
+      (group.classList.contains("open") ||
+        (desktop.matches &&
+          (group.matches(":hover") || group.contains(document.activeElement))));
+    const sync = (group: HTMLElement) => {
       group
         .querySelector(".nav_group_toggle")
-        ?.setAttribute("aria-expanded", String(open));
+        ?.setAttribute("aria-expanded", String(shown(group)));
+    };
+    const setGroup = (group: HTMLElement, open: boolean) => {
+      group.classList.toggle("open", open);
+      if (open) group.classList.remove("dismissed");
+      sync(group);
     };
     groups.forEach((group) => {
       group
         .querySelector(".nav_group_toggle")
         ?.addEventListener("click", () => {
-          setGroup(group, !group.classList.contains("open"));
+          const next = !shown(group);
+          if (!next) group.classList.add("dismissed");
+          setGroup(group, next);
         });
+      group.addEventListener("mouseenter", () => sync(group));
+      group.addEventListener("mouseleave", () => {
+        group.classList.remove("dismissed");
+        sync(group);
+      });
+      group.addEventListener("focusin", () => sync(group));
+      group.addEventListener("focusout", (event) => {
+        if (!group.contains(event.relatedTarget as Node | null)) {
+          group.classList.remove("dismissed");
+          if (desktop.matches) setGroup(group, false);
+          else sync(group);
+        }
+      });
     });
     document.addEventListener("click", (event) => {
       groups.forEach((group) => {
@@ -140,7 +177,8 @@ const inGroup = (children: { href: string }[]) =>
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         groups.forEach((group) => {
-          if (group.classList.contains("open")) {
+          if (shown(group)) {
+            group.classList.add("dismissed");
             setGroup(group, false);
             group.querySelector<HTMLElement>(".nav_group_toggle")?.focus();
           }
@@ -158,11 +196,10 @@ const inGroup = (children: { href: string }[]) =>
       if (!nav.contains(target)) setOpen(false);
     });
 
-    window
-      .matchMedia("(width >= 64rem)")
-      .addEventListener("change", (event) => {
-        if (event.matches) setOpen(false);
-      });
+    desktop.addEventListener("change", (event) => {
+      if (event.matches) setOpen(false);
+      groups.forEach(sync);
+    });
   }
 </script>
 
@@ -510,7 +547,7 @@ const inGroup = (children: { href: string }[]) =>
         }
       }
 
-      .nav_group:is(:hover, :focus-within, .open) {
+      .nav_group:is(:hover, :focus-within, .open):not(.dismissed) {
         & .nav_sub {
           visibility: visible;
           opacity: 1;

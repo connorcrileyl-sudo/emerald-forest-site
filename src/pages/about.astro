@@ -21,7 +21,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
 ---
 
 <Layout
-  title="About Us | Carpenter & Woodworker in Black Mountain, NC"
+  title="About Our Woodworking Shop in Black Mountain, NC"
   description="Emerald Forest Furnishings is a woodworking and finish carpentry shop in Black Mountain, NC, building with local hardwood and safe, eco-friendly finishes."
 >
   <BreadcrumbSchema slot="head" trail={[{ label: "About", href: "/about/" }]} />
@@ -44,6 +44,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         alt="Noah at his workbench, assembling a hardwood stair rail section"
         loading="eager"
         fetchPriority="high"
+        sizes="(min-width: 90rem) 42rem, (min-width: 64rem) 46vw, 100vw"
       />
     </ContentWrapper>
   </Section>
@@ -52,7 +53,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
       <Heading tag="h2" maxWidth={24}>Care in Every Project</Heading>
-      <RichText maxWidth={60}>
+      <RichText maxWidth={54}>
         <p>
           Every piece starts with a conversation about what you want. We work out the design together and keep you in the loop while it's built.
         </p>
@@ -95,8 +96,8 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         <Icon src={iconLeaf} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Safe Finishes</Heading>
         <Paragraph>
-          We use food-safe, eco-friendly finishes, usually a zero-VOC
-          hard wax oil, and take care to keep your family safe.
+          For each job we choose the safest, most eco-friendly finish
+          that suits it, sourced locally where we can.
         </Paragraph>
       </ContentWrapper>
     </Grid>

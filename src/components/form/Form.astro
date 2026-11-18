@@ -9,6 +9,8 @@ interface Props extends HTMLAttributes<"form"> {
   name?: string;
   /** Form endpoint. Omit to skip submission. */
   action?: string;
+  /** Heading shown after submission. */
+  successTitle?: string;
   /** Message shown after submission. */
   successMessage?: string;
   /** Message shown after an error. */
@@ -19,7 +21,8 @@ const {
   render = true,
   name,
   action,
-  successMessage = "Thanks — we will be in touch.",
+  successTitle = "Message sent",
+  successMessage = "Thanks for getting in touch. We'll get back to you soon.",
   errorMessage = "That did not send. Please try again.",
   method = "post",
   class: className,
@@ -45,9 +48,15 @@ const content = await slotContent(Astro.slots);
       <Fragment set:html={content} />
     </form>
 
-    <p class="form_note form_note-sent text-style-main" role="status">
-      {successMessage}
-    </p>
+    <div class="form_note form_note-sent" role="status" tabindex="-1">
+      <span class="form_check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+      </span>
+      <p class="form_note-title text-style-h4">{successTitle}</p>
+      <p class="text-style-main">{successMessage}</p>
+    </div>
     <p class="form_note form_note-failed text-style-main" role="alert">
       {errorMessage}
     </p>
@@ -80,9 +89,13 @@ const content = await slotContent(Astro.slots);
             headers: { Accept: "application/json" },
           });
           if (!answer.ok) throw new Error(String(answer.status));
+          // Form services such as Web3Forms report failure in the body.
+          const data = await answer.json().catch(() => null);
+          if (data && data.success === false) throw new Error("rejected");
         }
         form.dataset.state = "sent";
         fields.reset();
+        form.querySelector<HTMLElement>(".form_note-sent")?.focus();
       } catch {
         form.dataset.state = "failed";
         if (submit) submit.disabled = false;
@@ -120,8 +133,49 @@ const content = await slotContent(Astro.slots);
         display: none;
       }
       & .form_note-sent {
-        display: block;
+        display: flex;
       }
+    }
+
+    .form_note-sent {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-8) var(--space-6);
+      text-align: center;
+      background: var(--background-2);
+      border-color: var(--heading-accent);
+      outline: none;
+
+      & p {
+        margin: 0;
+        max-width: 40ch;
+      }
+    }
+
+    .form_check {
+      display: grid;
+      place-items: center;
+      width: 3.5rem;
+      height: 3.5rem;
+      margin-bottom: var(--space-2);
+      border-radius: 50%;
+      background: var(--button-background);
+      color: var(--button-text);
+      animation: form-pop 0.4s ease-out both;
+    }
+
+    .form_note-title {
+      color: var(--heading-text);
+    }
+
+    @keyframes form-pop {
+      from { transform: scale(0.6); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .form_check { animation: none; }
     }
 
     .form_wrap[data-state="failed"] .form_note-failed {

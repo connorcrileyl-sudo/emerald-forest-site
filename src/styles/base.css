@@ -47,8 +47,8 @@
   --focus-offset-inner: calc(var(--focus-width) * -1);
 
   /* Hover motion */
-  --hover-duration: 200ms;
-  --hover-ease: ease;
+  --hover-duration: 450ms;
+  --hover-ease: cubic-bezier(0.4, 0, 0.2, 1); /* long, soft ease-out */
 
   /* Opening motion */
   --open-duration: var(--hover-duration);

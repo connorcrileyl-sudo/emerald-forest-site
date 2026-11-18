@@ -3,9 +3,9 @@
 A password-protected page at `emeraldforestfurnishings.com/helper/`
 on Noah's Hostinger hosting. Claude in it:
 
-1. walks Noah through moving from WordPress to the new site,
-2. sets up the new contact form (replacing SureForms + SureMail),
-3. afterwards makes small text edits that Noah approves.
+1. walks Noah through moving from WordPress to the new site
+   (the contact form needs no setup: it uses Web3Forms),
+2. afterwards makes small text edits that Noah approves.
 
 A meter at the top shows how much of the $5 has been used.
 
@@ -27,10 +27,11 @@ A meter at the top shows how much of the $5 has been used.
   find/replace JSON. The edits change the built HTML on the server,
   not `src/`. Before uploading a new build, copy those edits into
   the source, or the upload will undo them.
-- The contact form is `public/contact.php` plus `public/lib/`
-  (PHPMailer 7.2.0). Its settings are in `form-config.php` next to
-  `public_html`. Noah fills them in through the helper's "Contact
-  form settings" panel. The password never goes to Claude.
+- The contact form posts to **Web3Forms** (free, 250 a month; key
+  and endpoint in `src/consts.ts`). Each enquiry is emailed to Noah's
+  Gmail and kept 30 days in the Web3Forms dashboard (Connor's
+  account, Noah's Gmail as the recipient). The helper has no mail
+  settings; SureForms and SureMail just go away with WordPress.
 - The switch moves everything in `public_html` (except `helper/`,
   `.well-known/` and `cgi-bin/`) into `old-site-<date>/` next to it,
   then unpacks the new site from `helper/site.zip`. Nothing is

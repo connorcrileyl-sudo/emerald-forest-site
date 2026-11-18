@@ -22,7 +22,7 @@ interface Props {
 }
 
 const { image, alt, class: className } = Astro.props;
-const full = (await getImage({ src: image, width: 2400, format: "webp" })).src;
+const full = (await getImage({ src: image, width: Math.min(2400, image.width), format: "webp", quality: 72 })).src;
 ---
 
 <figure class:list={["before-after", className]}>

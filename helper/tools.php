@@ -151,13 +151,8 @@ function tool_definitions(): array
             ], ['summary', 'find', 'replace', 'pages']),
         ],
         [
-            'name' => 'send_test_email',
-            'description' => 'Send a test message through the contact form settings to the address that receives the form. Returns OK or the mail server error.',
-            'input_schema' => $obj([], []),
-        ],
-        [
             'name' => 'propose_site_switch',
-            'description' => 'Propose switching the live site: the old WordPress files move out of public_html into a dated "old-site-..." folder next to it (nothing is deleted, the database is untouched), and the new site goes in. Noah must click to do it. Only after he has made a Hostinger backup and the test email worked.',
+            'description' => 'Propose switching the live site: the old WordPress files move out of public_html into a dated "old-site-..." folder next to it (nothing is deleted, the database is untouched), and the new site goes in. Noah must click to do it. Only after he has made a Hostinger backup.',
             'input_schema' => $obj(['summary' => ['type' => 'string']], ['summary']),
         ],
         [
@@ -179,7 +174,6 @@ function run_tool(string $name, array $in): array
             'search_site' => tool_search((string)($in['text'] ?? '')),
             'read_page' => tool_read((string)($in['path'] ?? '')),
             'propose_edit' => tool_propose_edit($in),
-            'send_test_email' => tool_test_email(),
             'propose_site_switch' => tool_propose_simple('switch', (string)($in['summary'] ?? 'Switch to the new site')),
             'propose_restore_old_site' => tool_propose_simple('restore', (string)($in['summary'] ?? 'Put the old site back')),
             default => ['error' => "unknown tool $name"],
@@ -192,20 +186,14 @@ function run_tool(string $name, array $in): array
 function server_status(): array
 {
     $names = array_values(array_diff(scandir(PUBLIC_HTML) ?: [], ['.', '..']));
-    $cfg = ef_form_config_raw();
     $switch = store_read('switch', null);
     return [
         'public_html_contents' => array_slice($names, 0, 60),
         'wordpress_is_live' => is_file(PUBLIC_HTML . '/wp-config.php') || is_dir(PUBLIC_HTML . '/wp-content'),
-        'new_site_is_live' => is_dir(PUBLIC_HTML . '/_astro') && is_file(PUBLIC_HTML . '/contact.php'),
+        'new_site_is_live' => is_dir(PUBLIC_HTML . '/_astro') && is_file(PUBLIC_HTML . '/index.html'),
         'new_site_bundle_ready' => is_file(__DIR__ . '/site.zip'),
         'zip_support' => class_exists('ZipArchive'),
         'php_version' => PHP_VERSION,
-        'contact_form_settings' => $cfg ? [
-            'smtp_host' => $cfg['smtp_host'] ?? '', 'smtp_port' => $cfg['smtp_port'] ?? '',
-            'smtp_user' => $cfg['smtp_user'] ?? '', 'password_set' => !empty($cfg['smtp_pass']),
-            'sends_to' => $cfg['to'] ?? '',
-        ] : 'not set up yet (Noah fills in the Contact form settings panel)',
         'last_switch' => $switch,
         'old_site_folders' => array_values(array_filter(
             scandir(dirname(PUBLIC_HTML)) ?: [], static fn($n) => str_starts_with($n, 'old-site-')
@@ -316,68 +304,6 @@ function tool_propose_simple(string $type, string $summary): array
     $pending[$id] = ['id' => $id, 'type' => $type, 'summary' => $summary, 'created' => date('c')];
     store_write('pending', $pending);
     return ['ok' => true, 'proposal' => $id, 'next' => 'Noah now sees a button for this. Tell him what will happen.'];
-}
-
-function tool_test_email(): array
-{
-    $cfg = ef_form_config_raw();
-    if (!$cfg) return ['error' => 'contact form settings are not filled in yet'];
-    $mailer = mailer_path();
-    if (!$mailer) return ['error' => 'mail library missing from the helper'];
-    require_once $mailer;
-    $err = ef_send_mail($cfg, 'Test from your website helper',
-        "This is a test from the website helper.\nIf you can read this, the contact form can send email.\n");
-    log_line('mail.log', ['test' => true, 'error' => $err]);
-    return $err === null
-        ? ['ok' => true, 'sent_to' => $cfg['to'], 'next' => 'Ask Noah to check that inbox, including Spam.']
-        : ['error' => 'mail server said: ' . $err];
-}
-
-// ---------- form-config.php ----------
-
-function mailer_path(): ?string
-{
-    foreach ([PUBLIC_HTML . '/lib/mailer.php', __DIR__ . '/lib/mailer.php'] as $p) if (is_file($p)) return $p;
-    return null;
-}
-
-function form_config_path(): string { return dirname(PUBLIC_HTML) . '/form-config.php'; }
-
-function ef_form_config_raw(): ?array
-{
-    $p = form_config_path();
-    if (!is_file($p)) return null;
-    $cfg = include $p;
-    return is_array($cfg) ? $cfg : null;
-}
-
-function write_form_config(array $in): ?string
-{
-    $old = ef_form_config_raw() ?? [];
-    $cfg = [
-        'smtp_host' => trim((string)($in['smtp_host'] ?? '')) ?: 'smtp.hostinger.com',
-        'smtp_port' => (int)($in['smtp_port'] ?? 465) ?: 465,
-        'smtp_user' => trim((string)($in['smtp_user'] ?? '')),
-        // Blank password field = keep the saved one.
-        'smtp_pass' => (string)($in['smtp_pass'] ?? '') !== '' ? (string)$in['smtp_pass'] : (string)($old['smtp_pass'] ?? ''),
-        'from' => trim((string)($in['smtp_user'] ?? '')),
-        'from_name' => trim((string)($in['from_name'] ?? '')) ?: 'Website contact form',
-        'to' => trim((string)($in['to'] ?? '')),
-    ];
-    if (!filter_var($cfg['smtp_user'], FILTER_VALIDATE_EMAIL)) return 'The mailbox must be a full email address.';
-    foreach (preg_split('/\s*,\s*/', $cfg['to']) as $to) {
-        if (!filter_var($to, FILTER_VALIDATE_EMAIL)) return 'The "send to" address is not a valid email address.';
-    }
-    if ($cfg['smtp_pass'] === '') return 'Enter the mailbox password.';
-    if (!preg_match('/^[a-z0-9.-]+$/i', $cfg['smtp_host'])) return 'The mail server name looks wrong.';
-    $php = "<?php\n// Contact form settings, written by the website helper on " . date('Y-m-d') . ".\n"
-        . "// Lives outside public_html on purpose. Keep it private.\nreturn " . var_export($cfg, true) . ";\n";
-    $p = form_config_path();
-    if (file_put_contents($p . '.tmp', $php) === false) return 'Could not save the settings file.';
-    @chmod($p . '.tmp', 0600);
-    rename($p . '.tmp', $p);
-    if (function_exists('opcache_invalidate')) @opcache_invalidate($p, true);
-    return null;
 }
 
 // ---------- applying pending changes (only from Noah's click) ----------

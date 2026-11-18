@@ -25,7 +25,7 @@ import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
-  "Custom solid wood entry doors, arched doors, interior doors and sliding barn doors, handmade in Black Mountain, NC for homes in Asheville, Swannanoa and Montreat.";
+  "Custom solid wood entry doors, arched doors, interior doors and sliding barn doors, handmade in Black Mountain, NC for homes across the Asheville area.";
 
 const faqs: FaqItem[] = [
   {
@@ -46,7 +46,7 @@ const faqs: FaqItem[] = [
 ---
 
 <Layout
-  title="Custom Solid Wood Doors | Black Mountain & Asheville, NC"
+  title="Custom Solid Wood Doors in Black Mountain & Asheville, NC"
   description={description}
 >
   <ServiceSchema
@@ -80,6 +80,7 @@ const faqs: FaqItem[] = [
         alt="Solid walnut entry door with a carved geometric upper panel and raised lower panels"
         loading="eager"
         fetchPriority="high"
+        sizes="(min-width: 90rem) 42rem, (min-width: 64rem) 46vw, 100vw"
       />
     </ContentWrapper>
   </Section>
@@ -88,7 +89,7 @@ const faqs: FaqItem[] = [
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
       <Heading tag="h2" maxWidth={24}>Solid Wood Front Doors</Heading>
-      <RichText maxWidth={60}>
+      <RichText maxWidth={54}>
         <p>
           We build entry doors in walnut or another local hardwood,
           with carved, raised or plain panels. We work through the design with you, from the panel layout to the wood, before anything is built.
@@ -109,7 +110,7 @@ const faqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>
         Arched, Interior and Sliding Barn Doors
       </Heading>
-      <RichText maxWidth={60}>
+      <RichText maxWidth={54}>
         <p>
           We build arched doors
           with matching curved trim (see{" "}

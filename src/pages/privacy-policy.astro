@@ -1,0 +1,157 @@
+---
+/*
+ * Privacy policy. Written from what the site actually does (Web3Forms
+ * contact form, GA4 in production, click-to-load Facebook video, links
+ * out to Instagram/Facebook/Google). If any of those change, update the
+ * matching section and the effective date.
+ */
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import Heading from "@/components/typography/Heading.astro";
+import Paragraph from "@/components/typography/Paragraph.astro";
+import RichText from "@/components/typography/RichText.astro";
+import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
+import { BUSINESS, PHONE_HREF, SITE_NAME } from "@/consts.ts";
+
+const EFFECTIVE = "November 18, 2026";
+---
+
+<Layout
+  title="Privacy Policy"
+  description={`How ${SITE_NAME} collects, uses and protects the information you share through this website.`}
+>
+  <BreadcrumbSchema slot="head" trail={[{ label: "Privacy Policy", href: "/privacy-policy/" }]} />
+  <Section paddingTop="navoverlap" class="section-glow-center">
+    <div class="legal">
+      <Heading tag="h1" variant="h2">Privacy Policy</Heading>
+      <Paragraph variant="small">Effective {EFFECTIVE}</Paragraph>
+      <RichText maxWidth={54}>
+        <p>
+          {SITE_NAME} is a small woodworking and carpentry shop in Black
+          Mountain, North Carolina. This policy explains what information
+          this website collects, why, and what we do with it. In short:
+          we only use your details to answer you and do your project, and
+          we never sell them.
+        </p>
+
+        <h2>What we collect</h2>
+        <h3>When you contact us</h3>
+        <p>
+          If you use the contact form, we receive your name, email
+          address, phone number (if you give it) and your message. If you
+          call, text or email us directly, we receive whatever you choose
+          to send, such as photos or measurements of your project.
+        </p>
+        <h3>When you browse the site</h3>
+        <p>
+          We use Google Analytics to see how people find and use the
+          site, for example which pages are visited and whether someone
+          tapped the call button. Google collects this using cookies and
+          similar technology. It includes your device and browser type,
+          approximate location (city level), the pages you view and the
+          site that referred you. It does not tell us who you are.
+        </p>
+
+        <h2>How we use it</h2>
+        <ul>
+          <li>To reply to your message and give you an estimate.</li>
+          <li>To plan, build and install your project, and to follow up afterwards.</li>
+          <li>To keep basic business and tax records.</li>
+          <li>To understand which pages are useful and improve the site.</li>
+        </ul>
+        <p>
+          We will not add you to a mailing list or send you marketing
+          unless you ask us to.
+        </p>
+
+        <h2>Who we share it with</h2>
+        <p>
+          We do not sell, rent or trade your information. We only share it
+          with services that help us run the business:
+        </p>
+        <ul>
+          <li>
+            <strong>Web3Forms</strong> delivers contact form messages to
+            our email and keeps a copy for up to 30 days in case an email
+            goes astray.
+          </li>
+          <li>
+            <strong>Google</strong> provides our email (Gmail) and Google
+            Analytics.
+          </li>
+          <li>
+            <strong>Our web host</strong> stores the website and keeps
+            standard server logs, such as IP addresses, for security.
+          </li>
+        </ul>
+        <p>
+          We may also share information if the law requires it, or to
+          protect our rights or someone's safety.
+        </p>
+
+        <h2>Videos and social media</h2>
+        <p>
+          Some pages show a video hosted on Facebook. It does not load
+          until you press play. Once it does, Facebook may set its own
+          cookies. Links to our Instagram, Facebook and Google profiles
+          take you to those sites, which have their own privacy policies.
+        </p>
+
+        <h2>Cookies and your choices</h2>
+        <p>
+          The only cookies this site sets are Google Analytics cookies
+          (plus Facebook's, if you play a video). You can block or delete
+          cookies in your browser settings, and the site will still work.
+          You can also opt out of Google Analytics on every site with
+          Google's{" "}
+          <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">browser add-on</a>.
+        </p>
+
+        <h2>How long we keep it</h2>
+        <p>
+          We keep messages and project details for as long as we need
+          them to do the work, honor any follow-up on it, and keep the
+          records the law requires. Google Analytics deletes its data
+          automatically after a set period.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          You can ask us at any time what information we hold about you,
+          to correct it, or to delete it, unless we have to keep it for
+          legal or tax reasons. Just call or email us using the details
+          below.
+        </p>
+
+        <h2>Children</h2>
+        <p>
+          This site is meant for adults planning work on their homes. We
+          do not knowingly collect information from children under 13.
+        </p>
+
+        <h2>Keeping it safe</h2>
+        <p>
+          The site uses an encrypted (HTTPS) connection, and we limit
+          access to your information to the people who need it to do your
+          project. No website or email is completely secure, so please
+          don't send sensitive details such as payment card numbers
+          through the form.
+        </p>
+
+        <h2>Changes to this policy</h2>
+        <p>
+          If we change this policy, we'll update it here and change the
+          date at the top.
+        </p>
+
+        <h2>Contact us</h2>
+        <p>
+          Questions about your privacy? Call{" "}
+          <a href={PHONE_HREF}>{BUSINESS.phone}</a> or email{" "}
+          <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>.
+        </p>
+      </RichText>
+    </div>
+  </Section>
+</Layout>
+

@@ -28,8 +28,6 @@ if (!existsSync(join(dist, "index.html"))) fail("no dist/. Run `npx astro build`
 const home = readFileSync(join(dist, "index.html"), "utf8");
 if (/workers\.dev/.test(home))
   fail("dist/ looks like a PREVIEW build (it mentions workers.dev). Rebuild without PREVIEW_SITE / PUBLIC_REVIEW.");
-if (!existsSync(join(dist, "contact.php")) || !existsSync(join(dist, "lib/mailer.php")))
-  fail("dist/ has no contact.php or lib/mailer.php. Rebuild after pulling the latest public/.");
 const age = (Date.now() - statSync(join(dist, "index.html")).mtimeMs) / 3.6e6;
 if (age > 12) console.warn(`warning: dist/ was built ${age.toFixed(0)} hours ago.`);
 
@@ -42,9 +40,6 @@ rmSync(build, { recursive: true, force: true });
 const helper = join(build, "helper");
 mkdirSync(helper, { recursive: true });
 for (const f of ["index.php", "tools.php", "config.php", ".htaccess"]) cpSync(join(root, "helper", f), join(helper, f));
-// The helper's own copy of the mail code, so the test email works
-// before the new site (and its lib/) is live.
-cpSync(join(root, "public/lib"), join(helper, "lib"), { recursive: true });
 
 // The new site, minus Cloudflare-only files that mean nothing on Hostinger.
 const skip = new Set(["_redirects", "_headers"]);

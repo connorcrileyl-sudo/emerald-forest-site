@@ -12,12 +12,12 @@ import Input from "@/components/form/Input.astro";
 import Textarea from "@/components/form/Textarea.astro";
 import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import TownList from "@/components/content/TownList.astro";
-import { BUSINESS, PHONE_HREF, FORM_ENDPOINT } from "@/consts.ts";
+import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, WEB3FORMS_KEY } from "@/consts.ts";
 ---
 
 <Layout
-  title="Contact & Estimates | Black Mountain, NC"
-  description="Call Emerald Forest Furnishings on (828) 424-5401 or send project details for an estimate on custom staircases, doors and furniture near Asheville."
+  title="Contact & Free Estimates"
+  description="Call Emerald Forest Furnishings at (828) 424-5401 or send project details for an estimate on custom staircases, doors and furniture near Asheville."
 >
   <BreadcrumbSchema slot="head" trail={[{ label: "Contact", href: "/contact/" }]} />
   <!-- Hero: short intro and details on the left, the form beside it
@@ -56,19 +56,26 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT } from "@/consts.ts";
           </div>
         )}
       </div>
-      <Form slot="column2" name="contact" action={FORM_ENDPOINT}>
-        {/* Honeypot for contact.php: hidden from people, filled by bots. */}
-        <div style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
-          <label>Leave this empty <input type="text" name="company-website" tabindex="-1" autocomplete="off" /></label>
-        </div>
+      <Form
+        slot="column2"
+        name="contact"
+        action={FORM_ENDPOINT}
+        successMessage={`Thanks for getting in touch. We'll get back to you soon. Need us sooner? Call ${BUSINESS.phone}.`}
+        errorMessage={`That did not send. Please call ${BUSINESS.phone} instead.`}
+      >
+        {/* Web3Forms settings, sent with every message. */}
+        <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+        <input type="hidden" name="subject" value="New message from the website" />
+        <input type="hidden" name="from_name" value="Emerald Forest website" />
+        {/* Spam trap: hidden from people, ticked by bots. */}
+        <input type="checkbox" name="botcheck" class="is-hidden" style="display:none" tabindex="-1" autocomplete="off" />
         <Fieldset legend="Send us a note" legendStyle="hidden">
-          <Input variant="first-name" label="Your name" name="first-name" placeholder="Your name" required />
-          <Input variant="email" placeholder="you@example.com" required />
+          <Input variant="first-name" label="Your name" name="name" placeholder="Your name" required />
+          <Input variant="email" name="email" placeholder="you@example.com" required />
           <Input variant="phone" label="Phone (optional)" name="phone" placeholder="Phone" />
-          {/* name kept as-is: contact.php reads this field by that name */}
           <Textarea
             label="What can we help with?"
-            name="what-would-you-like-built-or-repaired"
+            name="message"
             placeholder="A few lines is plenty. Rough ideas are welcome."
             required
           />

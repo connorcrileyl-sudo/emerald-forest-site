@@ -1,0 +1,113 @@
+---
+/**
+ * Site-wide motion, kept subtle: long ease-outs, each thing plays once.
+ *
+ * - The nav logo fades in slowly on page load.
+ * - Below the first section, content fades up a few pixels as it
+ *   scrolls into view; cards in a grid follow one another.
+ * - Pages crossfade into each other (browser view transitions; browsers
+ *   without them just load the page as before).
+ *
+ * Nothing is hidden unless this script runs (it adds `motion` to
+ * <html>), and everything is off for reduced-motion visitors. Goes in
+ * <head> so content never flashes before it's hidden.
+ */
+---
+
+<script is:inline>
+  (() => {
+    if (!("IntersectionObserver" in window)) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    document.documentElement.classList.add("motion");
+
+    const TARGETS = [
+      // Every section but the first (the hero is already on screen).
+      "main > .section ~ .section .container > :not(.grid, .ig-feed)",
+      "main > .section ~ .section .grid > *",
+      "main .ig-group",
+    ].join(",");
+
+    addEventListener("DOMContentLoaded", () => {
+      const seen = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add("is-in");
+          seen.unobserve(e.target);
+        }
+      }, { rootMargin: "0px 0px -8% 0px" });
+
+      for (const el of document.querySelectorAll(TARGETS)) {
+        el.setAttribute("data-reveal", "");
+        // Cards in the same grid row follow one another.
+        if (el.parentElement?.classList.contains("grid")) {
+          const i = [...el.parentElement.children].indexOf(el);
+          el.style.setProperty("--reveal-delay", `${(i % 4) * 90}ms`);
+        }
+        seen.observe(el);
+      }
+    });
+  })();
+</script>
+
+<style is:global>
+  :root {
+    /* Starts from rest, speeds up gently, then a long soft ease-out.
+       No sudden jump at the start. */
+    --ease-out-long: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.9s;
+    animation-timing-function: var(--ease-out-long);
+  }
+
+  .motion .nav_logo {
+    animation: logo-in 4.5s var(--ease-out-long) 0.3s both;
+  }
+  @keyframes logo-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* An animation, not a transition, so the elements' own hover
+     transitions stay untouched. `backwards` holds the start state
+     during the delay and lets go once it ends. */
+  .motion [data-reveal]:not(.is-in) {
+    opacity: 0;
+  }
+  .motion [data-reveal].is-in {
+    animation:
+      logo-in 1.8s var(--ease-out-long) var(--reveal-delay, 0ms) backwards,
+      rise 1.8s var(--ease-out-long) calc(var(--reveal-delay, 0ms) + 0.08s) backwards;
+  }
+  /* The first section plays on page load instead: the heading, then
+     everything under it together, with the photo or form side fading
+     in slowly alongside. */
+  .motion main > .section:first-child .layout > * > * {
+    animation:
+      logo-in 2.2s var(--ease-out-long) var(--hero-delay, 0.3s) backwards,
+      rise 2.2s var(--ease-out-long) var(--hero-delay, 0.3s) backwards;
+  }
+  /* Subheading, buttons and the rest arrive together, just after the
+     heading. They move from the first frame, no lag behind the fade. */
+  .motion main > .section:first-child .layout > * > :nth-child(n + 2) { --hero-delay: 0.5s; }
+  /* The photo / form side: a slow fade, no rise. */
+  .motion main > .section:first-child .layout > * + * > * {
+    animation: logo-in 3.6s var(--ease-out-long) 0.6s backwards;
+  }
+
+  /* The rise starts a moment after the fade, so things appear first
+     and then settle up into place. */
+  @keyframes rise {
+    from { translate: 0 8px; }
+    to { translate: 0 0; }
+  }
+
+  @media print {
+    .motion [data-reveal] { opacity: 1 !important; translate: none !important; }
+  }
+</style>

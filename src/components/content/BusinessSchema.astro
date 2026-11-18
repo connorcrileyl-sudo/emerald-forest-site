@@ -21,7 +21,8 @@ const schema = {
   name: SITE_NAME,
   description: SITE_DESCRIPTION,
   url: `${SITE_URL}/`,
-  telephone: "+1-828-424-5401",
+  /* "(828) 424-5401" -> "+1-828-424-5401" */
+  telephone: `+1-${BUSINESS.phone.replace(/\D/g, "").replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3")}`,
   ...(BUSINESS.email ? { email: BUSINESS.email } : {}),
   image: `${SITE_URL}/og-image.jpg`,
   logo: `${SITE_URL}/favicon.svg`,
@@ -58,7 +59,7 @@ const schema = {
     "Built-ins and bookshelves",
     "Floating shelves",
     "Fireplace mantels",
-    "Bespoke furniture",
+    "Custom furniture",
     "Live edge tables",
     "Finish carpentry",
     "Trim carpentry and wainscoting",

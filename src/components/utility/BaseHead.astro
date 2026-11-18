@@ -16,7 +16,14 @@ const {
 
 const isNoindex = noindex ?? isNoindexRoute(Astro.url.pathname);
 
-const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+/* Google shows about 60 characters. Add the brand only when it fits
+   and the title does not already contain it. */
+const TITLE_MAX = 65;
+const withBrand = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+const pageTitle =
+  !title || title.includes(SITE_NAME) || withBrand.length > TITLE_MAX
+    ? title || SITE_NAME
+    : withBrand;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(image, Astro.site);
 ---
@@ -39,6 +46,11 @@ const socialImage = new URL(image, Astro.site);
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={socialImage} />
+{/* Size lets Facebook and messaging apps show the card on first share. */}
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${SITE_NAME}: Noah clamping hardwood boards at the bench in his Black Mountain shop`} />
+<meta property="og:locale" content="en_US" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={pageTitle} />

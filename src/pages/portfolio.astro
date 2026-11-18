@@ -129,12 +129,12 @@ const groups: Group[] = [
 /* Large copies for the full-screen viewer, made at build time. */
 const full = new Map<ImageMetadata, string>();
 for (const photo of groups.flatMap((g) => g.photos)) {
-  full.set(photo.src, (await getImage({ src: photo.src, width: 1800, format: "webp" })).src);
+  full.set(photo.src, (await getImage({ src: photo.src, width: Math.min(1800, photo.src.width), format: "webp", quality: 72 })).src);
 }
 ---
 
 <Layout
-  title="Portfolio | Woodwork in Black Mountain & Asheville, NC"
+  title="Our Woodwork Portfolio"
   description="Photos of our work: full kitchen build-outs, custom staircases, solid wood doors, built-ins, furniture and pergolas, made in Black Mountain, NC."
 >
   <BreadcrumbSchema slot="head" trail={[{ label: "Portfolio", href: "/portfolio/" }]} />
@@ -164,7 +164,7 @@ for (const photo of groups.flatMap((g) => g.photos)) {
           ))}
         </div>
         {gi === 0 && (
-          <aside class="ig-band" aria-labelledby="ig-ba">
+          <section class="ig-band" aria-labelledby="ig-ba">
             <div class="ig-band_text">
               <p class="ig-band_eyebrow text-style-small">Before and After</p>
               <h2 id="ig-ba" class="ig-title">A Dining Room Alcove</h2>
@@ -176,10 +176,10 @@ for (const photo of groups.flatMap((g) => g.photos)) {
               image={alcoveBeforeAfter}
               alt="Before: an empty arched alcove with plain white cabinets. After: the same alcove as a lit built-in wine cabinet with diamond wine racks and wood doors"
             />
-          </aside>
+          </section>
         )}
         {gi === 1 && (
-          <aside class="ig-band" aria-labelledby="ig-video">
+          <section class="ig-band" aria-labelledby="ig-video">
             <div class="ig-band_text">
               <h2 id="ig-video" class="ig-title ig-callout">
                 Real Project Walkthrough
@@ -191,7 +191,7 @@ for (const photo of groups.flatMap((g) => g.photos)) {
               poster={archedWindow}
               title="How to build perfectly fitted arched window trim"
             />
-          </aside>
+          </section>
         )}
       </section>
     ))}

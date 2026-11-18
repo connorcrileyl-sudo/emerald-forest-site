@@ -32,9 +32,14 @@ const {
   items = [],
   label,
 } = Astro.props;
+
+/* The card is one link, so without this its name would be the photo
+   alt, heading, text, list and label run together. The heading alone
+   names it; the rest is read as its description. */
+const id = `service-card-${href.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "home"}-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
-<a class="service-card" href={href}>
+<a class="service-card" href={href} aria-labelledby={`${id}-h`} aria-describedby={`${id}-t`}>
   <div class="service-card_visual">
     <Img src={image} alt={imageAlt} />
     <span class="service-card_hint" aria-hidden="true">
@@ -45,8 +50,8 @@ const {
     </span>
   </div>
   <div class="service-card_body">
-    <Tag class="service-card_heading">{heading}</Tag>
-    <p class="service-card_text">{text}</p>
+    <Tag class="service-card_heading" id={`${id}-h`}>{heading}</Tag>
+    <p class="service-card_text" id={`${id}-t`}>{text}</p>
     {items.length > 0 && (
       <ul class="service-card_list">
         {items.map((item) => <li>{item}</li>)}

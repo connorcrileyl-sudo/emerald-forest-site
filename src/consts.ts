@@ -11,7 +11,7 @@
 export const SITE_NAME = "Emerald Forest Furnishings";
 /** Fallback meta description for pages that don't set their own. */
 export const SITE_DESCRIPTION =
-  "Custom staircases, solid hardwood doors, cabinets and bespoke furniture, built by hand in Black Mountain, NC for homes across the Asheville area.";
+  "Custom staircases, solid hardwood doors, cabinets and custom furniture, built by hand in Black Mountain, NC for homes across the Asheville area.";
 /** Canonical origin. Resolves canonical URLs, social images, and the sitemap. */
 export const SITE_URL = "https://emeraldforestfurnishings.com";
 /** BCP 47 locale tag used to format dates and numbers. */
@@ -100,6 +100,7 @@ export const FOOTER_LINKS: Link[] = [
 export const TOWNS = [
   "Black Mountain",
   "Asheville",
+  "Weaverville",
   "Swannanoa",
   "Montreat",
   "Fairview",
@@ -121,12 +122,14 @@ export const SOCIAL_LINKS: Link[] = [
 ];
 
 /**
- * Where contact forms send their messages. "/contact.php" is our own
- * PHP mailer on Noah's Hostinger hosting (public/contact.php, settings
- * in form-config.php one level above public_html). It only works on
- * the Hostinger server, not in `astro dev` or on the Cloudflare preview.
+ * Where contact forms send their messages: Web3Forms (free plan, 250 a
+ * month). It emails each enquiry to Noah's Gmail and keeps a copy in
+ * the Web3Forms dashboard for 30 days, so none is lost if an email
+ * goes astray. Works from any host, including the Cloudflare preview.
+ * The access key is public by design (it can only send to Noah).
  */
-export const FORM_ENDPOINT = "/contact.php";
+export const FORM_ENDPOINT = "https://api.web3forms.com/submit";
+export const WEB3FORMS_KEY = "1c6f7769-1088-465d-8ac1-35b47b6a4e0e";
 
 /**
  * Google Analytics 4 measurement ID (property "Emerald Forest

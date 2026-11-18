@@ -114,7 +114,7 @@ Other changes from the same audit:
 ## 2. Towns
 
 Site currently lists: Black Mountain, Asheville, Swannanoa, Montreat,
-Fairview (we dropped Weaverville as too far from Black Mountain). Any
+Fairview (Weaverville added back 18 Nov 2026: he does work there). Any
 to add or drop? How far will you travel?
 
 ## 3. About you (home + about page)

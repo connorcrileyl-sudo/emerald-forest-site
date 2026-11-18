@@ -167,7 +167,8 @@ for (const file of pages) {
     error(at, "uses the grey placeholder photo");
 
   for (const img of html.match(/<img\b[^>]*>/g) ?? []) {
-    if (!/\balt=/.test(img))
+    /* Astro writes alt="" (decorative) as a bare `alt`, which is valid. */
+    if (!/\salt(=|[\s/>])/.test(img))
       error(at, `image without alt: ${img.slice(0, 80)}`);
   }
 

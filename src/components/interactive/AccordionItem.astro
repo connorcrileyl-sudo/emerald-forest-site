@@ -104,6 +104,8 @@ const content = await slotContent(Astro.slots);
     }
 
     .accordion_body {
+      /* Jost runs wide per "ch"; 54ch lands near 75 characters a line. */
+      max-width: 54ch;
       padding-bottom: var(--space-5);
     }
   }

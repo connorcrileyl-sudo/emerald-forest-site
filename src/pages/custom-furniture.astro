@@ -19,7 +19,7 @@ import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
-  "Custom dining tables, live edge tables and bespoke furniture handmade from Western North Carolina hardwood in Black Mountain, NC. Serving Asheville.";
+  "Custom dining tables, live edge tables and custom furniture handmade from Western North Carolina hardwood in Black Mountain, NC. Serving Asheville.";
 
 const faqs: FaqItem[] = [
   {
@@ -35,13 +35,13 @@ const faqs: FaqItem[] = [
 ---
 
 <Layout
-  title="Custom Furniture & Live Edge Tables | Black Mountain & Asheville, NC"
+  title="Custom Furniture & Live Edge Tables in Asheville, NC"
   description={description}
 >
   <ServiceSchema
     slot="head"
     name="Custom Furniture and Live Edge Tables"
-    serviceType="Bespoke furniture"
+    serviceType="Custom furniture"
     description={description}
     image={coffeeTable}
     faqs={faqs}
@@ -67,6 +67,7 @@ const faqs: FaqItem[] = [
         alt="Mid-century modern cherry coffee table with an open shelf and tapered legs"
         loading="eager"
         fetchPriority="high"
+        sizes="(min-width: 90rem) 42rem, (min-width: 64rem) 46vw, 100vw"
       />
     </ContentWrapper>
   </Section>
@@ -77,7 +78,7 @@ const faqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>
         Dining Tables, Live Edge Tables and One-Off Pieces
       </Heading>
-      <RichText maxWidth={60}>
+      <RichText maxWidth={54}>
         <p>
           Solid hardwood dining tables, live edge tables, benches and pieces that don't fit a category. We settle the size, wood and finish with you, then build it one piece at a time from local timber.
         </p>
@@ -101,7 +102,7 @@ const faqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>
         Local Hardwood
       </Heading>
-      <RichText maxWidth={60}>
+      <RichText maxWidth={54}>
         <p>
           Lumber grown and milled in Western North Carolina, the same wood as our{" "}
           <a href="/custom-doors/">doors</a> and{" "}

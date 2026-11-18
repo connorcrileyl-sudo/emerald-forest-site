@@ -137,6 +137,7 @@ if (import.meta.env.DEV && isFetchable && variantSpecified && !remoteAllowed) {
 }
 
 const VIEWPORT_MAX = 1440;
+const PHOTO_QUALITY = 72;
 
 const displayWidth = (width ?? VIEWPORT_MAX) / 16;
 
@@ -185,7 +186,10 @@ const srcset =
             ...(widthLimit !== undefined
               ? { widths: withinLimit(BREAKPOINTS) }
               : {}),
-            ...(loading === "lazy" ? { sizes: "auto" } : {}),
+            // Lazy images let the browser measure the slot. Eager ones
+            // (heroes) can't, so they take `sizes` from the page; without
+            // it a half-width hero downloads a full-screen-width file.
+            ...(loading === "lazy" ? { sizes: "auto" } : { sizes: sizes ?? "100vw" }),
           }
         : {
             sizes: sizes ?? defaultSizes,
@@ -207,7 +211,7 @@ const zoomable = zoom && source !== undefined && !isSvg;
 const zoomAttrs = zoomable
   ? {
       "data-full": (
-        await getImage({ src: source, width: Math.min(1800, source.width), format: "webp" })
+        await getImage({ src: source, width: Math.min(1800, source.width), format: "webp", quality: PHOTO_QUALITY })
       ).src,
       tabindex: 0,
       role: "button",
@@ -218,7 +222,9 @@ const zoomAttrs = zoomable
 const shared = {
   src,
   alt,
-  quality: quality === "high" ? undefined : quality,
+  // "high" maps to WebP 72 here, not sharp's 80: about 15% smaller and
+  // no visible difference on the wood photos (Emerald Forest change).
+  quality: quality === "high" ? PHOTO_QUALITY : quality,
   loading,
   format: resolvedFormat,
   ...(fetchPriority !== "auto" ? { fetchpriority: fetchPriority } : {}),

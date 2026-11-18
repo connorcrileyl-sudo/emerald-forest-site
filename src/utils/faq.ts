@@ -11,7 +11,7 @@ export interface FaqItem {
   answer: string;
 }
 
-/** "Black Mountain, Asheville, … and Fairview", from `TOWNS`. */
+/** "Black Mountain, Asheville, … and Canton", from `TOWNS`. */
 export const TOWN_LIST = `${TOWNS.slice(0, -1).join(", ")} and ${TOWNS.at(-1)}`;
 
 /** Placeholder copy still waiting on the client, e.g. "TODO (Noah): …". */

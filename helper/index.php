@@ -1,7 +1,7 @@
 <?php
 // Website helper: a password-protected page on the client's own hosting
-// where Claude walks them through moving to the new site, sets up the
-// contact form, and makes small text edits they approve.
+// where Claude walks them through moving to the new site and makes
+// small text edits they approve.
 //
 // Claude is reached through Connor's api-storehouse, which holds the real
 // Anthropic key and enforces this caller's lifetime dollar budget. This
@@ -159,18 +159,16 @@ Every reply costs money from a fixed \$5 allowance shown at the top of the page.
 ## Your three jobs
 
 1. Move the live site from the old WordPress site to the new one.
-2. Set up the new contact form, replacing SureForms and SureMail.
+2. Explain the new contact form, which replaces SureForms and SureMail.
 3. Afterwards, make small text edits he asks for.
 
 ## Moving the site (do these in order; use check_server to see where things stand)
 
 1. Backup first. In hPanel: Websites, then Backups (or Files, then Backups). Make or download a backup of the site files and database. Don't continue until he says it's done.
-2. Mailbox for the form. The old form used SureMail inside WordPress; that stops when WordPress is moved out. The new form sends through an email account on his own domain. In hPanel, Emails: create a mailbox such as website@{$domain} and give it a strong password he writes down. If his plan has no email, tell him to ask {$owner}.
-3. Contact form settings. He clicks "Contact form settings" at the top of this page and fills in: the mailbox address, its password, and the address that should receive enquiries (his Gmail). Mail server smtp.hostinger.com, port 465 are already filled in. NEVER ask for a password in the chat. If he types one here, tell him to change that password and enter the new one only in the settings panel.
-4. Test. Use send_test_email, then ask him to look in that inbox, including Spam. If it fails, explain the error simply (usually a wrong password or address) and have him fix the settings.
-5. Switch. Use propose_site_switch. A button appears; when he clicks it, the old WordPress files move into an "old-site-<date>" folder next to public_html (nothing is deleted, the database is untouched) and the new site goes live. This helper stays where it is.
-6. After the switch: in hPanel, purge the CDN cache (Websites, then Performance or CDN, then Purge cache). Then he opens {$domain} in a private window, checks a few pages, and sends himself a message through the contact page.
-7. SureMail and SureForms now sit, switched off, inside the old-site folder. If SureMail was connected to a paid email service, he can cancel that service. He should leave the old-site folder alone; {$owner} will remove it in a couple of weeks.
+2. Switch. Use propose_site_switch. A button appears; when he clicks it, the old WordPress files move into an "old-site-<date>" folder next to public_html (nothing is deleted, the database is untouched) and the new site goes live. This helper stays where it is.
+3. After the switch: in hPanel, purge the CDN cache (Websites, then Performance or CDN, then Purge cache). Then he opens {$domain} in a private window, checks a few pages, and sends himself a message through the contact page.
+4. The contact form needs no setup. It goes through Web3Forms, a form service {$owner} set up, and every enquiry arrives in his Gmail with Reply going to the customer. If a test message isn't in his inbox within a few minutes, he checks Spam and marks it "Not spam"; if it isn't there either, he tells {$owner}. Never ask for passwords in the chat.
+5. SureMail and SureForms now sit, switched off, inside the old-site folder. If SureMail was connected to a paid email service, he can cancel that service. He should leave the old-site folder alone; {$owner} will remove it in a couple of weeks.
 If something looks wrong after the switch, propose_restore_old_site puts the old site back, and he should tell {$owner}.
 
 ## Edits
@@ -308,7 +306,6 @@ if ($api !== null) {
     if ($api === 'state') {
         if (!authed()) out(['authed' => false, 'needs_setup' => !$auth]);
         $chat = store_read('chat', ['display' => []]);
-        $cfg = ef_form_config_raw();
         out([
             'authed' => true,
             'client' => $CFG['client_name'],
@@ -316,11 +313,6 @@ if ($api !== null) {
             'display' => $chat['display'],
             'pending' => array_values(store_read('pending')),
             'can_undo' => (bool)array_filter(store_read('history'), static fn($h) => !$h['undone']),
-            'form' => $cfg ? [
-                'smtp_host' => $cfg['smtp_host'] ?? '', 'smtp_port' => $cfg['smtp_port'] ?? 465,
-                'smtp_user' => $cfg['smtp_user'] ?? '', 'to' => $cfg['to'] ?? '',
-                'from_name' => $cfg['from_name'] ?? '', 'has_pass' => !empty($cfg['smtp_pass']),
-            ] : null,
         ]);
     }
     if (!$isPost) out(['error' => 'POST only'], 405);
@@ -375,11 +367,6 @@ if ($api !== null) {
             out(['ok' => true, 'pending' => array_values(store_read('pending'))]);
         case 'undo':
             out(undo_last_edit());
-        case 'form':
-            $err = write_form_config($in);
-            if ($err) out(['error' => $err], 400);
-            add_note('Noah saved the contact form settings.');
-            out(['ok' => true]);
         case 'password':
             if (!password_verify((string)($in['old'] ?? ''), $auth['hash'])) out(['error' => 'Current password is wrong.'], 403);
             if (mb_strlen((string)($in['new'] ?? '')) < 10) out(['error' => 'Use at least 10 characters.'], 400);
@@ -467,26 +454,6 @@ dialog::backdrop { background: rgba(0,0,0,.4); }
 <body>
 <div id="app"></div>
 
-<dialog id="formDlg">
-  <h2 style="margin-top:0;font-size:1.1rem">Contact form settings</h2>
-  <p class="small">The password is saved privately on your hosting and is never sent to the AI.</p>
-  <label>Website mailbox (the address you created in hPanel)</label>
-  <input id="f_user" type="email" autocomplete="off" placeholder="website@yourdomain.com">
-  <label>Mailbox password <span id="f_passnote"></span></label>
-  <input id="f_pass" type="password" autocomplete="new-password">
-  <label>Send enquiries to (your usual email)</label>
-  <input id="f_to" type="email" autocomplete="off">
-  <details><summary class="small">Mail server (normally leave as is)</summary>
-    <label>Server</label><input id="f_host" value="smtp.hostinger.com">
-    <label>Port</label><input id="f_port" value="465" inputmode="numeric">
-  </details>
-  <p class="err" id="f_err"></p>
-  <div class="row" style="display:flex;gap:8px;justify-content:flex-end">
-    <button type="button" onclick="formDlg.close()">Cancel</button>
-    <button type="button" class="primary" id="f_save">Save</button>
-  </div>
-</dialog>
-
 <script>
 const app = document.getElementById('app');
 let state = null, busy = false;
@@ -550,7 +517,6 @@ function renderMeter(m) {
 function shell() {
   app.innerHTML = `<header><div class="wrap">
       <div class="top"><h1>Website Helper</h1>
-        <button id="b_form">Contact form settings</button>
         <button id="b_undo">Undo last edit</button>
         <button id="b_new">New chat</button>
         <button id="b_out">Log out</button></div>
@@ -559,7 +525,6 @@ function shell() {
     <main class="wrap"><div id="log"></div><div id="pending"></div>
       <form class="ask" id="ask"><textarea id="q" rows="2" placeholder="Ask the helper…"></textarea>
       <button class="primary" id="send">Send</button></form></main>`;
-  document.getElementById('b_form').onclick = openForm;
   document.getElementById('b_undo').onclick = async () => {
     const r = await api('undo', {});
     addMsg(r.error ? 'error' : 'assistant', r.error || `Undone: ${r.undone}. If the live site still shows it, purge the CDN cache in hPanel.`);
@@ -585,10 +550,10 @@ function renderLog(display) {
   const log = document.getElementById('log');
   log.innerHTML = '';
   if (!display.length) {
-    addMsg('assistant', `Hi ${state.client}. I can help you move to your new website, set up the contact form, and make small changes to your site's text afterwards.\n\nThe bar at the top shows how much of your $5 allowance is used.`);
+    addMsg('assistant', `Hi ${state.client}. I can help you move to your new website and make small changes to your site's text afterwards.\n\nThe bar at the top shows how much of your $5 allowance is used.`);
     const s = document.createElement('div');
     s.className = 'starters';
-    for (const t of ['Help me move to my new website', 'Set up my contact form', 'I want to change something on my site']) {
+    for (const t of ['Help me move to my new website', 'How does my contact form work?', 'I want to change something on my site']) {
       const b = document.createElement('button');
       b.textContent = t; b.onclick = () => send(t);
       s.appendChild(b);
@@ -612,7 +577,7 @@ function renderPending(list) {
         <div class="small">Now:</div><div class="diff">${esc(p.find)}</div>
         <div class="small">Becomes:</div><div class="diff">${esc(p.replace)}</div>`;
     } else if (p.type === 'switch') {
-      body = `<p class="small">Your old WordPress site moves into a backup folder (nothing is deleted) and the new site goes live. Only do this after your Hostinger backup and a working test email.</p>`;
+      body = `<p class="small">Your old WordPress site moves into a backup folder (nothing is deleted) and the new site goes live. Only do this after your Hostinger backup.</p>`;
     } else {
       body = `<p class="small">The new site moves out and the old WordPress site comes back.</p>`;
     }
@@ -651,29 +616,6 @@ async function send(text) {
   if (r.pending) renderPending(r.pending);
   busy = false; btn.disabled = false; q.focus();
 }
-
-function openForm() {
-  const f = state.form || {};
-  document.getElementById('f_user').value = f.smtp_user || '';
-  document.getElementById('f_to').value = f.to || '';
-  document.getElementById('f_host').value = f.smtp_host || 'smtp.hostinger.com';
-  document.getElementById('f_port').value = f.smtp_port || 465;
-  document.getElementById('f_pass').value = '';
-  document.getElementById('f_passnote').textContent = f.has_pass ? '(saved; leave blank to keep it)' : '';
-  document.getElementById('f_err').textContent = '';
-  document.getElementById('formDlg').showModal();
-}
-document.getElementById('f_save').onclick = async () => {
-  const r = await api('form', {
-    smtp_user: document.getElementById('f_user').value, smtp_pass: document.getElementById('f_pass').value,
-    to: document.getElementById('f_to').value, smtp_host: document.getElementById('f_host').value,
-    smtp_port: document.getElementById('f_port').value,
-  });
-  if (r.error) { document.getElementById('f_err').textContent = r.error; return; }
-  document.getElementById('formDlg').close();
-  addMsg('assistant', 'Saved. Ask me to send a test email.');
-  load(true);
-};
 
 async function load(keepLog) {
   const s = await api('state');

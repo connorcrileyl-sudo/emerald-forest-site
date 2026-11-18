@@ -44,7 +44,7 @@ const companyLinks = [
             Have More Questions?
           </p>
           <p class="footer_cta_body">
-            Give us a call or send a few photos for a free estimate.
+            Give us a call or email a few photos for a free estimate.
           </p>
         </div>
         <div class="footer_cta_buttons">
@@ -144,6 +144,10 @@ const companyLinks = [
           &copy; <span id="year">{new Date().getFullYear()}</span>&#160;
           {SITE_NAME}
         </p>
+        <ul class="footer_legal" aria-label="Legal">
+          <li><a class="footer_link" href="/privacy-policy/">Privacy Policy</a></li>
+          <li><a class="footer_link" href="/terms/">Terms of Service</a></li>
+        </ul>
       </div>
     </div>
     </div>
@@ -302,7 +306,7 @@ const companyLinks = [
     }
 
     .footer_link {
-      overflow-wrap: anywhere;
+      overflow-wrap: break-word;
       color: var(--text-2);
       text-decoration: none;
       transition: color var(--hover-duration) var(--hover-ease);
@@ -339,6 +343,15 @@ const companyLinks = [
       color: var(--text-2);
     }
 
+    .footer_legal {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-6);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
     /* Phones: the same content in about half the height. Logo beside
        the tagline, services in two columns, company links on one row,
        social icons beside the contact details. */
@@ -373,7 +386,7 @@ const companyLinks = [
       }
       .footer_col:has(.footer_follow) {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr;
         align-items: start;
         column-gap: var(--space-4);
         & > .footer_col_title {
