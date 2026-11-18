@@ -1,7 +1,7 @@
 """Emerald Forest Furnishings: make an on-brand social post from a photo.
 
 Runs anywhere with Python 3 and Pillow (ChatGPT's code tool has both).
-The photo is placed as it is; this script only adds a dark band, text,
+The photo is placed as it is; this script only adds a see-through emerald underlay, text,
 the logo and icons. It never changes the woodwork.
 
 Examples (run from the folder this file is in):
@@ -33,6 +33,10 @@ ICONS = os.path.join(HERE, "icons")
 
 # Brand colours (from the website)
 FOREST_BLACK = (6, 9, 7)
+# Dark emerald for see-through underlays behind text. Deep enough that
+# gold and parchment read on it over any photo, green enough to be on
+# brand, and never fully opaque, so the photo shows through.
+EMERALD_DARK = (12, 36, 22)  # #0c2416
 PARCHMENT = (214, 205, 185)
 GOLD_FLAT = (201, 148, 50)
 # The lit-gold gradient the site uses on headings, top to bottom.
@@ -174,15 +178,26 @@ def cover(img, w, h):
     return ImageOps.fit(ImageOps.exif_transpose(img).convert("RGB"), (w, h), Image.LANCZOS, centering=(0.5, 0.5))
 
 
-def dark_fade(canvas, top, bottom, strength=245):
-    """Fade from clear at `top` to forest black at `bottom` (and below)."""
+def underlay(canvas, top, full, strength=0.8):
+    """See-through dark emerald behind text: clear at `top`, easing in to
+    `strength` (0-1) by `full` and held below. The photo stays visible."""
     w, h = canvas.size
     mask = Image.new("L", (w, h), 0)
     d = ImageDraw.Draw(mask)
+    top = max(0, top)
     for y in range(top, h):
-        t = min(1, (y - top) / max(bottom - top, 1))
-        d.line([(0, y), (w, y)], fill=int(strength * (t ** 0.9)))
-    canvas.paste(Image.new("RGB", (w, h), FOREST_BLACK), (0, 0), mask)
+        t = min(1, (y - top) / max(full - top, 1))
+        t = t * t * (3 - 2 * t)  # smoothstep: no visible edge where it starts
+        d.line([(0, y), (w, y)], fill=int(255 * strength * t))
+    canvas.paste(Image.new("RGB", (w, h), EMERALD_DARK), (0, 0), mask)
+
+
+def soft_spot(canvas, box, strength=0.55):
+    """A soft emerald pool behind a small element (the logo)."""
+    w, h = canvas.size
+    m = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(m).ellipse(box, fill=int(255 * strength))
+    canvas.paste(Image.new("RGB", (w, h), EMERALD_DARK), (0, 0), m.filter(ImageFilter.GaussianBlur(60)))
 
 
 def paste_png(canvas, path, xy, width=None, height=None):
@@ -217,7 +232,7 @@ def make_photo(a):
     asc, desc = hf.getmetrics()
     text_h = len(hlines) * int((asc + desc) * 1.12) + (len(slines) * 50 + 20 if slines else 0) + 110
     text_top = h - safe_bottom - MARGIN - text_h
-    dark_fade(canvas, max(0, text_top - 260), text_top + 40)
+    underlay(canvas, text_top - 300, text_top - 10, 0.8)
     y = gold_text(canvas, (MARGIN, text_top), hlines, hf)
     if slines:
         y = plain_text(ImageDraw.Draw(canvas), (MARGIN, y + 8), slines, sf, PARCHMENT)
@@ -225,9 +240,7 @@ def make_photo(a):
     # Logo: one-colour cream version, small, top right, over its own soft shade.
     lw = 170 if a.size != "story" else 190
     top = 250 if a.size == "story" else MARGIN - 20
-    shade = Image.new("L", (w, h), 0)
-    ImageDraw.Draw(shade).ellipse((w - MARGIN - lw - 70, top - 70, w - MARGIN + 70, top + lw + 70), fill=150)
-    canvas.paste(Image.new("RGB", (w, h), FOREST_BLACK), (0, 0), shade.filter(ImageFilter.GaussianBlur(60)))
+    soft_spot(canvas, (w - MARGIN - lw - 70, top - 70, w - MARGIN + 70, top + lw + 70))
     paste_png(canvas, os.path.join(LOGOS, "logo-light.png"), (w - MARGIN - lw, top), width=lw)
     return canvas
 
@@ -261,27 +274,36 @@ def make_before_after(a):
     canvas = Image.new("RGB", (w, h), FOREST_BLACK)
     hf, hlines = fit_heading(a.headline, w - 2 * MARGIN, max_lines=2, start=72)
     asc, desc = hf.getmetrics()
-    # Band fits the headline, the footer line and the margins.
-    band = 40 + len(hlines) * int((asc + desc) * 1.12) + 24 + 40 + MARGIN
-    if a.size == "story":
-        band += 250
-    safe_top = 250 if a.size == "story" else 0
-    area_h = h - band - safe_top
+    text_h = len(hlines) * int((asc + desc) * 1.12) + 24 + 40
+    safe_bottom = 250 if a.size == "story" else 0
+    text_top = h - safe_bottom - MARGIN - text_h
     gap = 8
+    # Photos fill the whole post; the text sits over the lower one.
     if a.size == "square":
-        pw, ph = (w - gap) // 2, area_h
-        spots = [(0, safe_top), (pw + gap, safe_top)]
+        pw, ph = (w - gap) // 2, h
+        spots = [(0, 0), (pw + gap, 0)]
     else:
-        pw, ph = w, (area_h - gap) // 2
-        spots = [(0, safe_top), (0, safe_top + ph + gap)]
+        pw, ph = w, (h - gap) // 2
+        spots = [(0, 0), (0, ph + gap)]
     d = ImageDraw.Draw(canvas)
     lf = body_font(28, 600)
     for path, (x, y), label in zip((a.before, a.after), spots, ("BEFORE", "AFTER")):
         canvas.paste(cover(Image.open(path), pw, ph), (x, y))
+    # Label chips: see-through dark emerald, like the text underlay.
+    chip = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    cd = ImageDraw.Draw(chip)
+    label_top = 250 if a.size == "story" else 28
+    for (x, y), label in zip(spots, ("BEFORE", "AFTER")):
+        ly = y + (label_top if y == 0 else 28)
         tw = d.textlength(label, font=lf) + 3 * len(label)
-        d.rectangle((x + 28, y + 28, x + 28 + tw + 40, y + 28 + 56), fill=FOREST_BLACK)
-        plain_text(d, (x + 48, y + 38), [label], lf, GOLD_FLAT, tracking=3)
-    y = gold_text(canvas, (MARGIN, h - band + 40), hlines, hf)
+        cd.rectangle((x + 28, ly, x + 28 + tw + 40, ly + 56), fill=EMERALD_DARK + (205,))
+    canvas.paste(chip, (0, 0), chip)
+    d = ImageDraw.Draw(canvas)
+    for (x, y), label in zip(spots, ("BEFORE", "AFTER")):
+        ly = y + (label_top if y == 0 else 28)
+        plain_text(d, (x + 48, ly + 10), [label], lf, GOLD_FLAT, tracking=3)
+    underlay(canvas, text_top - 260, text_top - 10, 0.8)
+    y = gold_text(canvas, (MARGIN, text_top), hlines, hf)
     footer(canvas, y + 24)
     return canvas
 

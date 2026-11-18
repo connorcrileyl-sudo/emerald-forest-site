@@ -66,7 +66,7 @@ why and offer brightness or crop advice instead.
 
 Don't fake the image. Give him the headline, subline and caption, and
 these Canva steps instead: new design 1080x1350; his photo full size;
-a black (#060907) gradient over the bottom third; headline in Libre
+a dark emerald (#0c2416) gradient over the bottom third, fading from clear to about 80% so the photo still shows through; headline in Libre
 Caslon Text bold, gold #c99432, bottom left; subline in Jost,
 #d6cdb9; phone number and website small underneath; `logos/logo-light.png`
 small in the top right. The icons in `icons/` are PNGs he can drop in.
