@@ -16,6 +16,15 @@ Examples (run from the folder this file is in):
   python make_post.py before-after --before old.jpg --after new.jpg \
       --headline "Alcove to Wine Bar" --size portrait
 
+Default look: headline, gold divider, an optional short line (--subline,
+e.g. "Follow for More") and the logo in a corner: white on a dark
+corner, dark on a light one (never the full-colour logo on photos). Nothing else.
+Add --contact for the phone and website line.
+
+Text placement: --text auto (default) measures the photo and puts the
+headline block on the calmer side, printing why; --text top or
+--text bottom forces it. The logo goes in the opposite corner.
+
 Sizes: square 1080x1080, portrait 1080x1350 (best for feeds),
 story 1080x1920. Output: post.png unless --out is given.
 """
@@ -192,6 +201,53 @@ def underlay(canvas, top, full, strength=0.8):
     canvas.paste(Image.new("RGB", (w, h), EMERALD_DARK), (0, 0), mask)
 
 
+def underlay_top(canvas, bottom, full, strength=0.8):
+    """Mirror of underlay(): dark emerald at the top, easing out to
+    clear by `bottom`. Used when the text sits at the top."""
+    w, h = canvas.size
+    mask = Image.new("L", (w, h), 0)
+    d = ImageDraw.Draw(mask)
+    bottom = min(h, bottom)
+    for y in range(0, bottom):
+        t = 1 if y <= full else 1 - (y - full) / max(bottom - full, 1)
+        t = t * t * (3 - 2 * t)
+        d.line([(0, y), (w, y)], fill=int(255 * strength * t))
+    canvas.paste(Image.new("RGB", (w, h), EMERALD_DARK), (0, 0), mask)
+
+
+def band_score(img, y0, y1):
+    """How hard it is to put text on rows y0..y1 of the photo: detail
+    (edges, i.e. the woodwork, grain, windows) counts most, brightness
+    next. 0 is a calm dark area; around 40+ is busy or bright."""
+    from PIL import ImageStat
+    y0, y1 = max(0, int(y0)), min(img.height, int(y1))
+    band = img.crop((0, y0, img.width, y1)).convert("L")
+    band = band.resize((max(1, band.width // 4), max(1, band.height // 4)))
+    edges = ImageStat.Stat(band.filter(ImageFilter.FIND_EDGES)).mean[0]
+    light = ImageStat.Stat(band).mean[0]
+    return edges * 2.2 + max(0, light - 90) * 0.35
+
+
+def choose_side(img, text_h, safe_top, safe_bottom, wanted):
+    """Pick top or bottom for the text block and explain the choice in a
+    printed note, so the AI can pass it on without looking at the photo
+    more than once."""
+    h = img.height
+    reach = text_h + 160  # the text plus the start of its fade
+    top = band_score(img, safe_top, safe_top + reach)
+    bottom = band_score(img, h - safe_bottom - reach, h - safe_bottom)
+    side = wanted
+    if wanted == "auto":
+        side = "top" if top + 4 < bottom else "bottom"
+    chosen, other = (top, bottom) if side == "top" else (bottom, top)
+    print(f"Text check: top area {top:.0f}, bottom area {bottom:.0f} "
+          f"(lower is calmer). Text placed at the {side}.")
+    if wanted != "auto" and other + 4 < chosen:
+        print(f"Note: the {'bottom' if side == 'top' else 'top'} of this photo "
+              "is calmer; the text may cover detail where it is. Mention it.")
+    return side
+
+
 def soft_spot(canvas, box, strength=0.55):
     """A soft emerald pool behind a small element (the logo)."""
     w, h = canvas.size
@@ -245,6 +301,30 @@ def footer(canvas, y, align="left"):
     plain_text(d, (x + 46, y), [text], f, PARCHMENT, tracking=2)
 
 
+def corner_logo(canvas, text_side, safe_top, safe_bottom):
+    """The logo, small, in the corner away from the text. Only the
+    one-colour versions are used: white (logo-light) on a dark corner,
+    dark (logo-dark) on a light corner. The corner is measured first."""
+    from PIL import ImageStat
+    w, h = canvas.size
+    lw = 150 if h < 1900 else 170
+    top = h - safe_bottom - MARGIN - lw + 20 if text_side == "top" else safe_top + MARGIN - 20
+    box = (w - MARGIN - lw - 30, max(0, top - 30), w - MARGIN + 30, min(h, top + lw + 30))
+    patch = canvas.crop(box).convert("L")
+    light = ImageStat.Stat(patch).mean[0]
+    busy = ImageStat.Stat(patch.filter(ImageFilter.FIND_EDGES)).mean[0]
+    # Dark logo only on a light AND plain corner (a wall, ceiling, sky).
+    # Busy texture like gravel or grain swallows it, so those get white.
+    if light > 140 and busy < 12:
+        name = "logo-dark.png"
+    else:
+        name = "logo-light.png"
+        # A soft dark pool keeps the white logo crisp on mid-tone photos.
+        soft_spot(canvas, (w - MARGIN - lw - 70, top - 70, w - MARGIN + 70, top + lw + 70))
+    paste_png(canvas, os.path.join(LOGOS, name), (w - MARGIN - lw, top), width=lw)
+    print(f"Logo: {name} (corner brightness {light:.0f}, detail {busy:.0f}).")
+
+
 def make_photo(a):
     w, h = SIZES[a.size]
     canvas = cover(Image.open(a.photo), w, h)
@@ -253,20 +333,23 @@ def make_photo(a):
     sf = body_font(38)
     slines = wrap(a.subline, sf, w - 2 * MARGIN) if a.subline else []
     asc, desc = hf.getmetrics()
-    text_h = len(hlines) * int((asc + desc) * 1.12) + RULE_H + (len(slines) * 50 + 20 if slines else 0) + 110
-    text_top = h - safe_bottom - MARGIN - text_h
-    underlay(canvas, text_top - 300, text_top - 10, 0.8)
+    text_h = len(hlines) * int((asc + desc) * 1.12) + RULE_H + (len(slines) * 50 + 20 if slines else 0) + (110 if a.contact else 30)
+    safe_top = 250 if a.size == "story" else 0
+    a.text = choose_side(canvas, text_h, safe_top, safe_bottom, a.text)
+    if a.text == "top":
+        text_top = safe_top + MARGIN
+        underlay_top(canvas, text_top + text_h + 300, text_top + text_h + 10, 0.8)
+    else:
+        text_top = h - safe_bottom - MARGIN - text_h
+        underlay(canvas, text_top - 300, text_top - 10, 0.8)
     y = gold_text(canvas, (MARGIN, text_top), hlines, hf)
     rule(canvas, MARGIN, y + 10)
     y += RULE_H
     if slines:
         y = plain_text(ImageDraw.Draw(canvas), (MARGIN, y + 8), slines, sf, PARCHMENT)
-    footer(canvas, y + 34)
-    # Logo: one-colour cream version, small, top right, over its own soft shade.
-    lw = 170 if a.size != "story" else 190
-    top = 250 if a.size == "story" else MARGIN - 20
-    soft_spot(canvas, (w - MARGIN - lw - 70, top - 70, w - MARGIN + 70, top + lw + 70))
-    paste_png(canvas, os.path.join(LOGOS, "logo-light.png"), (w - MARGIN - lw, top), width=lw)
+    if a.contact:
+        footer(canvas, y + 34)
+    corner_logo(canvas, a.text, safe_top, safe_bottom)
     return canvas
 
 
@@ -299,9 +382,11 @@ def make_before_after(a):
     canvas = Image.new("RGB", (w, h), FOREST_BLACK)
     hf, hlines = fit_heading(a.headline, w - 2 * MARGIN, max_lines=2, start=72)
     asc, desc = hf.getmetrics()
-    text_h = len(hlines) * int((asc + desc) * 1.12) + RULE_H + 24 + 40
+    sf = body_font(38)
+    slines = wrap(a.subline, sf, w - 2 * MARGIN) if a.subline else []
+    text_h = (len(hlines) * int((asc + desc) * 1.12) + RULE_H
+              + (len(slines) * 50 + 20 if slines else 0) + (64 if a.contact else 10))
     safe_bottom = 250 if a.size == "story" else 0
-    text_top = h - safe_bottom - MARGIN - text_h
     gap = 8
     # Photos fill the whole post; the text sits over the lower one.
     if a.size == "square":
@@ -314,10 +399,21 @@ def make_before_after(a):
     lf = body_font(28, 600)
     for path, (x, y), label in zip((a.before, a.after), spots, ("BEFORE", "AFTER")):
         canvas.paste(cover(Image.open(path), pw, ph), (x, y))
+    a.text = choose_side(canvas, text_h, 250 if a.size == "story" else 0, safe_bottom, a.text)
+    if a.text == "top":
+        text_top = (250 if a.size == "story" else 0) + MARGIN + 60
+    else:
+        text_top = h - safe_bottom - MARGIN - text_h
+    # Text at the top: shade first, so the BEFORE chip stays crisp on it.
+    if a.text == "top":
+        underlay_top(canvas, text_top + text_h + 260, text_top + text_h + 10, 0.8)
     # Label chips: see-through dark emerald, like the text underlay.
     chip = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     cd = ImageDraw.Draw(chip)
     label_top = 250 if a.size == "story" else 28
+    # With the text at the top, the BEFORE chip moves below it.
+    if a.text == "top":
+        label_top = text_top + text_h + 10
     for (x, y), label in zip(spots, ("BEFORE", "AFTER")):
         ly = y + (label_top if y == 0 else 28)
         tw = d.textlength(label, font=lf) + 3 * len(label)
@@ -327,10 +423,16 @@ def make_before_after(a):
     for (x, y), label in zip(spots, ("BEFORE", "AFTER")):
         ly = y + (label_top if y == 0 else 28)
         plain_text(d, (x + 48, ly + 10), [label], lf, GOLD_FLAT, tracking=3)
-    underlay(canvas, text_top - 260, text_top - 10, 0.8)
+    if a.text != "top":
+        underlay(canvas, text_top - 260, text_top - 10, 0.8)
     y = gold_text(canvas, (MARGIN, text_top), hlines, hf)
     rule(canvas, MARGIN, y + 10)
-    footer(canvas, y + RULE_H + 24)
+    y += RULE_H
+    if slines:
+        y = plain_text(ImageDraw.Draw(canvas), (MARGIN, y + 8), slines, sf, PARCHMENT)
+    if a.contact:
+        footer(canvas, y + 24)
+    corner_logo(canvas, a.text, 250 if a.size == "story" else 0, safe_bottom)
     return canvas
 
 
@@ -348,6 +450,12 @@ def main():
     b.add_argument("--before", required=True)
     b.add_argument("--after", required=True)
     b.add_argument("--headline", required=True)
+    b.add_argument("--subline", default="")
+    for x in (s, b):
+        x.add_argument("--contact", action="store_true",
+                       help="add the phone number and website line (off by default)")
+        x.add_argument("--text", choices=("auto", "bottom", "top"), default="auto",
+                       help="where the headline block sits; auto picks the calmer side")
     for x in (s, r, b):
         x.add_argument("--size", choices=SIZES, default="portrait")
         x.add_argument("--out", default="post.png")

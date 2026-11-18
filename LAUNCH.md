@@ -101,6 +101,18 @@ from `public/`. `form-config.php` is never overwritten.
 
 Noah now does the move himself, guided by the website helper
 (`helper/`, see `docs/HELPER.md`). The helper also sets up the
-contact form, and he uses it afterwards for small text edits on a $5
-Claude budget. `contact.php` and `public/lib/` are built, and
-`FORM_ENDPOINT` is now `/contact.php`.
+contact form, and he uses it afterwards for small text edits on a $10
+Claude budget.
+
+## Update (18 Nov 2026): the form uses Web3Forms
+
+The PHP form above was dropped. `contact.php` and `public/lib/` are
+gone, and `FORM_ENDPOINT` is Web3Forms (key in `src/consts.ts`).
+Ignore the `contact.php` / `form-config.php` / SMTP parts above.
+
+Account handover (step 2 in the helper, before the switch): Connor
+made the Web3Forms account on barangvillage@protonmail.com. Noah
+signs in to Proton Mail and changes the password, signs in to
+Web3Forms with that address and password, and adds his Gmail as
+the recipient. Connor gives him the starting password directly;
+it is not stored in this repo.

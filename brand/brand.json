@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updated": "2026-11-18",
-  "status": "draft",
+  "status": "final",
   "business": {
     "name": "Emerald Forest Furnishings",
     "industry": "Custom woodworking and finish carpentry",
@@ -75,7 +75,7 @@
     }
   },
   "spacing": {
-    "why": "Lumos spacing is fluid; these are rough pixel values for things that aren't web pages, like posters.",
+    "why": "The site's spacing is fluid; these are rough pixel values for things that aren't web pages, like posters.",
     "unitPx": 4,
     "sectionPaddingPx": 96,
     "gutterPx": 24,
@@ -382,7 +382,8 @@
     ],
     "posters": [
       "One real photo, one short gold headline in Libre Caslon Text, one line of Jost underneath.",
-      "Logo small in a corner, phone number and website at the bottom.",
+      "Keep posts clean: photo, gold headline, small gold divider, one short line, and the logo small in a corner. Phone, website and hashtags go in the caption, not on the image. Text usually sits at the bottom; at the top is fine too.",
+      "On photos use only the one-colour logos: white (logo-light) on dark or busy areas, dark (logo-dark) on plain light ones. Never the full-colour logo on a photo.",
       "Near-black background or band; lots of empty space."
     ],
     "socialPosts": [
@@ -390,7 +391,8 @@
       "Before and after: same angle both times, labelled Before and After in small uppercase Jost.",
       "In the shop: lumber, tools, work in progress, with a one-line explanation.",
       "Customer review: the quote in parchment text on near-black, five gold stars, first name and last initial only.",
-      "Square 1080x1080 or portrait 1080x1350 for Instagram and Facebook feeds; 1080x1920 for stories, with text kept out of the top and bottom 250px."
+      "Square 1080x1080 or portrait 1080x1350 for Instagram and Facebook feeds; 1080x1920 for stories, with text kept out of the top and bottom 250px.",
+      "Noah posts mostly on Facebook and Instagram, so make those by default. Other sizes, platforms or extra variations are fine whenever he asks."
     ],
     "copy": [
       "Headlines in Title Case, under eight words.",

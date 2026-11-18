@@ -7,8 +7,8 @@ return [
     'storehouse_url'   => 'https://api-storehouse.dawn-boat-e04e.workers.dev',
     'storehouse_token' => 'PASTE-TOKEN-FROM-new-caller.mjs',
     'setup_code'       => 'CHANGE-ME',   // Noah types this once to choose his password
-    'model'            => 'claude-opus-5-5',
-    'budget_usd'       => 5,             // shown only if the storehouse meter is unreachable
+    'model'            => 'claude-sonnet-5-5',
+    'budget_usd'       => 10,            // shown only if the storehouse meter is unreachable
     'client_name'      => 'Noah',
     'business'         => 'Emerald Forest Furnishings',
     'domain'           => 'emeraldforestfurnishings.com',

@@ -4,10 +4,12 @@ A password-protected page at `emeraldforestfurnishings.com/helper/`
 on Noah's Hostinger hosting. Claude in it:
 
 1. walks Noah through moving from WordPress to the new site
-   (the contact form needs no setup: it uses Web3Forms),
-2. afterwards makes small text edits that Noah approves.
+   (including taking over the Web3Forms account for the form),
+2. afterwards makes small text edits that Noah approves,
+3. helps him sort out problems with the site (cache, form, hPanel),
+   and sends anything off-topic to free ChatGPT to save the $10.
 
-A meter at the top shows how much of the $5 has been used.
+A meter at the top shows how much of the $10 has been used.
 
 ## How it fits together
 
@@ -18,7 +20,7 @@ A meter at the top shows how much of the $5 has been used.
   them. Each edit is backed up first; "Undo last edit" restores it.
 - Claude is reached through the **api-storehouse** with its own
   caller token (in `helper/config.php`). The storehouse holds the
-  real Anthropic key and enforces a **$5 lifetime budget** (table
+  real Anthropic key and enforces a **$10 lifetime budget** (table
   `budgets`, `scripts/budget.mjs`). That budget never resets. The
   meter reads `GET /_budget`. Revoke the caller to cut it off.
 - Data (password hash, chat, backups, logs) lives in `helper-data/`
@@ -29,9 +31,14 @@ A meter at the top shows how much of the $5 has been used.
   the source, or the upload will undo them.
 - The contact form posts to **Web3Forms** (free, 250 a month; key
   and endpoint in `src/consts.ts`). Each enquiry is emailed to Noah's
-  Gmail and kept 30 days in the Web3Forms dashboard (Connor's
-  account, Noah's Gmail as the recipient). The helper has no mail
-  settings; SureForms and SureMail just go away with WordPress.
+  Gmail and kept 30 days in the Web3Forms dashboard. Connor made
+  the account on a Proton Mail address (barangvillage@protonmail.com)
+  and hands it over: Noah signs in to Proton and changes the
+  password, signs in to Web3Forms with that address and password,
+  and adds his Gmail as the recipient. The password is given to
+  Noah directly, never written in this repo or the helper chat.
+  The helper has no mail settings; SureForms and SureMail just go
+  away with WordPress.
 - The switch moves everything in `public_html` (except `helper/`,
   `.well-known/` and `cgi-bin/`) into `old-site-<date>/` next to it,
   then unpacks the new site from `helper/site.zip`. Nothing is
@@ -44,10 +51,10 @@ A meter at the top shows how much of the $5 has been used.
    npx wrangler d1 execute storehouse --remote --file schema.sql
    npx wrangler deploy
    node scripts/new-caller.mjs emerald-helper anthropic --no-lock
-   node scripts/budget.mjs emerald-helper anthropic 5
+   node scripts/budget.mjs emerald-helper anthropic 10
    ```
    `--no-lock` means the helper works without an Ente unlock. The
-   $5 budget and the single service are what limit it.
+   $10 budget and the single service are what limit it.
 2. `cp helper/config.sample.php helper/config.php` and fill in the
    token and a setup code.
 3. `npx astro build` (production: no PREVIEW_SITE or PUBLIC_REVIEW),
