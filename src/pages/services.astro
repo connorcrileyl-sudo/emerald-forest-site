@@ -9,13 +9,12 @@ import Paragraph from "@/components/typography/Paragraph.astro";
 import RichText from "@/components/typography/RichText.astro";
 import Button from "@/components/Button.astro";
 import ServiceCard from "@/components/item/ServiceCard.astro";
-import deckPergola from "@/assets/images/raised-deck-and-pergola.jpg";
 import crownMolding from "@/assets/images/stock-crown-molding-nail-gun.jpg";
-import rotBoards from "@/assets/images/stock-wood-rot-damaged-boards.jpg";
 import oakNewel from "@/assets/images/oak-stair-newel-post.jpg";
 import spiralBalusters from "@/assets/images/spiral-staircase-walnut-balusters.jpg";
 import arched from "@/assets/images/arched-door-with-trim.jpg";
 import kitchen from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
+import wineBuiltIn from "@/assets/images/arched-wine-builtin-hero.jpg";
 import coffeeTable from "@/assets/images/cherry-coffee-table.jpg";
 import pergola from "@/assets/images/pergola-with-planters.jpg";
 import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
@@ -24,7 +23,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
 
 <Layout
   title="Carpentry & Woodworking Services | Black Mountain & Asheville, NC"
-  description="Custom staircases, doors, cabinets, furniture, finish carpentry, decks, pergolas, wood rot repair and restoration from a Black Mountain, NC carpenter."
+  description="Custom staircases, doors, kitchens, cabinets, furniture, finish carpentry and pergolas from a Black Mountain, NC carpenter."
 >
   <BreadcrumbSchema slot="head" trail={[{ label: "Services", href: "/services/" }]} />
   <!-- Hero -->
@@ -81,13 +80,23 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         label="Doors"
       />
       <ServiceCard
-        href="/custom-cabinets/"
+        href="/custom-kitchens/"
         image={kitchen}
         imageAlt="Wood kitchen cabinets with a hammered copper farmhouse sink and stone countertop"
-        heading="Custom Cabinets and Built-Ins"
+        heading="Custom Kitchens"
         headingTag="h3"
-        text="Kitchens, built-ins and mantels in local hardwood, with food-safe finishes."
-        items={["Kitchen cabinets", "Built-ins and shelves", "Mantels"]}
+        text="Solid hardwood kitchens built to fit the room."
+        items={["Kitchen cabinets", "Countertops", "Open shelving"]}
+        label="Kitchens"
+      />
+      <ServiceCard
+        href="/custom-cabinets/"
+        image={wineBuiltIn}
+        imageAlt="Arched built-in wine cabinet with lit shelves set into a dining room wall"
+        heading="Cabinets and Built-Ins"
+        headingTag="h3"
+        text="Built-ins, shelves and mantels in local hardwood."
+        items={["Built-ins and bookshelves", "Floating shelves", "Mantels"]}
         label="Cabinets"
       />
       <ServiceCard
@@ -111,16 +120,6 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         label="Finish Carpentry"
       />
       <ServiceCard
-        href="/wood-rot-repair/"
-        image={rotBoards}
-        imageAlt="Weathered wooden boards with rot, peeling paint and insect damage"
-        heading="Wood Rot Repair and Restoration"
-        headingTag="h3"
-        text="Rotted and worn wood repaired, with new wood shaped to match."
-        items={["Sills and door frames", "Porches and fascia", "Historic woodwork"]}
-        label="Wood Rot Repair"
-      />
-      <ServiceCard
         href="/pergolas/"
         image={pergola}
         imageAlt="Timber pergola with built-in planter boxes"
@@ -129,16 +128,6 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         text="Shade and outdoor living space, framed in solid timber."
         items={["Pergolas", "Built-in planters", "Covered outdoor spaces"]}
         label="Pergolas"
-      />
-      <ServiceCard
-        href="/decks/"
-        image={deckPergola}
-        imageAlt="Raised wood deck with wire-panel railings beside a pergola and planters, with mountains behind"
-        heading="Decks, Deck Repair and Staining"
-        headingTag="h3"
-        text="New decks built right, and worn decks brought back."
-        items={["New wood decks", "Board, rail and stair repair", "Cleaning and restaining"]}
-        label="Decks"
       />
     </Grid>
   </Section>

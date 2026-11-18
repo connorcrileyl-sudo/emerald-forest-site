@@ -1,0 +1,63 @@
+---
+/**
+ * Service area map: a 50-mile ring around Black Mountain with the
+ * nearby towns marked. Ported from the Pond Monk site (same centre, so
+ * the geometry is unchanged) and recoloured for the Emerald dark theme.
+ * Colours live in the <style> block at the top of the SVG; the labels
+ * pick up the site fonts (Jost only).
+ */
+import mapSvg from "@/assets/images/service-area.svg?raw";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+  /** Caption above the map. */
+  caption?: string;
+  /** Utility classes. */
+  class?: string;
+}
+
+const {
+  render = true,
+  caption = "Within 50 miles of Black Mountain",
+  class: className,
+} = Astro.props;
+
+const map = mapSvg.replace(' width="784" height="784"', ' width="100%" height="auto"');
+---
+
+{render && (
+  <figure class:list={["service-map_wrap", className]}>
+    <figcaption class="service-map_caption text-style-small">{caption}</figcaption>
+    <div class="service-map_graphic" set:html={map} />
+  </figure>
+)}
+
+<style is:global>
+  @layer components {
+    .service-map_wrap {
+      width: 100%;
+      max-width: 30rem;
+      margin: 0;
+      margin-inline: auto;
+      background: var(--dark-900);
+      border: var(--border-width) solid rgb(210 154 60 / 0.3);
+      border-radius: var(--radius-main);
+      overflow: hidden;
+    }
+
+    .service-map_graphic svg {
+      display: block;
+    }
+
+    .service-map_caption {
+      padding: 0.9rem 1.25rem;
+      border-bottom: var(--border-width) solid rgb(210 154 60 / 0.3);
+      background: #1b3d2e; /* matches the map's inner circle */
+      color: var(--light-100);
+      font-weight: var(--primary-medium);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+  }
+</style>

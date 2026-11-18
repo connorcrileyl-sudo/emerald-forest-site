@@ -33,10 +33,16 @@ const schema = {
     postalCode: "28711",
     addressCountry: "US",
   },
-  areaServed: TOWNS.map((town) => ({
-    "@type": "City",
-    name: `${town}, NC`,
-  })),
+  geo: { "@type": "GeoCoordinates", latitude: 35.6179, longitude: -82.3212 },
+  /* The towns by name, plus the 50-mile radius the home page map shows. */
+  areaServed: [
+    ...TOWNS.map((town) => ({ "@type": "City", name: `${town}, NC` })),
+    {
+      "@type": "GeoCircle",
+      geoMidpoint: { "@type": "GeoCoordinates", latitude: 35.6179, longitude: -82.3212 },
+      geoRadius: "80467",
+    },
+  ],
   hasMap: GOOGLE_PROFILE_URL,
   sameAs: [GOOGLE_PROFILE_URL, ...SOCIAL_LINKS.map((link) => link.href)],
   makesOffer: [
@@ -46,7 +52,9 @@ const schema = {
     "Solid hardwood doors",
     "Sliding barn doors",
     "Custom cabinets",
+    "Custom kitchens",
     "Kitchen cabinets",
+    "Wood countertops",
     "Built-ins and bookshelves",
     "Floating shelves",
     "Fireplace mantels",
@@ -57,13 +65,8 @@ const schema = {
     "Crown molding installation",
     "Coffered ceilings",
     "Interior door installation",
-    "Porch repair",
     "Stair repair",
     "Pergolas and outdoor structures",
-    "Deck building",
-    "Deck repair and staining",
-    "Wood rot repair",
-    "Historic home restoration",
   ].map((name) => ({
     "@type": "Offer",
     itemOffered: { "@type": "Service", name },

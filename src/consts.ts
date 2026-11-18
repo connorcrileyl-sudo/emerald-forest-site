@@ -58,12 +58,11 @@ export const SERVICE_LINKS: Link[] = [
   { label: "Staircases", href: "/custom-staircases/" },
   { label: "Stair Railings", href: "/stair-railings/" },
   { label: "Doors", href: "/custom-doors/" },
-  { label: "Cabinets", href: "/custom-cabinets/" },
+  { label: "Kitchens", href: "/custom-kitchens/" },
+  { label: "Cabinets & Built-Ins", href: "/custom-cabinets/" },
   { label: "Furniture", href: "/custom-furniture/" },
   { label: "Pergolas", href: "/pergolas/" },
-  { label: "Decks", href: "/decks/" },
   { label: "Finish Carpentry", href: "/finish-carpentry/" },
-  { label: "Wood Rot Repair", href: "/wood-rot-repair/" },
   { label: "All Services", href: "/services/" },
 ];
 
@@ -74,11 +73,13 @@ export const SERVICE_LINKS: Link[] = [
  * A link with `children` becomes a dropdown (a plain list on phones).
  */
 export const NAV_LINKS: Link[] = [
+  { label: "Home", href: "/" },
   {
     label: "Services",
     href: "/services/",
     children: SERVICE_LINKS,
   },
+  { label: "Portfolio", href: "/portfolio/" },
   { label: "About", href: "/about/" },
   { label: "Contact", href: "/contact/" },
 ];
@@ -90,6 +91,7 @@ export const NAV_CTA: Link | null = { label: "Call 828-424-5401", href: PHONE_HR
 export const FOOTER_LINKS: Link[] = [
   { label: "Home", href: "/" },
   ...SERVICE_LINKS,
+  { label: "Portfolio", href: "/portfolio/" },
   { label: "About", href: "/about/" },
   { label: "Contact", href: "/contact/" },
 ];
@@ -101,6 +103,8 @@ export const TOWNS = [
   "Swannanoa",
   "Montreat",
   "Fairview",
+  "Hendersonville",
+  "Canton",
 ];
 
 /** Google Business Profile. */
@@ -117,12 +121,12 @@ export const SOCIAL_LINKS: Link[] = [
 ];
 
 /**
- * Where contact forms send their messages, e.g. a Formspree form URL
- * ("https://formspree.io/f/abcd1234"). While this is "", Lumos's Form
- * still shows its "sent" message but delivers nothing, so the site must
- * not go live with a form until this is set.
+ * Where contact forms send their messages. "/contact.php" is our own
+ * PHP mailer on Noah's Hostinger hosting (public/contact.php, settings
+ * in form-config.php one level above public_html). It only works on
+ * the Hostinger server, not in `astro dev` or on the Cloudflare preview.
  */
-export const FORM_ENDPOINT = "";
+export const FORM_ENDPOINT = "/contact.php";
 
 /**
  * Google Analytics 4 measurement ID (property "Emerald Forest

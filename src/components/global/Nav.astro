@@ -91,6 +91,9 @@ const inGroup = (children: { href: string }[]) =>
     .nav_menu_inner {
       opacity: 1;
     }
+    .nav_group:not(.open) > .nav_sub {
+      display: grid;
+    }
   </style>
 </noscript>
 
@@ -346,13 +349,32 @@ const inGroup = (children: { href: string }[]) =>
       }
     }
 
+    /* Phones and tablets: Services starts closed so About, Contact and
+       the call button stay on screen; tapping it opens the links in
+       two columns. The noscript block keeps it open without JS. */
+    @media (width < 64rem) {
+      .nav_sub {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: var(--space-4);
+      }
+      .nav_group:not(.open) > .nav_sub {
+        display: none;
+      }
+      .nav_group.open .nav_group_chevron {
+        transform: rotate(180deg);
+      }
+    }
+
     .nav_link {
       display: block;
       padding-block: var(--space-3);
       color: var(--text-2);
       text-decoration: none;
       text-underline-offset: 0.4em;
-      text-decoration-thickness: var(--border-width);
+      /* Gold underline on the current page, a touch heavier than a hairline. */
+      text-decoration-thickness: 1.5px;
+      text-decoration-color: var(--brand-300);
       transition: color var(--hover-duration) var(--hover-ease);
       &[aria-current="page"] {
         color: var(--text);
@@ -408,7 +430,7 @@ const inGroup = (children: { href: string }[]) =>
       .nav_link {
         padding-block: 0;
         &[aria-current="page"] {
-          text-decoration: underline;
+          text-decoration-line: underline;
         }
       }
 
@@ -419,7 +441,7 @@ const inGroup = (children: { href: string }[]) =>
       .nav_link.nav_group_toggle {
         width: auto;
         &[data-current] {
-          text-decoration: underline;
+          text-decoration-line: underline;
         }
       }
 

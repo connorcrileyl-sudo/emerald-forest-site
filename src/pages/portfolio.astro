@@ -1,0 +1,310 @@
+---
+/*
+ * Portfolio: an Instagram-style grid of Noah's own work (no stock),
+ * three square photos per row at every width. Each project group has a
+ * small title and its photos. Two small bands (before/after, video)
+ * break up the grid, and the site-wide call-to-action band follows from
+ * the layout.
+ */
+import Layout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/wrapper/Section.astro";
+import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
+import Heading from "@/components/typography/Heading.astro";
+import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
+import VideoFacade from "@/components/media/VideoFacade.astro";
+import Lightbox from "@/components/media/Lightbox.astro";
+import ZoomBadge from "@/components/media/ZoomBadge.astro";
+import BeforeAfter from "@/components/media/BeforeAfter.astro";
+import alcoveBeforeAfter from "@/assets/images/alcove-before-after.jpg";
+import { Image, getImage } from "astro:assets";
+
+import mapleKitchen from "@/assets/images/maple-kitchen-cabinets-wide.jpg";
+import kitchenDrawers from "@/assets/images/kitchen-cabinets-wood-drawers.jpg";
+import kitchenSink from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
+import drawerBank from "@/assets/images/maple-kitchen-drawer-bank.jpg";
+import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
+import plateShelves from "@/assets/images/painted-kitchen-plate-shelves.jpg";
+import spiralHero from "@/assets/images/spiral-staircase-hero-new.jpg";
+import spiralBalusters from "@/assets/images/spiral-staircase-walnut-balusters.jpg";
+import oakHandrail from "@/assets/images/oak-stair-handrail-detail.jpg";
+import spiralTreads from "@/assets/images/spiral-staircase-hammered-treads.jpg";
+import oakStair from "@/assets/images/oak-straight-staircase.jpg";
+import oakNewel from "@/assets/images/oak-stair-newel-post.jpg";
+import doorInstalled from "@/assets/images/walnut-entry-door-installed.jpg";
+import doorOpen from "@/assets/images/walnut-entry-door-open.jpg";
+import doorPanel from "@/assets/images/walnut-door-carved-panel.jpg";
+import archedDoor from "@/assets/images/arched-hardwood-door.jpg";
+import archedTrimDoor from "@/assets/images/arched-door-with-trim.jpg";
+import plankDoors from "@/assets/images/plank-interior-doors.jpg";
+import wineRoom from "@/assets/images/arched-wine-builtin-dining-room.jpg";
+import wineBuiltIn from "@/assets/images/arched-wine-builtin.jpg";
+import coffeeStation from "@/assets/images/coffee-station-arched-glass.jpg";
+import coffeeSide from "@/assets/images/coffee-station-side.jpg";
+import floatingShelves from "@/assets/images/floating-shelves-bowtie-inlay.jpg";
+import boothBenches from "@/assets/images/plywood-booth-benches.jpg";
+import coffeeTable from "@/assets/images/cherry-coffee-table.jpg";
+import bowTie from "@/assets/images/bow-tie-inlay-routed-recess.jpg";
+import archedWindow from "@/assets/images/arched-window-trim.jpg";
+import pergolaFront from "@/assets/images/pergola-front-view.jpg";
+import pergolaPlanters from "@/assets/images/pergola-with-planters.jpg";
+import pergolaShade from "@/assets/images/pergola-dappled-shade.jpg";
+
+type Photo = { src: ImageMetadata; alt: string };
+type Group = { title: string; href: string; linkLabel: string; photos: Photo[] };
+
+const groups: Group[] = [
+  {
+    title: "Full Kitchen Build-Outs",
+    href: "/custom-kitchens/",
+    linkLabel: "Custom kitchens",
+    photos: [
+      { src: mapleKitchen, alt: "Maple kitchen with slab-front cabinets, a stainless range, green tile backsplash and a window over the counter" },
+      { src: kitchenDrawers, alt: "Solid wood kitchen cabinets and drawers with slim metal pulls, built around a gas range" },
+      { src: kitchenSink, alt: "Wood kitchen cabinets with a hammered copper farmhouse sink and stone countertop" },
+      { src: drawerBank, alt: "Bank of maple drawers with recessed pulls and figured grain on the drawer fronts" },
+      { src: kitchenStone, alt: "L-shaped kitchen cabinets with a dark wood countertop below a stone wall, open shelves and a window" },
+      { src: plateShelves, alt: "Painted open shelves with plate rails holding orange plates, beside a stone wall" },
+    ],
+  },
+  {
+    title: "Custom Staircases",
+    href: "/custom-staircases/",
+    linkLabel: "Custom staircases",
+    photos: [
+      { src: spiralHero, alt: "Walnut spiral staircase seen from above, with hammered metal treads and turned balusters" },
+      { src: spiralBalusters, alt: "Walnut spiral staircase with turned balusters and a curved handrail rising past an orange wall" },
+      { src: oakHandrail, alt: "Oak handrail joining a newel post at the foot of a staircase" },
+      { src: spiralTreads, alt: "Hammered metal treads on a spiral staircase, framed by walnut balusters" },
+      { src: oakStair, alt: "Straight oak staircase with solid treads and a hand-shaped oak handrail, seen from the bottom" },
+      { src: oakNewel, alt: "Close-up of a chamfered oak newel post and balusters" },
+    ],
+  },
+  {
+    title: "Doors",
+    href: "/custom-doors/",
+    linkLabel: "Custom doors",
+    photos: [
+      { src: doorInstalled, alt: "Solid walnut entry door with a carved geometric upper panel and raised lower panels" },
+      { src: doorOpen, alt: "Walnut entry door standing open, showing its full thickness and carved panel" },
+      { src: doorPanel, alt: "Carved walnut door panel with an interlocking geometric pattern" },
+      { src: archedDoor, alt: "Arched plank door with a black knob in a white hallway" },
+      { src: archedTrimDoor, alt: "Arched solid wood door with horizontal planks and a matching curved wood trim" },
+      { src: plankDoors, alt: "Two solid wood plank interior doors in a hallway" },
+    ],
+  },
+  {
+    title: "Built-Ins and Shelving",
+    href: "/custom-cabinets/",
+    linkLabel: "Cabinets and built-ins",
+    photos: [
+      { src: wineRoom, alt: "Arched built-in wine cabinet with lit shelves, set into a dining room wall beside a brick wall" },
+      { src: wineBuiltIn, alt: "Arched built-in wine cabinet set into a dining room wall" },
+      { src: coffeeStation, alt: "Painted coffee station cabinet with arched glass doors and open shelves beside it" },
+      { src: coffeeSide, alt: "Coffee station cabinet with arched glass doors above a wood countertop, with open shelves to the side" },
+      { src: floatingShelves, alt: "Thick wood floating shelves wrapping a corner alcove, with a bow-tie inlay across a crack" },
+      { src: boothBenches, alt: "Two built-in booth benches facing each other below a pair of windows" },
+    ],
+  },
+  {
+    title: "Furniture and Finish Work",
+    href: "/custom-furniture/",
+    linkLabel: "Custom furniture",
+    photos: [
+      { src: coffeeTable, alt: "Mid-century modern cherry coffee table with an open shelf and tapered legs" },
+      { src: bowTie, alt: "Bow-tie inlay set across a crack in a thick hardwood slab" },
+      { src: archedWindow, alt: "Curved wood trim framing a half-round arched window" },
+    ],
+  },
+  {
+    title: "Pergolas",
+    href: "/pergolas/",
+    linkLabel: "Pergolas",
+    photos: [
+      { src: pergolaFront, alt: "Large timber pergola with a slatted roof and planter boxes, against a mountain backdrop" },
+      { src: pergolaPlanters, alt: "Large timber pergola with built-in planter boxes along both sides" },
+      { src: pergolaShade, alt: "Under a large timber pergola, sunlight through the slatted roof casting a grid of light across the concrete" },
+    ],
+  },
+];
+
+/* Large copies for the full-screen viewer, made at build time. */
+const full = new Map<ImageMetadata, string>();
+for (const photo of groups.flatMap((g) => g.photos)) {
+  full.set(photo.src, (await getImage({ src: photo.src, width: 1800, format: "webp" })).src);
+}
+---
+
+<Layout
+  title="Portfolio | Woodwork in Black Mountain & Asheville, NC"
+  description="Photos of Noah's work: full kitchen build-outs, custom staircases, solid wood doors, built-ins, furniture and pergolas, made in Black Mountain, NC."
+>
+  <BreadcrumbSchema slot="head" trail={[{ label: "Portfolio", href: "/portfolio/" }]} />
+
+  <!-- Title only, so the photos start high on the page -->
+  <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="small">
+    <ContentWrapper class="ig-feed">
+      <Heading tag="h1" variant="h1" maxWidth={16}>Our Work</Heading>
+    </ContentWrapper>
+  </Section>
+
+  <!-- Photo grid, grouped by project type -->
+  <Section paddingTop="none">
+    <div class="ig-feed">
+    {groups.map((group, gi) => (
+      <section class="ig-group" aria-labelledby={`ig-${gi}`}>
+        <div class="ig-head">
+          <h2 id={`ig-${gi}`} class="ig-title">{group.title}</h2>
+          <a href={group.href} class="ig-link text-style-small">{group.linkLabel} &rarr;</a>
+        </div>
+        <div class="ig-grid">
+          {group.photos.map((photo) => (
+            <button type="button" class="ig-open" data-lightbox data-full={full.get(photo.src)} data-alt={photo.alt} aria-label={`View full size: ${photo.alt}`}>
+              <Image src={photo.src} alt={photo.alt} widths={[240, 400, 640]} sizes="(min-width: 60rem) 19rem, 33vw" class="ig-tile" />
+              <ZoomBadge />
+            </button>
+          ))}
+        </div>
+        {gi === 0 && (
+          <aside class="ig-band" aria-labelledby="ig-ba">
+            <div class="ig-band_text">
+              <p class="ig-band_eyebrow text-style-small">Before and After</p>
+              <h2 id="ig-ba" class="ig-title">A Dining Room Alcove</h2>
+              <p class="ig-overview">
+                A plain arched alcove, turned into a lit wine built-in.
+              </p>
+            </div>
+            <BeforeAfter
+              image={alcoveBeforeAfter}
+              alt="Before: an empty arched alcove with plain white cabinets. After: the same alcove as a lit built-in wine cabinet with diamond wine racks and wood doors"
+            />
+          </aside>
+        )}
+        {gi === 1 && (
+          <aside class="ig-band" aria-labelledby="ig-video">
+            <div class="ig-band_text">
+              <h2 id="ig-video" class="ig-title ig-callout">
+                Real Project Walkthrough
+                <svg class="ig-callout_arrow" viewBox="0 0 48 24" width="48" height="24" aria-hidden="true"><path d="M2 12h42M34 3l10 9-10 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              </h2>
+            </div>
+            <VideoFacade
+              reel="https://www.facebook.com/reel/2213027115924574/"
+              poster={archedWindow}
+              title="How to build perfectly fitted arched window trim"
+            />
+          </aside>
+        )}
+      </section>
+    ))}
+    </div>
+  </Section>
+
+  <Lightbox />
+
+</Layout>
+
+<style is:global>
+  /* Centered feed, like Instagram's profile grid on the web, so the
+     photos stay a comfortable size and more fit on screen. */
+  .ig-feed {
+    max-width: 58rem;
+    margin-inline: auto;
+  }
+
+
+  .ig-group + .ig-group {
+    margin-top: var(--space-8);
+  }
+  .ig-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-1) var(--space-4);
+    margin-bottom: var(--space-3);
+  }
+  .ig-title {
+    margin: 0;
+    font-family: var(--heading-family);
+    font-size: 1.35rem;
+    line-height: var(--line-height-medium);
+    color: var(--brand-300);
+  }
+  .ig-link {
+    color: var(--brand-300);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  /* Instagram-style: three square photos per row at every width, with
+     thin gaps. */
+  .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+  }
+  .ig-tile {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  .ig-overview {
+    max-width: 60ch;
+    margin: var(--space-3) 0;
+    font-size: var(--text-small);
+    line-height: var(--line-height-large);
+    opacity: 0.85;
+  }
+  /* Small feature bands between groups (before/after, video): a framed
+     panel, text beside the media from tablet width, so they break up the
+     grid without taking much room. */
+  .ig-band {
+    display: grid;
+    gap: var(--space-5);
+    align-items: center;
+    margin-top: var(--space-8);
+    padding: var(--space-5);
+    background: #0e1c15;
+    border: var(--border-width) solid rgb(210 154 60 / 0.3);
+    @media (width >= 48rem) {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-8);
+      padding: 1rem var(--space-8);
+    }
+  }
+  .ig-band_eyebrow {
+    margin: 0 0 var(--space-2);
+    color: var(--brand-300);
+    font-weight: var(--primary-medium);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  /* Video band: one line of text with an arrow pointing at the video
+     (pointing down when the band stacks on phones). */
+  .ig-callout {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-size: 1.6rem;
+  }
+  .ig-callout_arrow {
+    flex: none;
+    @media (width < 48rem) {
+      rotate: 90deg;
+    }
+  }
+  .ig-band .ig-overview {
+    margin-bottom: 0;
+  }
+  .ig-band .before-after {
+    width: min(100%, 31rem);
+    max-width: 31rem;
+  }
+  .ig-band .video-facade {
+    width: min(100%, 28rem);
+    margin-inline: auto;
+  }
+</style>

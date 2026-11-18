@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="84 19 145 151">
-  <rect x="84" y="19" width="145" height="151" fill="#070707"/><defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="82.5 20.6 148 148">
+  <rect x="82.5" y="20.6" width="148" height="148" fill="#070707"/><defs><clipPath id="tree-only"><rect x="98.6" y="33" width="115.8" height="123"/></clipPath>
     <style>
       .cls-1 {
         fill: url(#eff-frame-gold);
@@ -970,7 +970,7 @@
       }
     </style>
   </defs>
-  <g id="Layer_1-2" data-name="Layer 1">
+  <g clip-path="url(#tree-only)"><g id="Layer_1-2" data-name="Layer 1">
     <g id="Generative_Object" data-name="Generative Object">
       
       <g>
@@ -1279,4 +1279,4 @@
       </g>
     </g>
   </g>
-<defs><linearGradient id="eff-frame-gold" x1="88" y1="24" x2="225" y2="166" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e8c181"/><stop offset="0.35" stop-color="#deb16c"/><stop offset="0.7" stop-color="#d3984e"/><stop offset="1" stop-color="#e0b673"/></linearGradient></defs><g fill="none" stroke="url(#eff-frame-gold)" stroke-linejoin="miter"><rect x="89.8" y="25.4" width="132.9" height="138.6" stroke-width="3.3"/><rect x="96.2" y="30.9" width="120.6" height="127.6" stroke-width="1.8"/></g><defs><linearGradient id="eff-bar-gold" x1="110" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d3984e"/><stop offset="0.5" stop-color="#e1ba72"/><stop offset="1" stop-color="#d3984e"/></linearGradient></defs><g fill="url(#eff-bar-gold)"><rect x="114.4" y="143.4" width="83.4" height="3.0"/><rect x="123.6" y="149.6" width="65.2" height="3.0"/></g></svg>
+<defs><linearGradient id="eff-frame-gold" x1="88" y1="24" x2="225" y2="166" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e8c181"/><stop offset="0.35" stop-color="#deb16c"/><stop offset="0.7" stop-color="#d3984e"/><stop offset="1" stop-color="#e0b673"/></linearGradient></defs><g fill="none" stroke="url(#eff-frame-gold)" stroke-linejoin="miter"><rect x="89.8" y="25.4" width="132.9" height="138.6" stroke-width="3.3"/><rect x="96.2" y="30.9" width="120.6" height="127.6" stroke-width="1.8"/></g><defs><linearGradient id="eff-bar-gold" x1="110" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d3984e"/><stop offset="0.5" stop-color="#e1ba72"/><stop offset="1" stop-color="#d3984e"/></linearGradient></defs><g fill="url(#eff-bar-gold)"><rect x="114.4" y="143.4" width="83.4" height="3.0"/><rect x="123.6" y="149.6" width="65.2" height="3.0"/></g></g><g fill="none" stroke="url(#eff-frame-gold)" stroke-linejoin="miter"><rect x="86" y="24.1" width="141" height="141" stroke-width="3.3"/><rect x="92.5" y="30.6" width="128" height="128" stroke-width="1.8"/></g></svg>

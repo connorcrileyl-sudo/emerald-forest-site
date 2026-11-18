@@ -16,15 +16,18 @@ import floatingShelves from "@/assets/images/floating-shelves-bowtie-inlay.jpg";
 import wineBuiltIn from "@/assets/images/arched-wine-builtin.jpg";
 import wineHero from "@/assets/images/arched-wine-builtin-hero.jpg";
 import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
-import kitchenDrawers from "@/assets/images/kitchen-cabinets-wood-drawers.jpg";
-import kitchenSink from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
+import plateShelves from "@/assets/images/painted-kitchen-plate-shelves.jpg";
+import coffeeStation from "@/assets/images/coffee-station-arched-glass.jpg";
 import Grid from "@/components/wrapper/Grid.astro";
 import Card from "@/components/item/Card.astro";
+import BeforeAfter from "@/components/media/BeforeAfter.astro";
+import Lightbox from "@/components/media/Lightbox.astro";
+import alcoveBeforeAfter from "@/assets/images/alcove-before-after.jpg";
 import { BUSINESS, PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
-  "Custom kitchen cabinets, built-ins, bookshelves, floating shelves and mantels in solid hardwood, made in Black Mountain, NC for Asheville-area homes.";
+  "Custom built-ins, wine cabinets, bookshelves, floating shelves and mantels in solid hardwood, made in Black Mountain, NC for Asheville-area homes.";
 
 const faqs: FaqItem[] = [
   {
@@ -76,7 +79,7 @@ const faqs: FaqItem[] = [
         Custom Cabinets and <span style="white-space: nowrap">Built-Ins</span> in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        We make solid hardwood kitchen cabinets, built-in bookshelves,
+        We make solid hardwood built-ins, cabinets, bookshelves,
         floating shelves and mantels to measure in our Black Mountain
         shop, and install them in homes around Asheville.
       </Paragraph>
@@ -97,17 +100,12 @@ const faqs: FaqItem[] = [
   <!-- Kitchen cabinets -->
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
-      <Heading tag="h2" maxWidth={24}>Custom Kitchen Cabinets</Heading>
+      <Heading tag="h2" maxWidth={24}>Kitchen Cabinets</Heading>
       <RichText maxWidth={60}>
         <p>
-          We <strong>design, build and install</strong> kitchen cabinets in solid hardwood,
-          sized to your kitchen rather than to a catalog's standard boxes.
-          That means cabinets that fit awkward walls, sloped ceilings and
-          older homes where nothing is quite square.
-        </p>
-        <p>
-          Our usual finish is a zero-VOC hard wax oil that is safe for
-          food contact, which suits a kitchen.
+          Kitchen cabinets and countertops, built to fit the room. See{" "}
+          <a href="/custom-kitchens/">custom kitchens</a> for full
+          kitchen build-outs.
         </p>
       </RichText>
       <Img
@@ -149,21 +147,38 @@ const faqs: FaqItem[] = [
 
 
 
-  <!-- Gallery: Noah's own cabinet work -->
+  <!-- Before and after: dining room alcove -->
   <Section class="section-alt">
+    <ContentWrapper variant="columns">
+      <Heading tag="h2" maxWidth={20}>Before and After</Heading>
+      <Paragraph maxWidth={44}>
+        A plain arched alcove in a dining room, turned into a lit
+        built-in wine cabinet with wine racks and wood cabinet doors
+        below.
+      </Paragraph>
+      <BeforeAfter
+        slot="column2"
+        image={alcoveBeforeAfter}
+        alt="Before: an empty arched alcove with plain white cabinets. After: the same alcove as a lit built-in wine cabinet with diamond wine racks and wood doors"
+      />
+    </ContentWrapper>
+  </Section>
+
+  <!-- Gallery: Noah's own cabinet work -->
+  <Section>
     <ContentWrapper>
-      <Heading tag="h2" maxWidth={24}>Recent Cabinets</Heading>
+      <Heading tag="h2" maxWidth={24}>Recent Built-Ins</Heading>
     </ContentWrapper>
     <Grid xsmall={2} large={3} class="photo-cards">
       <Card
         variant="stacked"
-        image={kitchenDrawers}
-        imageAlt="Solid wood kitchen cabinets and drawers with slim metal pulls, built around a gas range"
+        image={plateShelves}
+        imageAlt="Painted open shelves with plate rails holding orange plates, beside a stone wall"
       />
       <Card
         variant="stacked"
-        image={kitchenSink}
-        imageAlt="Wood kitchen cabinets with a hammered copper farmhouse sink and stone countertop"
+        image={coffeeStation}
+        imageAlt="Painted coffee station cabinet with arched glass doors and open shelves beside it"
       />
       <Card
         variant="stacked"
@@ -174,7 +189,7 @@ const faqs: FaqItem[] = [
   </Section>
 
   <!-- FAQ -->
-  <Section>
+  <Section class="section-alt">
     <ContentWrapper variant="sticky-content">
       <Heading tag="h2" maxWidth={24}>Cabinet Questions</Heading>
       <Paragraph maxWidth={30}>
@@ -191,4 +206,5 @@ const faqs: FaqItem[] = [
   </Section>
 
   <RelatedServices current="/custom-cabinets/" />
+  <Lightbox />
 </Layout>

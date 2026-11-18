@@ -11,7 +11,6 @@ import Form from "@/components/form/Form.astro";
 import Fieldset from "@/components/form/Fieldset.astro";
 import Input from "@/components/form/Input.astro";
 import Textarea from "@/components/form/Textarea.astro";
-import Select from "@/components/form/Select.astro";
 import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
 ---
@@ -29,8 +28,12 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
         Contact Noah
       </Heading>
       <Paragraph variant="large" maxWidth={32}>
-        Call for the quickest answer, or tell us what you'd like built
-        and we'll get back to you with next steps.
+        Got a project in mind, or just an idea you're turning over?
+        Send a quick note about what you need. Noah is always happy to
+        talk it through, with no pressure and no commitment.
+      </Paragraph>
+      <Paragraph maxWidth={32}>
+        Prefer to talk? Give him a call.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call {BUSINESS.phone}</Button>
@@ -63,31 +66,24 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
         )}
       </RichText>
       <Form slot="column2" name="contact" action={FORM_ENDPOINT}>
-        <Fieldset legend="Your details" legendStyle="label">
-          <Input variant="first-name" required />
-          <Input variant="email" required />
-          <Input variant="phone" />
-          <Select
-            label="How did you hear about us?"
-            name="referral"
-            placeholder="Choose one (optional)"
-            options={[
-              "Google search",
-              "Google Maps",
-              "ChatGPT or another AI assistant",
-              "Facebook group",
-              "Facebook (other)",
-              "Instagram",
-              "Reddit",
-              "A friend or neighbor",
-              "Saw our work in person",
-              "Other",
-            ]}
+        {/* Honeypot for contact.php: hidden from people, filled by bots. */}
+        <div style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+          <label>Leave this empty <input type="text" name="company-website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <Fieldset legend="Send Noah a note" legendStyle="hidden">
+          <Input variant="first-name" label="Your name" name="first-name" placeholder="Your name" required />
+          <Input variant="email" placeholder="you@example.com" required />
+          <Input variant="phone" label="Phone (optional)" name="phone" placeholder="Phone" />
+          {/* name kept as-is: contact.php reads this field by that name */}
+          <Textarea
+            label="What can Noah help with?"
+            name="what-would-you-like-built-or-repaired"
+            placeholder="A few lines is plenty. Rough ideas are welcome."
+            required
           />
-          <Textarea label="What would you like built or repaired?" required />
         </Fieldset>
-        <ButtonWrapper marginTop="4">
-          <Button type="submit">Send message</Button>
+        <ButtonWrapper>
+          <Button type="submit">Send to Noah</Button>
         </ButtonWrapper>
       </Form>
     </ContentWrapper>
@@ -106,6 +102,14 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
   /* Two fields per row from tablet width up, so the whole form (and its
      Send button) fits above the fold on a laptop. Unlayered to beat the
      Fieldset component's own grid. */
+  /* Tighter gap between the message box and the Send button than the
+     form's default. */
+  form[name="contact"] {
+    row-gap: var(--space-5);
+    & > .button-wrapper {
+      margin-top: 0;
+    }
+  }
   form[name="contact"] .form-fieldset_fields {
     gap: var(--space-4);
     @media (width >= 40rem) {

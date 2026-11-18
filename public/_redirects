@@ -8,7 +8,6 @@
 /blog/                     /                    301
 /category/uncategorized/   /                    301
 /form/simple-contact-form/ /contact/            301
-/portfolio/                /services/           301
 /feed/                     /                    301
 /sitemap_index.xml         /sitemap-index.xml   301
 /archives-sitemap-1.xml /sitemap-index.xml 301

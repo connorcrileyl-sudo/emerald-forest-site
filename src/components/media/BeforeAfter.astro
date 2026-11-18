@@ -1,0 +1,49 @@
+---
+/**
+ * Before/after: one combined photo (before and after side by side, with
+ * the gold gap, arrow and labels already in the image), so it reads as
+ * one piece on the page and in the full-screen viewer. Opens full
+ * screen when the page includes <Lightbox />.
+ *
+ * The combined image is made from the two photos with sharp; see
+ * src/assets/images/alcove-before-after.jpg for the layout.
+ */
+import { Image, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import ZoomBadge from "@/components/media/ZoomBadge.astro";
+
+interface Props {
+  /** The combined before/after image. */
+  image: ImageMetadata;
+  /** Describes both halves, e.g. "Before: … After: …". */
+  alt: string;
+  /** Utility classes. */
+  class?: string;
+}
+
+const { image, alt, class: className } = Astro.props;
+const full = (await getImage({ src: image, width: 2400, format: "webp" })).src;
+---
+
+<figure class:list={["before-after", className]}>
+  <button type="button" data-lightbox data-full={full} data-alt={alt} aria-label={`View full size: ${alt}`}>
+    <Image src={image} alt={alt} widths={[480, 800, 1200]} sizes="(min-width: 48rem) 32rem, 100vw" class="before-after_img" />
+    <ZoomBadge />
+  </button>
+</figure>
+
+<style is:global>
+  @layer components {
+    .before-after {
+      width: 100%;
+      max-width: 32rem;
+      margin: 0;
+    }
+
+    .before-after_img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+</style>

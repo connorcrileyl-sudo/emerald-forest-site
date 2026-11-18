@@ -16,6 +16,7 @@ import QuoteCard from "@/components/content/QuoteCard.astro";
 import Accordion from "@/components/interactive/Accordion.astro";
 import AccordionItem from "@/components/interactive/AccordionItem.astro";
 import FaqSchema from "@/components/content/FaqSchema.astro";
+import ServiceMap from "@/components/content/ServiceMap.astro";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 import iconCraft from "@/assets/icons/fa/ruler-triangle.svg";
 import iconTree from "@/assets/icons/fa/tree.svg";
@@ -23,7 +24,6 @@ import iconLeaf from "@/assets/icons/fa/leaf.svg";
 import spiralBalusters from "@/assets/images/spiral-staircase-walnut-balusters.jpg";
 import spiralHero from "@/assets/images/spiral-staircase-hero-new.jpg";
 import doorOpen from "@/assets/images/walnut-door-carved-panel.jpg";
-import doorWhole from "@/assets/images/walnut-entry-door-open-dimmed.jpg";
 import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
 import pergola from "@/assets/images/pergola-with-planters.jpg";
 import workshop from "@/assets/images/workshop-clamping-glue-up.jpg";
@@ -67,12 +67,9 @@ const homeFaqs: FaqItem[] = [
   },
   {
     question: "Do you do repairs as well as new work?",
-    answer: `Yes, and no repair is too small to ask about. If a window
-      sill or door frame has gone soft, a stair squeaks, a railing
-      wobbles or a deck is looking tired, we replace the damaged wood
-      with new wood matched to the old. See
-      <a href="/wood-rot-repair/">wood rot repair</a> and
-      <a href="/decks/">deck repair</a>.`,
+    answer: `Yes. If a railing has worked loose or wobbles, we
+      tighten it or make a new one to match your stairs. See
+      <a href="/stair-railings/">stair railings</a>.`,
   },
   {
     question: "What area do you serve?",
@@ -99,8 +96,8 @@ const homeFaqs: FaqItem[] = [
         <span>Fine Carpentry</span> <span>and Woodworking</span>
       </Heading>
       <Paragraph variant="large" maxWidth={46}>
-        <strong>Heirloom craftsmanship</strong> in staircases, hardwood doors and furniture,{" "}
-        <strong>built by hand from local lumber</strong> for homes in the <span style="white-space: nowrap">Black Mountain</span> area.
+        <strong>Handmade staircases, doors and furniture</strong> from local
+        lumber, for homes around <span style="white-space: nowrap">Black Mountain</span>.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -148,24 +145,24 @@ const homeFaqs: FaqItem[] = [
         label="Doors"
       />
       <ServiceCard
-        href="/custom-cabinets/"
+        href="/custom-kitchens/"
         image={kitchenStone}
         imageAlt="L-shaped kitchen cabinets with a dark wood countertop below a stone wall, open shelves and a window"
-        heading="Cabinets and Furniture"
+        heading="Kitchens and Cabinets"
         headingTag="h3"
         text="Kitchens, built-ins and tables in local hardwood, with food-safe finishes."
-        items={["Kitchen cabinets", "Built-ins and shelves", "Tables and furniture"]}
-        label="Cabinets"
+        items={["Full kitchens", "Built-ins and shelves", "Tables and furniture"]}
+        label="Kitchens"
       />
       <ServiceCard
         href="/pergolas/"
         image={pergola}
         imageAlt="Large timber pergola with built-in planter boxes along both sides"
-        heading="Pergolas and Decks"
+        heading="Pergolas"
         headingTag="h3"
         text="Shade and outdoor living space, framed in solid timber."
-        items={["Pergolas", "New decks", "Deck repair and staining"]}
-        label="Pergolas and Decks"
+        items={["Pergolas", "Built-in planters", "Covered outdoor spaces"]}
+        label="Pergolas"
       />
     </Grid>
     <ContentWrapper>
@@ -273,7 +270,7 @@ const homeFaqs: FaqItem[] = [
 
   <!-- Towns served -->
   <Section class="section-alt section-glow">
-    <ContentWrapper variant="columns" class="hero-photo-square">
+    <ContentWrapper variant="columns">
       <Heading tag="h2" maxWidth={24}>
         Serving Black Mountain, Asheville and the Swannanoa Valley
       </Heading>
@@ -286,13 +283,12 @@ const homeFaqs: FaqItem[] = [
         <ul>
           {TOWNS.map((town) => <li>{town}, NC</li>)}
         </ul>
-        <p>Further out? Call and ask.</p>
+        <p>
+          Further out, or not sure if you're in our area? Give us a
+          call. We're happy to talk through your options.
+        </p>
       </RichText>
-      <Img
-        slot="column2"
-        src={doorWhole}
-        alt="Walnut entry door with a carved geometric upper panel, standing open in a home near Black Mountain"
-      />
+      <ServiceMap slot="column2" />
     </ContentWrapper>
   </Section>
 

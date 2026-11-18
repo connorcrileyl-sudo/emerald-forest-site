@@ -28,6 +28,7 @@ const socialIcons: Record<string, typeof iconFacebook> = {
 
 const companyLinks = [
   { label: "Home", href: "/" },
+  { label: "Portfolio", href: "/portfolio/" },
   { label: "About Noah", href: "/about/" },
   { label: "Contact", href: "/contact/" },
 ];
@@ -336,6 +337,58 @@ const companyLinks = [
 
     .footer_copyright {
       color: var(--text-2);
+    }
+
+    /* Phones: the same content in about half the height. Logo beside
+       the tagline, services in two columns, company links on one row,
+       social icons beside the contact details. */
+    @media (width < 40rem) {
+      .footer_band--main {
+        padding-block: var(--space-10, 2.5rem) var(--space-6);
+      }
+      .footer_grid {
+        gap: var(--space-6);
+      }
+      .footer_brand {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-4);
+      }
+      .footer_logo {
+        flex: none;
+        width: 5.5rem;
+      }
+      .footer_col {
+        gap: var(--space-3);
+      }
+      .footer_col[aria-label="Services"] .footer_list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-3) var(--space-4);
+      }
+      .footer_col[aria-label="Company"] .footer_list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--space-3) var(--space-6);
+      }
+      .footer_col:has(.footer_follow) {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: start;
+        column-gap: var(--space-4);
+        & > .footer_col_title {
+          grid-column: 1 / -1;
+        }
+      }
+      .footer_follow {
+        margin-top: 0;
+        & > .footer_col_title {
+          display: none;
+        }
+      }
+      .footer_social {
+        gap: 0;
+      }
     }
 
     .footer_social {
