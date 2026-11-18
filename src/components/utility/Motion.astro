@@ -89,15 +89,16 @@
      in slowly alongside. */
   .motion main > .section:first-child .layout > * > * {
     animation:
-      logo-in 2.2s var(--ease-out-long) var(--hero-delay, 0.3s) backwards,
-      rise 2.2s var(--ease-out-long) var(--hero-delay, 0.3s) backwards;
+      logo-in 1.7s var(--ease-out-long) var(--hero-delay, 0.2s) backwards,
+      rise 1.7s var(--ease-out-long) var(--hero-delay, 0.2s) backwards;
   }
   /* Subheading, buttons and the rest arrive together, just after the
-     heading. They move from the first frame, no lag behind the fade. */
-  .motion main > .section:first-child .layout > * > :nth-child(n + 2) { --hero-delay: 0.5s; }
+     heading (breadcrumbs above it arrive with it). They move from the
+     first frame, no lag behind the fade. */
+  .motion main > .section:first-child .layout > * > h1 ~ * { --hero-delay: 0.35s; }
   /* The photo / form side: a slow fade, no rise. */
   .motion main > .section:first-child .layout > * + * > * {
-    animation: logo-in 3.6s var(--ease-out-long) 0.6s backwards;
+    animation: logo-in 2.8s var(--ease-out-long) 0.4s backwards;
   }
 
   /* The rise starts a moment after the fade, so things appear first
