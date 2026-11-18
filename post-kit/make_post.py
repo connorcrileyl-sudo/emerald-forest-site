@@ -200,6 +200,29 @@ def soft_spot(canvas, box, strength=0.55):
     canvas.paste(Image.new("RGB", (w, h), EMERALD_DARK), (0, 0), m.filter(ImageFilter.GaussianBlur(60)))
 
 
+RULE_H = 30  # space the divider takes, including its gap
+
+
+def rule(canvas, x, y, length=360, strength=0.75):
+    """The faint engraved-sign divider: a small four-point gold star with a
+    hairline fading out to the right. Drawn at 4x, then scaled down."""
+    k = 4
+    w, h = (length + 20) * k, 16 * k
+    layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    a = int(255 * strength)
+    cx, cy, r, n = 8 * k, h // 2, 8 * k, 1.7 * k
+    star = [(cx, cy - r), (cx + n, cy - n), (cx + r, cy), (cx + n, cy + n),
+            (cx, cy + r), (cx - n, cy + n), (cx - r, cy), (cx - n, cy - n)]
+    d.polygon(star, fill=GOLD_FLAT + (a,))
+    x0, x1 = 24 * k, w - 1
+    for px in range(x0, x1):
+        t = 1 - (px - x0) / (x1 - x0)
+        d.line([(px, cy - k // 2), (px, cy + k // 2 - 1)], fill=GOLD_FLAT + (int(a * t),))
+    layer = layer.resize((w // k, h // k), Image.LANCZOS)
+    canvas.paste(layer, (x, y - 8), layer)
+
+
 def paste_png(canvas, path, xy, width=None, height=None):
     im = Image.open(path).convert("RGBA")
     if width:
@@ -230,10 +253,12 @@ def make_photo(a):
     sf = body_font(38)
     slines = wrap(a.subline, sf, w - 2 * MARGIN) if a.subline else []
     asc, desc = hf.getmetrics()
-    text_h = len(hlines) * int((asc + desc) * 1.12) + (len(slines) * 50 + 20 if slines else 0) + 110
+    text_h = len(hlines) * int((asc + desc) * 1.12) + RULE_H + (len(slines) * 50 + 20 if slines else 0) + 110
     text_top = h - safe_bottom - MARGIN - text_h
     underlay(canvas, text_top - 300, text_top - 10, 0.8)
     y = gold_text(canvas, (MARGIN, text_top), hlines, hf)
+    rule(canvas, MARGIN, y + 10)
+    y += RULE_H
     if slines:
         y = plain_text(ImageDraw.Draw(canvas), (MARGIN, y + 8), slines, sf, PARCHMENT)
     footer(canvas, y + 34)
@@ -274,7 +299,7 @@ def make_before_after(a):
     canvas = Image.new("RGB", (w, h), FOREST_BLACK)
     hf, hlines = fit_heading(a.headline, w - 2 * MARGIN, max_lines=2, start=72)
     asc, desc = hf.getmetrics()
-    text_h = len(hlines) * int((asc + desc) * 1.12) + 24 + 40
+    text_h = len(hlines) * int((asc + desc) * 1.12) + RULE_H + 24 + 40
     safe_bottom = 250 if a.size == "story" else 0
     text_top = h - safe_bottom - MARGIN - text_h
     gap = 8
@@ -304,7 +329,8 @@ def make_before_after(a):
         plain_text(d, (x + 48, ly + 10), [label], lf, GOLD_FLAT, tracking=3)
     underlay(canvas, text_top - 260, text_top - 10, 0.8)
     y = gold_text(canvas, (MARGIN, text_top), hlines, hf)
-    footer(canvas, y + 24)
+    rule(canvas, MARGIN, y + 10)
+    footer(canvas, y + RULE_H + 24)
     return canvas
 
 

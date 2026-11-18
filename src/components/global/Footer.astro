@@ -43,6 +43,23 @@ const companyLinks = [
           <p class="footer_cta_heading">
             Have More Questions?
           </p>
+          <!-- Engraved-sign divider: hairlines fading out from a small
+               four-point star. Kept faint on purpose. -->
+          <svg class="footer_cta_rule" viewBox="0 0 240 12" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="cta-rule-l" x1="0" x2="1">
+                <stop offset="0" stop-color="#c99432" stop-opacity="0" />
+                <stop offset="1" stop-color="#c99432" />
+              </linearGradient>
+              <linearGradient id="cta-rule-r" x1="1" x2="0">
+                <stop offset="0" stop-color="#c99432" stop-opacity="0" />
+                <stop offset="1" stop-color="#c99432" />
+              </linearGradient>
+            </defs>
+            <rect x="0" y="5.6" width="108" height="0.8" fill="url(#cta-rule-l)" />
+            <rect x="132" y="5.6" width="108" height="0.8" fill="url(#cta-rule-r)" />
+            <path d="M120 0.5 Q121 5 125.5 6 Q121 7 120 11.5 Q119 7 114.5 6 Q119 5 120 0.5Z" fill="#c99432" />
+          </svg>
           <p class="footer_cta_body">
             Give us a call or email a few photos for a free estimate.
           </p>
@@ -232,6 +249,13 @@ const companyLinks = [
       filter: var(--heading-shadow, none);
       padding-block: 0.15em 0.3em;
       margin-block: -0.15em -0.3em;
+    }
+
+    .footer_cta_rule {
+      display: block;
+      width: min(15rem, 70%);
+      height: auto;
+      opacity: 0.65;
     }
 
     .footer_cta_body {
