@@ -44,7 +44,9 @@ type Props = Base &
     | {
         /** Responsive image mode. */
         variant?: "full-width";
-        sizes?: never;
+        /** Only read when `loading="eager"` (heroes); lazy images
+         *  use `sizes="auto"`. */
+        sizes?: string;
       }
     | {
         variant: "constrained";

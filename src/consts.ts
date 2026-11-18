@@ -21,7 +21,6 @@ export const NOINDEX_ROUTES: string[] = [
   "/404",
   "/sections",
   "/example-components",
-  "/hero-options",
   "/brand",
 ];
 

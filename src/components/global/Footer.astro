@@ -1,7 +1,8 @@
 ---
 import Icon from "@/components/media/Icon.astro";
 import Button from "@/components/Button.astro";
-import logo from "@/assets/logo/logo.svg";
+/* Same cached file as the nav logo (see Nav.astro). */
+import logoUrl from "@/assets/logo/logo.svg?url";
 import iconFacebook from "@/assets/icons/fa/facebook.svg";
 import iconInstagram from "@/assets/icons/fa/instagram.svg";
 import {
@@ -79,7 +80,7 @@ const companyLinks = [
       <div class="footer_grid">
         <div class="footer_brand">
           <a class="footer_logo" href="/" aria-label={SITE_NAME}>
-            <Icon src={logo} variant="full-width" />
+            <img class="logo_img" src={logoUrl} alt="" width="300" height="300" loading="lazy" decoding="async" />
           </a>
           <p class="footer_tagline">
             Serving {TOWNS.slice(0, -1).join(", ")} and {TOWNS.at(-1)}, NC
@@ -287,6 +288,12 @@ const companyLinks = [
       display: flex;
       flex-direction: column;
       gap: var(--space-4);
+    }
+
+    .logo_img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     .footer_logo {

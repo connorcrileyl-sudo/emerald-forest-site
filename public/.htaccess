@@ -3,7 +3,6 @@
 RewriteEngine On
 RewriteRule ^(sample-page|hello-world|post-[123]|blog|feed|category/uncategorized)/?$ / [R=301,L]
 RewriteRule ^form/simple-contact-form/?$ /contact/ [R=301,L]
-RewriteRule ^portfolio/?$ /services/ [R=301,L]
 RewriteRule ^(sitemap_index\.xml|.*-sitemap-1\.xml)$ /sitemap-index.xml [R=301,L]
 ErrorDocument 404 /404.html
 

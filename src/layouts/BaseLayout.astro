@@ -9,7 +9,6 @@ import Footer from "@/components/global/Footer.astro";
 import BusinessSchema from "@/components/content/BusinessSchema.astro";
 import Analytics from "@/components/utility/Analytics.astro";
 import TodoHighlight from "@/components/utility/TodoHighlight.astro";
-import ReviewHighlight from "@/components/utility/ReviewHighlight.astro";
 import type { SeoProps } from "@/types.ts";
 
 type Props = SeoProps & {
@@ -55,6 +54,5 @@ const { theme = "dark", overlap = false, ...seo } = Astro.props;
     <Lightbox />
     <Footer />
     <TodoHighlight />
-    <ReviewHighlight />
   </body>
 </html>

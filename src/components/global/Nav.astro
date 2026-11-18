@@ -1,8 +1,10 @@
 ---
-import Icon from "@/components/media/Icon.astro";
 import NavLink from "@/components/global/NavLink.astro";
 import Button from "@/components/Button.astro";
-import logo from "@/assets/logo/logo.svg";
+/* As a file, not inlined: the logo is 75 KB of paths, so inlining it
+   in the nav and footer added ~50 KB to every page. As an <img> it
+   downloads once and is cached for the whole site. */
+import logoUrl from "@/assets/logo/logo.svg?url";
 import { SITE_NAME, NAV_LINKS, NAV_CTA } from "@/consts.ts";
 
 interface Props {
@@ -25,7 +27,7 @@ const inGroup = (children: { href: string }[]) =>
   <header class:list={["nav_wrap", overlap && "overlap"]}>
     <div class="nav_inner">
       <a class="nav_logo" href="/" aria-label={SITE_NAME}>
-        <Icon src={logo} variant="full-width" />
+        <img class="logo_img" src={logoUrl} alt="" width="300" height="300" decoding="async" fetchpriority="high" />
       </a>
       <button
         class="nav_toggle"
@@ -237,6 +239,12 @@ const inGroup = (children: { href: string }[]) =>
     .nav_logo,
     .nav_toggle {
       min-height: var(--nav-height);
+    }
+
+    .logo_img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     .nav_logo {
