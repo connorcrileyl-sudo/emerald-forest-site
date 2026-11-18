@@ -27,22 +27,33 @@
 <script>
   const viewer = document.querySelector<HTMLDialogElement>(".lightbox");
   const img = viewer?.querySelector<HTMLImageElement>(".lightbox_img");
-  const items = [...document.querySelectorAll<HTMLButtonElement>("[data-lightbox]")];
+  /* Portfolio buttons and any <Img zoom> photo, in page order. */
+  const items = [...document.querySelectorAll<HTMLElement>("[data-lightbox], img[data-full]")];
   let current = 0;
 
   const show = (i: number) => {
     if (!img || !items.length) return;
     current = (i + items.length) % items.length;
     img.src = items[current].dataset.full ?? "";
-    img.alt = items[current].dataset.alt ?? "";
+    const item = items[current];
+    img.alt = item.dataset.alt ?? (item instanceof HTMLImageElement ? item.alt : "");
   };
 
-  items.forEach((item, i) =>
-    item.addEventListener("click", () => {
+  items.forEach((item, i) => {
+    const open = () => {
       show(i);
       viewer?.showModal();
-    }),
-  );
+    };
+    item.addEventListener("click", open);
+    /* <img role="button"> needs Enter/Space itself. */
+    if (item instanceof HTMLImageElement)
+      item.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          open();
+        }
+      });
+  });
   viewer?.querySelector(".is-close")?.addEventListener("click", () => viewer.close());
   viewer?.querySelector(".is-prev")?.addEventListener("click", () => show(current - 1));
   viewer?.querySelector(".is-next")?.addEventListener("click", () => show(current + 1));
@@ -72,7 +83,7 @@
     padding: 0;
     border: 0;
     background: none;
-    cursor: zoom-in;
+    cursor: pointer; /* the hand, like Instagram's grid */
     overflow: hidden;
   }
   [data-lightbox]:focus-visible {
@@ -88,7 +99,7 @@
     display: grid;
     place-items: center;
     padding: var(--space-3);
-    background: rgb(20 22 20 / 0.6);
+    background: rgb(8 40 28 / 0.62); /* dark emerald wash */
     color: var(--light-100);
     font-size: var(--text-small);
     font-weight: var(--primary-medium);
@@ -101,7 +112,7 @@
   .zoom-hint_text {
     padding: 0.45rem 0.9rem;
     border: var(--border-width) solid rgb(210 154 60 / 0.6);
-    background: rgb(6 9 7 / 0.75);
+    background: rgb(5 26 18 / 0.85);
   }
   /* The before/after image has its arrow badge in the middle. */
   .before-after .zoom-hint {
@@ -114,10 +125,75 @@
   }
   [data-lightbox]:hover img,
   [data-lightbox]:focus-visible img {
-    filter: grayscale(1);
+    filter: grayscale(0.7) brightness(0.9);
+    scale: 1.04;
   }
   [data-lightbox] img {
-    transition: filter var(--hover-duration) var(--hover-ease);
+    transition: filter var(--hover-duration) var(--hover-ease), scale 400ms ease;
+  }
+
+  /* <Img zoom> photos: the same hover, drawn on the photo's own box
+     (no wrapper, so the layout's image rules still apply). */
+  :where(:has(> img[data-full])) {
+    position: relative;
+    overflow: hidden;
+  }
+  img[data-full] {
+    cursor: pointer;
+    transition: filter var(--hover-duration) var(--hover-ease), scale 400ms ease;
+  }
+  img[data-full]:focus-visible {
+    outline: var(--focus-width) solid var(--brand-300);
+    outline-offset: -4px;
+  }
+  :has(> img[data-full])::before,
+  :has(> img[data-full])::after {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--hover-duration) var(--hover-ease);
+  }
+  /* The dark emerald wash. */
+  :has(> img[data-full])::before {
+    content: "";
+    inset: 0;
+    background: rgb(8 40 28 / 0.62);
+  }
+  /* The "Click to view fullscreen" pill. */
+  :has(> img[data-full])::after {
+    content: "Click to view fullscreen";
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    padding: 0.45rem 0.9rem;
+    border: var(--border-width) solid rgb(210 154 60 / 0.6);
+    background: rgb(5 26 18 / 0.85);
+    color: var(--light-100);
+    font-size: var(--text-small);
+    font-weight: var(--primary-medium);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  :has(> img[data-full]:is(:hover, :focus-visible))::before,
+  :has(> img[data-full]:is(:hover, :focus-visible))::after {
+    opacity: 1;
+  }
+  img[data-full]:is(:hover, :focus-visible) {
+    filter: grayscale(0.7) brightness(0.9);
+    scale: 1.04;
+  }
+  /* Hero photos (the page's first, high-priority image): a smaller,
+     slower zoom, as they're so large. */
+  img[data-full][fetchpriority="high"] {
+    transition: filter 700ms ease, scale 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  img[data-full][fetchpriority="high"]:is(:hover, :focus-visible) {
+    scale: 1.015;
+  }
+  :has(> img[data-full][fetchpriority="high"])::before,
+  :has(> img[data-full][fetchpriority="high"])::after {
+    transition-duration: 700ms;
   }
 
   /* Touch screens can't hover, so they get a small corner icon. */
@@ -127,6 +203,22 @@
   @media (hover: none) {
     .zoom-hint {
       display: none;
+    }
+    /* <Img zoom>: swap the hover pill for the corner expand icon. */
+    :has(> img[data-full])::before {
+      display: none;
+    }
+    :has(> img[data-full])::after {
+      content: "";
+      opacity: 1;
+      inset: 0.5rem 0.5rem auto auto;
+      translate: none;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius-round);
+      background: rgb(6 9 7 / 0.7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16'%3E%3Cpath d='M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 16px no-repeat;
     }
     .zoom-badge {
       display: grid;

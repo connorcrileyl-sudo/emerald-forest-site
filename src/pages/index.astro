@@ -28,7 +28,6 @@ import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
 import pergola from "@/assets/images/pergola-with-planters.jpg";
 import workshop from "@/assets/images/workshop-clamping-glue-up.jpg";
 import {
-  BUSINESS,
   PHONE_HREF,
   TOWNS,
 } from "@/consts.ts";
@@ -36,50 +35,23 @@ import {
 const homeFaqs: FaqItem[] = [
   {
     question: "How much does custom woodwork cost?",
-    answer: `Every job is priced on its own. Give us a call or send a
-      few photos, and we'll gladly put together a free estimate.`,
-  },
-  {
-    question: "Is custom work more expensive than buying from a store?",
-    answer: `Up front, usually. Most store-bought pieces are
-      mass-produced overseas from particleboard and veneer, and they
-      chip, sag and get replaced. Ours are solid local hardwood, built
-      by hand with a zero-VOC finish, and can be repaired and refinished
-      for decades instead of thrown out.`,
-  },
-  {
-    question: "TODO (Noah): pricing",
-    answer: `TODO (Noah): is there a typical starting price, or a
-      smallest job you take on? Even a rough "most staircases start
-      around…" helps people decide to call.`,
+    answer: `Every job is priced on its own, with a free estimate.`,
   },
   {
     question: "What do you build?",
     answer: `Most things made of wood, from a single
       <a href="/custom-furniture/">table</a> or
       <a href="/custom-doors/">door</a> to a
-      <a href="/custom-staircases/">staircase</a>, a kitchen of
-      <a href="/custom-cabinets/">cabinets</a> or a
+      <a href="/custom-staircases/">staircase</a>, a full
+      <a href="/custom-kitchens/">kitchen</a>,
+      <a href="/custom-cabinets/">built-ins</a> or a
       <a href="/pergolas/">pergola</a>. If you have an idea that isn't
-      on any list, ask. Noah handles most jobs himself and brings in
-      skilled local craftsmen he trusts for bigger projects. See
-      <a href="/services/">all services</a>.`,
-  },
-  {
-    question: "Do you do repairs as well as new work?",
-    answer: `Yes. If a railing has worked loose or wobbles, we
-      tighten it or make a new one to match your stairs. See
-      <a href="/stair-railings/">stair railings</a>.`,
+      on any list, ask. See <a href="/services/">all services</a>.`,
   },
   {
     question: "What area do you serve?",
     answer: `The shop is in Black Mountain, and we work in homes in
       ${TOWN_LIST}, NC, and nearby.`,
-  },
-  {
-    question: "How do I get started?",
-    answer: `Call ${BUSINESS.phone}, or send a few photos and details
-      through the <a href="/contact/">contact page</a>.`,
   },
 ];
 ---
@@ -107,6 +79,7 @@ const homeFaqs: FaqItem[] = [
       </ButtonWrapper>
       <div slot="column2" class="home-hero_photo">
         <Img
+          zoom
           src={spiralHero}
           alt="Walnut spiral staircase seen from above, with hammered metal treads and turned balusters"
           loading="eager"
@@ -150,7 +123,7 @@ const homeFaqs: FaqItem[] = [
         imageAlt="L-shaped kitchen cabinets with a dark wood countertop below a stone wall, open shelves and a window"
         heading="Kitchens and Cabinets"
         headingTag="h3"
-        text="Kitchens, built-ins and tables in local hardwood, with food-safe finishes."
+        text="Kitchens, built-ins and tables in local hardwood."
         items={["Full kitchens", "Built-ins and shelves", "Tables and furniture"]}
         label="Kitchens"
       />
@@ -182,23 +155,21 @@ const homeFaqs: FaqItem[] = [
       </Heading>
       <RichText maxWidth={60}>
         <p>
-          Emerald Forest Furnishings is Noah's woodshop in Black Mountain.
-          Every staircase, door and piece of furniture is custom made by
-          hand, from the first conversation to the last coat of finish, to a
-          standard meant to last generations.
+          Emerald Forest Furnishings is our woodshop in Black Mountain.
+          Every staircase, door and piece of furniture is made by hand, to last for generations.
         </p>
         <p>
           We build with hardwood grown and milled here in <strong>Western North
-          Carolina</strong>, and finish it with a zero-VOC hard wax oil that is <strong>safe
-          for food contact</strong> and for your family.
+          Carolina</strong>.
         </p>
       </RichText>
       <ButtonWrapper>
         <Button element="link" href="/about/" emphasis="secondary">
-          About Noah and the shop
+          About the shop
         </Button>
       </ButtonWrapper>
       <Img
+        zoom
         slot="column2"
         src={workshop}
         alt="Noah clamping thick hardwood boards together at the bench in his Black Mountain shop"
@@ -216,8 +187,7 @@ const homeFaqs: FaqItem[] = [
         <Icon src={iconCraft} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Handcrafted to Fit</Heading>
         <Paragraph>
-          Size, wood, shape and detail are all yours to choose. Each piece
-          is designed around its space, including spiral stairs and arched
+          Size, wood, shape and detail are all yours to choose, even for spiral stairs and arched
           doorways that off-the-shelf parts can't fit.
         </Paragraph>
       </ContentWrapper>
@@ -232,10 +202,10 @@ const homeFaqs: FaqItem[] = [
       </ContentWrapper>
       <ContentWrapper>
         <Icon src={iconLeaf} variant="large" class="feature-icon" />
-        <Heading tag="h3" variant="h5">Non-Toxic Finishes</Heading>
+        <Heading tag="h3" variant="h5">Safe Finishes</Heading>
         <Paragraph>
-          Zero-VOC hard wax oil, safe for food contact, and non-toxic{" "}
-          hardware wherever possible.
+          Food-safe, eco-friendly finishes like zero-VOC hard wax oil,
+          chosen with care to keep your family safe.
         </Paragraph>
       </ContentWrapper>
     </Grid>
@@ -250,18 +220,21 @@ const homeFaqs: FaqItem[] = [
       <QuoteCard
         quote="Noah has excellent attention to detail and communication. He offered insights and solutions into some of the complications of our projects executed the vision perfectly. The price was great given the quality provided. Will call again when we are ready for our next project. Thanks Noah!"
         name="Mike W"
+        highlight={["excellent attention to detail and communication.", "Thanks Noah!"]}
         detail="Google review"
         rating={5}
       />
       <QuoteCard
         quote="Working with Emerald Forest was a pleasure. Excellent communication and workmanship. Great eye for detail aesthetic. Reasonable pricing for high quality work. We will definitely use this service again."
         name="Brandon Greenstein"
+        highlight={["Excellent communication and workmanship.", "We will definitely use this service again."]}
         detail="Google review"
         rating={5}
       />
       <QuoteCard
         quote="Great experience. Very happy with the end product, timeline, and communication"
         name="Cameron White"
+        highlight={["Great experience."]}
         detail="Google review"
         rating={5}
       />

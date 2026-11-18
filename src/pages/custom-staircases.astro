@@ -20,7 +20,7 @@ import spiralBalusters from "@/assets/images/spiral-staircase-walnut-balusters.j
 import oakStair from "@/assets/images/oak-straight-staircase.jpg";
 import oakNewel from "@/assets/images/oak-stair-newel-post.jpg";
 import oakRail from "@/assets/images/oak-stair-handrail-detail.jpg";
-import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
@@ -34,25 +34,11 @@ const faqs: FaqItem[] = [
   },
   {
     question: "What wood do you use?",
-    answer: `Hardwood grown and milled in Western North Carolina, bought
-      from local sawmills, finished with a zero-VOC hard wax oil. The
-      spiral staircase on this page has a walnut handrail and
-      balusters; the straight staircase is oak.`,
+    answer: `Hardwood grown and milled in Western North Carolina, usually walnut or oak.`,
   },
   {
     question: "How much does a custom staircase cost?",
-    answer: `It depends on the type of stair (spiral, curved or straight), the wood, the height and the railings. Give us a call or
-      send a few photos, and we'll gladly put together a free estimate.`,
-  },
-  {
-    question: "How do I get an estimate?",
-    answer: `Call ${BUSINESS.phone}, or send the floor-to-floor height,
-      the space you have, and a few photos through the
-      <a href="/contact/">contact page</a>.`,
-  },
-  {
-    question: "How long does a custom staircase take?",
-    answer: `TODO (Noah): a typical time from go-ahead to installation.`,
+    answer: `It depends on the type of stair (spiral, curved or straight), the wood, the height and the railings, so every job gets its own free estimate.`,
   },
 ];
 ---
@@ -78,16 +64,14 @@ const faqs: FaqItem[] = [
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
         We design and build <strong>spiral, curved and straight
-        staircases</strong> in our Black Mountain shop for homes around
-        Asheville and the Swannanoa Valley. A staircase is the woodwork
-        you use every day, so the handrails and balusters are made to
-        match.
+        staircases</strong> in our Black Mountain shop for homes around Asheville and the Swannanoa Valley.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
         <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
       </ButtonWrapper>
       <Img
+        zoom
         slot="column2"
         src={spiralBalusters}
         alt="Walnut spiral staircase with turned balusters and a curved handrail rising past an orange wall"
@@ -101,30 +85,18 @@ const faqs: FaqItem[] = [
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
       <Heading tag="h2" maxWidth={24}>
-        Custom Spiral Staircases, Built to Fit
+        Custom Spiral Staircases
       </Heading>
       <RichText maxWidth={60}>
         <p>
-          A spiral staircase needs far less floor than a straight run, and
-          it's often the first thing people notice in a room. Kit spirals
-          come in set sizes. Ours are built to the exact height and
-          diameter of your opening, with every tread, baluster and length
-          of handrail made in our Black Mountain shop.
+          A spiral staircase takes far less floor space than a straight run. Ours are built to the height and diameter of your opening, with every tread, baluster and handrail made in our Black Mountain shop. Stairs have to be right to a fraction of an inch, so we take our time measuring and check the details with you first.
         </p>
         <p>
-          The staircase shown here pairs a curved walnut handrail and
-          turned balusters with hammered metal treads. Yours can be built
-          in whatever wood and details suit your home.
+          Treads can be wood or metal, with a curved handrail and turned balusters in walnut, oak or another local hardwood.
         </p>
-        {import.meta.env.DEV && (
-          <p>
-            TODO (Noah): what materials and tread options you offer, and
-            anything about code compliance or inspections clients should
-            know.
-          </p>
-        )}
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={spiralTreads}
         alt="Hammered metal treads on a spiral staircase, framed by walnut balusters"
@@ -140,9 +112,7 @@ const faqs: FaqItem[] = [
       <RichText maxWidth={60}>
         <p>
           For a straight run, we build solid hardwood treads and risers
-          with handrails, balusters and newel posts shaped by hand. The
-          oak staircase shown here has a chamfered newel post and a
-          rounded handrail.
+          with handrails, balusters and newel posts shaped by hand.
         </p>
         <p>
           Only need a new railing for the stairs you have? See{" "}
@@ -150,6 +120,7 @@ const faqs: FaqItem[] = [
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={oakStair}
         alt="Straight oak staircase with solid treads and a hand-shaped oak handrail, seen from the bottom"

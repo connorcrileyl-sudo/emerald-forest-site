@@ -1,4 +1,5 @@
 ---
+import Lightbox from "@/components/media/Lightbox.astro";
 import "@/styles/global.css";
 import BaseHead from "@/components/utility/BaseHead.astro";
 import SkipLink from "@/components/global/SkipLink.astro";
@@ -33,11 +34,23 @@ const { theme = "dark", overlap = false, ...seo } = Astro.props;
     <slot name="head" />
   </head>
   <body>
+    <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+      <defs>
+        <linearGradient id="gold-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#dba743" />
+          <stop offset=".3" stop-color="#c89231" />
+          <stop offset=".62" stop-color="#a87824" />
+          <stop offset=".84" stop-color="#bd8d38" />
+          <stop offset="1" stop-color="#926722" />
+        </linearGradient>
+      </defs>
+    </svg>
     <SkipLink />
     <Nav overlap={overlap} />
     <main id="main" tabindex="-1">
       <slot />
     </main>
+    <Lightbox />
     <Footer />
     <TodoHighlight />
     <ReviewHighlight />

@@ -10,6 +10,8 @@ type Props = HTMLAttributes<"figure"> & {
   name?: string;
   /** Role, company or town, e.g. "Homeowner, Springfield". */
   detail?: string;
+  /** Words in the quote to set in bold, e.g. "Thanks Noah!". */
+  highlight?: string[];
   /** Star rating out of 5, shown as gold stars. Only the review's real rating. */
   rating?: 1 | 2 | 3 | 4 | 5;
   /** Color theme of element and its children. */
@@ -22,10 +24,25 @@ const {
   name,
   detail,
   rating,
+  highlight = [],
   theme = "inherit",
   class: className,
   ...rest
 } = Astro.props;
+
+/* The quote as plain and bold pieces, so the markup stays escaped. */
+const parts: { text: string; gold: boolean }[] = [];
+if (quote) {
+  let rest = quote;
+  for (const h of highlight) {
+    const at = rest.indexOf(h);
+    if (at < 0) continue;
+    if (at > 0) parts.push({ text: rest.slice(0, at), gold: false });
+    parts.push({ text: h, gold: true });
+    rest = rest.slice(at + h.length);
+  }
+  if (rest) parts.push({ text: rest, gold: false });
+}
 ---
 
 {render && quote && name && (
@@ -47,7 +64,7 @@ const {
       </div>
     )}
     <blockquote class="quote-card_quote text-style-large">
-      <p>{quote}</p>
+      <p>{parts.map((p) => (p.gold ? <strong class="quote-card_bold">{p.text}</strong> : p.text))}</p>
     </blockquote>
     <figcaption class="quote-card_caption">
       <span class="quote-card_name">{name}</span>
@@ -80,14 +97,15 @@ const {
       margin-bottom: calc(var(--space-6) * -0.5);
 
       & svg {
-        width: 1.25rem;
-        height: 1.25rem;
-        fill: #d4a955;
+        width: 2rem;
+        height: 2rem;
+        fill: url(#gold-fill);
+        filter: var(--heading-shadow-soft);
       }
 
       & svg.is-empty {
         fill: none;
-        stroke: #d4a955;
+        stroke: url(#gold-fill);
         stroke-width: 1.5;
       }
     }
@@ -102,6 +120,12 @@ const {
       & > p::after {
         content: close-quote;
       }
+    }
+
+    /* Key phrases in bold, same colour as the rest. */
+    .quote-card_bold {
+      font-weight: var(--primary-bold);
+      color: inherit;
     }
 
     .quote-card_caption {

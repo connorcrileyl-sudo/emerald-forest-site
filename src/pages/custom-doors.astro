@@ -21,7 +21,7 @@ import arched from "@/assets/images/arched-hardwood-door.jpg";
 import archedTrim from "@/assets/images/arched-door-with-trim.jpg";
 import plankDoors from "@/assets/images/plank-interior-doors.jpg";
 import finishing from "@/assets/images/finishing-a-walnut-door.jpg";
-import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
@@ -36,23 +36,11 @@ const faqs: FaqItem[] = [
   {
     question: "What wood and finish do you use?",
     answer: `Hardwood grown and milled in Western North Carolina,
-      finished with a zero-VOC hard wax oil. The doors shown here are
-      walnut.`,
+      with food-safe, eco-friendly finishes.`,
   },
   {
     question: "How much does a custom wood door cost?",
-    answer: `It depends on the size, the wood, the design and whether it's an entry or interior door. Give us a call or
-      send a few photos, and we'll gladly put together a free estimate.`,
-  },
-  {
-    question: "How do I get an estimate?",
-    answer: `Call ${BUSINESS.phone}, or send the opening's width and
-      height, whether it's an entry or interior door, and a photo
-      through the <a href="/contact/">contact page</a>.`,
-  },
-  {
-    question: "How long does a custom door take?",
-    answer: `TODO (Noah): a typical time from go-ahead to installation.`,
+    answer: `It depends on the size, the wood, the design and whether it's an entry or interior door, so every job gets its own free estimate.`,
   },
 ];
 ---
@@ -86,6 +74,7 @@ const faqs: FaqItem[] = [
         <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
       </ButtonWrapper>
       <Img
+        zoom
         slot="column2"
         src={entryInstalled}
         alt="Solid walnut entry door with a carved geometric upper panel and raised lower panels"
@@ -101,23 +90,12 @@ const faqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>Solid Wood Front Doors</Heading>
       <RichText maxWidth={60}>
         <p>
-          A front door is the first thing visitors touch. We build entry
-          doors in solid hardwood, with carved or raised panels designed
-          with you.
+          We build entry doors in walnut or another local hardwood,
+          with carved, raised or plain panels. We work through the design with you, from the panel layout to the wood, before anything is built.
         </p>
-        <p>
-          The walnut door shown here has a carved geometric upper panel
-          over raised lower panels, finished in our usual non-toxic hard
-          wax oil.
-        </p>
-        {import.meta.env.DEV && (
-          <p>
-            TODO (Noah): do you supply and fit hardware, glass and weather
-            sealing, or does the client's builder handle that?
-          </p>
-        )}
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={entryOpen}
         alt="Walnut entry door standing open, showing its full thickness and carved panel"
@@ -133,7 +111,7 @@ const faqs: FaqItem[] = [
       </Heading>
       <RichText maxWidth={60}>
         <p>
-          Arched doorways need a door made for them. We build arched doors
+          We build arched doors
           with matching curved trim (see{" "}
           <a href="/finish-carpentry/">trim and finish carpentry</a>), and
           plank and panel interior doors in solid hardwood for closets,
@@ -149,6 +127,7 @@ const faqs: FaqItem[] = [
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={archedTrim}
         alt="Arched solid wood door with horizontal planks and a matching curved wood trim"

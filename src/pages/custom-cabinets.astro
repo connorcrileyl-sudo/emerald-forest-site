@@ -21,9 +21,8 @@ import coffeeStation from "@/assets/images/coffee-station-arched-glass.jpg";
 import Grid from "@/components/wrapper/Grid.astro";
 import Card from "@/components/item/Card.astro";
 import BeforeAfter from "@/components/media/BeforeAfter.astro";
-import Lightbox from "@/components/media/Lightbox.astro";
 import alcoveBeforeAfter from "@/assets/images/alcove-before-after.jpg";
-import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
@@ -36,25 +35,8 @@ const faqs: FaqItem[] = [
       and installed in homes in ${TOWN_LIST}, NC, and nearby.`,
   },
   {
-    question: "Do you install the cabinets too?",
-    answer: `Yes. We build the cabinets in the shop and fit them in your
-      home.`,
-  },
-  {
-    question: "Is the finish safe in a kitchen?",
-    answer: `Yes. Our usual finish is a zero-VOC hard wax oil that is
-      safe for food contact.`,
-  },
-  {
     question: "How much do custom cabinets cost?",
-    answer: `It depends on how many cabinets you need, the wood, the door style and the installation. Give us a call or
-      send a few photos, and we'll gladly put together a free estimate.`,
-  },
-  {
-    question: "How do I get an estimate?",
-    answer: `Call ${BUSINESS.phone}, or send measurements and a few
-      photos of the space through the
-      <a href="/contact/">contact page</a>.`,
+    answer: `It depends on how many cabinets you need, the wood, the door style and the installation, so every job gets its own free estimate.`,
   },
 ];
 ---
@@ -88,6 +70,7 @@ const faqs: FaqItem[] = [
         <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
       </ButtonWrapper>
       <Img
+        zoom
         slot="column2"
         src={wineHero}
         alt="Arched built-in wine cabinet with lit shelves, diamond wine racks and wood doors below"
@@ -103,12 +86,13 @@ const faqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>Kitchen Cabinets</Heading>
       <RichText maxWidth={60}>
         <p>
-          Kitchen cabinets and countertops, built to fit the room. See{" "}
+          For kitchen cabinets and countertops, see{" "}
           <a href="/custom-kitchens/">custom kitchens</a> for full
           kitchen build-outs.
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={kitchenStone}
         alt="L-shaped kitchen cabinets with a dark wood countertop below a stone wall, open shelves and a window"
@@ -126,7 +110,7 @@ const faqs: FaqItem[] = [
         <p>
           Built-in bookshelves and cabinets turn unused corners and
           alcoves into storage that looks like it was always part of the
-          house. Want the trim, baseboards or wainscoting around them to
+          house. Each one is measured on site and drawn up with you, so it suits the space and the way you'll use it. Want the trim, baseboards or wainscoting around them to
           match? See{" "}
           <a href="/finish-carpentry/">trim and finish carpentry</a>.
         </p>
@@ -138,6 +122,7 @@ const faqs: FaqItem[] = [
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={floatingShelves}
         alt="Thick wood floating shelves wrapping a corner alcove, with a bow-tie inlay across a crack"
@@ -206,5 +191,4 @@ const faqs: FaqItem[] = [
   </Section>
 
   <RelatedServices current="/custom-cabinets/" />
-  <Lightbox />
 </Layout>

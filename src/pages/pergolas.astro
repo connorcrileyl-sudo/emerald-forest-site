@@ -18,7 +18,7 @@ import pergolaPlanters from "@/assets/images/pergola-with-planters.jpg";
 import pergolaFront from "@/assets/images/pergola-front-view.jpg";
 import pergolaUnder from "@/assets/images/pergola-underneath.jpg";
 import pergolaShade from "@/assets/images/pergola-dappled-shade.jpg";
-import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
@@ -27,24 +27,12 @@ const description =
 const faqs: FaqItem[] = [
   {
     question: "Where do you build pergolas?",
-    answer: `Each pergola is designed for its spot and built at homes in
+    answer: `We build pergolas at homes in
       ${TOWN_LIST}, NC, and nearby.`,
   },
   {
-    question: "Can a pergola have built-in planters or seating?",
-    answer: `Yes. The pergola on this page has planter boxes built into
-      both sides. Tell us what you'd like the space to do and we'll
-      design around it.`,
-  },
-  {
     question: "How much does a wood pergola cost?",
-    answer: `It depends on the size, the roof and any built-ins such as planters or benches. Give us a call or
-      send a few photos, and we'll gladly put together a free estimate.`,
-  },
-  {
-    question: "How do I get an estimate?",
-    answer: `Call ${BUSINESS.phone}, or send photos of the spot and rough
-      measurements through the <a href="/contact/">contact page</a>.`,
+    answer: `It depends on the size, the roof and any built-ins such as planters or benches, so every job gets its own free estimate.`,
   },
 ];
 ---
@@ -70,14 +58,14 @@ const faqs: FaqItem[] = [
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
         We design and build solid timber pergolas and covered outdoor
-        spaces for yards, patios and driveways around Black Mountain and
-        Asheville, to the same standard as our indoor work.
+        spaces for yards, patios and driveways around Black Mountain and Asheville.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
         <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
       </ButtonWrapper>
       <Img
+        zoom
         slot="column2"
         src={pergolaShade}
         alt="Under a large timber pergola, sunlight through the slatted roof casting a grid of light across the concrete"
@@ -91,21 +79,21 @@ const faqs: FaqItem[] = [
   <Section class="section-alt">
     <ContentWrapper variant="columns" reverse>
       <Heading tag="h2" maxWidth={24}>
-        A Covered Space with Built-In Planters
+        Shade and Outdoor Living Space
       </Heading>
       <RichText maxWidth={60}>
         <p>
-          This pergola covers a wide concrete pad, with a slatted roof
-          that casts light shade and planter boxes built into both sides.
-          It frames the view of the mountains beyond.
+          A pergola gives a patio or yard some shade and makes it feel
+          like part of the house. We build them in solid timber, with a
+          slatted roof for light shade. The timber is local, and each one is built to hold up to mountain weather.
         </p>
         <p>
-          Every pergola is designed for its spot: the size of the space,
-          how much shade you want, and what it needs to connect to, from a
-          patio or driveway to the side of the house.
+          Planter boxes can be built right into the frame. Tell us how
+          you want to use the space and we'll design around it.
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={pergolaFront}
         alt="Large timber pergola with a slatted roof and planter boxes, against a mountain backdrop"

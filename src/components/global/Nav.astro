@@ -373,8 +373,8 @@ const inGroup = (children: { href: string }[]) =>
       text-decoration: none;
       text-underline-offset: 0.4em;
       /* Gold underline on the current page, a touch heavier than a hairline. */
-      text-decoration-thickness: 1.5px;
-      text-decoration-color: var(--brand-300);
+      text-decoration-thickness: 2.5px;
+      text-decoration-color: color-mix(in srgb, var(--brand-300) 65%, transparent);
       transition: color var(--hover-duration) var(--hover-ease);
       &[aria-current="page"] {
         color: var(--text);
@@ -427,10 +427,33 @@ const inGroup = (children: { href: string }[]) =>
         padding-top: 0;
       }
 
+      /* Current page: a gold underline, shaded like the headings' lit
+         metal (brighter in the middle, deeper at the ends). Drawn as a
+         pseudo-element because text-decoration can't take a gradient. */
       .nav_link {
+        position: relative;
         padding-block: 0;
-        &[aria-current="page"] {
-          text-decoration-line: underline;
+        &[aria-current="page"]::after,
+        &.nav_group_toggle[data-current]::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -0.15em;
+          height: 2.5px;
+          border-radius: 2px;
+          background: linear-gradient(
+            90deg,
+            #c08c33 0%,
+            #d29a3c 50%,
+            #c08c33 100%
+          );
+          opacity: 0.75;
+          pointer-events: none;
+        }
+        /* The Services toggle: under the word, not the chevron. */
+        &.nav_group_toggle[data-current]::after {
+          right: calc(0.75em + 0.35em);
         }
       }
 
@@ -440,9 +463,6 @@ const inGroup = (children: { href: string }[]) =>
 
       .nav_link.nav_group_toggle {
         width: auto;
-        &[data-current] {
-          text-decoration-line: underline;
-        }
       }
 
       .nav_group_chevron {

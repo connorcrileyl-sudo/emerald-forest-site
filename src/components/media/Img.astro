@@ -1,5 +1,5 @@
 ---
-import { Image, imageConfig } from "astro:assets";
+import { Image, getImage, imageConfig } from "astro:assets";
 import type { LocalImageProps, RemoteImageProps } from "astro:assets";
 import { isRemoteAllowed } from "astro/assets/utils";
 import type { HTMLAttributes } from "astro/types";
@@ -34,6 +34,9 @@ type Base = Omit<
   loading?: "lazy" | "eager";
   /** Fetch priority. */
   fetchPriority?: "auto" | "high" | "low";
+  /** Click to view full screen (the site-wide photo viewer), with the
+   *  same hover hint as the portfolio. Imported photos only. */
+  zoom?: boolean;
 };
 
 type Props = Base &
@@ -72,6 +75,7 @@ const {
   transparent = false,
   loading = "lazy",
   fetchPriority = "auto",
+  zoom = false,
   class: className,
   ...attrs
 } = Astro.props as AllProps;
@@ -198,6 +202,19 @@ const classes = [
   className,
 ];
 
+/* Full-size copy for the viewer, only fetched when someone clicks. */
+const zoomable = zoom && source !== undefined && !isSvg;
+const zoomAttrs = zoomable
+  ? {
+      "data-full": (
+        await getImage({ src: source, width: Math.min(1800, source.width), format: "webp" })
+      ).src,
+      tabindex: 0,
+      role: "button",
+      "aria-label": `View full size${alt ? `: ${alt}` : ""}`,
+    }
+  : {};
+
 const shared = {
   src,
   alt,
@@ -208,6 +225,7 @@ const shared = {
   ...sizing,
   ...srcset,
   ...attrs,
+  ...zoomAttrs,
   "class:list": classes,
 } as unknown as LocalImageProps | RemoteImageProps;
 ---

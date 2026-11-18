@@ -119,7 +119,7 @@ if (import.meta.env.DEV && render) {
   >
     {hasImage && (
       <div class="card_visual">
-        <Img src={image!} alt={imageAlt} />
+        <Img src={image!} alt={imageAlt} zoom={!hasContent} />
         {variant === "cover" && <Overlay variant="gradient" />}
       </div>
     )}

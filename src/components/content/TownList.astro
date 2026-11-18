@@ -1,0 +1,88 @@
+---
+/**
+ * The towns we serve, as an easy-to-scan two-column list with small
+ * gold diamonds. Black Mountain is marked as the shop, and the list
+ * ends with "and surrounding areas" so it doesn't read as a hard edge.
+ */
+import { TOWNS } from "@/consts.ts";
+
+interface Props {
+  /** Utility classes. */
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<ul class:list={["town-list", className]}>
+  {TOWNS.map((town, i) => (
+    <li class:list={["town-list_item", i === 0 && "is-home"]}>
+      <span>{town}, NC</span>
+      {i === 0 && <span class="town-list_tag">Our shop</span>}
+    </li>
+  ))}
+  <li class="town-list_item is-more">and surrounding areas</li>
+</ul>
+
+<style is:global>
+  @layer components {
+    .town-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3) var(--space-6);
+      max-width: 30rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: var(--text-main);
+      color: var(--text);
+    }
+
+    .town-list_item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.25rem 0.65em;
+      padding-bottom: var(--space-3);
+      border-bottom: var(--border-width) solid
+        color-mix(in lab, var(--heading-text, #d39d36) 18%, transparent);
+
+      /* Same small gold diamond as the service cards' lists. */
+      &::before {
+        content: "";
+        flex: none;
+        width: 0.4em;
+        height: 0.4em;
+        background-color: var(--heading-text, currentcolor);
+        rotate: 45deg;
+        translate: 0 -0.12em;
+      }
+
+      /* The shop's own town spans the row and leads the list. */
+      &.is-home {
+        grid-column: 1 / -1;
+        font-weight: var(--primary-medium);
+      }
+
+      &.is-more {
+        grid-column: 1 / -1;
+        border-bottom: 0;
+        padding-bottom: 0;
+        color: var(--text-2);
+        font-style: italic;
+        &::before {
+          background-color: transparent;
+          outline: var(--border-width) solid var(--heading-text, currentcolor);
+        }
+      }
+    }
+
+    .town-list_tag {
+      font-size: 0.6875rem;
+      font-weight: var(--primary-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--heading-text, currentcolor);
+    }
+  }
+</style>

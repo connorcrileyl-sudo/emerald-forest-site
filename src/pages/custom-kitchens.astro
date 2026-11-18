@@ -20,11 +20,11 @@ import kitchenSink from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
 import drawerBank from "@/assets/images/maple-kitchen-drawer-bank.jpg";
 import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
 import plateShelves from "@/assets/images/painted-kitchen-plate-shelves.jpg";
-import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
-  "Custom kitchens, solid hardwood kitchen cabinets and countertops, built to fit the room in Black Mountain, NC and installed in homes around Asheville.";
+  "Custom kitchens, solid hardwood kitchen cabinets and countertops, made in Black Mountain, NC and installed in homes around Asheville.";
 
 const faqs: FaqItem[] = [
   {
@@ -33,32 +33,15 @@ const faqs: FaqItem[] = [
       installed in homes in ${TOWN_LIST}, NC, and nearby.`,
   },
   {
-    question: "Do you install the kitchen too?",
-    answer: `Yes. We build the cabinets in the shop and fit them in your
-      home.`,
-  },
-  {
-    question: "Do you do countertops, plumbing and electrical?",
-    answer: `We can build countertops. Plumbing and electrical work is
-      done by your own licensed trades. Call and we'll talk through
-      your kitchen.`,
-  },
-  {
     question: "Is the finish safe in a kitchen?",
-    answer: `Yes. Our usual finish is a zero-VOC hard wax oil that is
-      safe for food contact.`,
+    answer: `Yes. We use food-safe, eco-friendly finishes, usually a
+      zero-VOC hard wax oil, and take care to keep your family safe.`,
   },
   {
     question: "How much does a custom kitchen cost?",
     answer: `It depends on the size of the kitchen, the wood, the door
-      style and the installation. Give us a call or send a few photos,
-      and we'll gladly put together a free estimate.`,
-  },
-  {
-    question: "How do I get an estimate?",
-    answer: `Call ${BUSINESS.phone}, or send measurements and a few
-      photos of your kitchen through the
-      <a href="/contact/">contact page</a>.`,
+      style and the installation, so every job gets its own free
+      estimate.`,
   },
 ];
 ---
@@ -83,7 +66,7 @@ const faqs: FaqItem[] = [
         Custom Kitchens in Black Mountain, NC
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
-        Solid hardwood kitchens built to fit the room, made in our
+        Solid hardwood kitchens, made in our
         Black Mountain shop for homes around Asheville.
       </Paragraph>
       <ButtonWrapper>
@@ -91,6 +74,7 @@ const faqs: FaqItem[] = [
         <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
       </ButtonWrapper>
       <Img
+        zoom
         slot="column2"
         src={mapleKitchen}
         alt="Maple kitchen with slab-front cabinets, a stainless range, green tile backsplash and a window over the counter"
@@ -106,12 +90,11 @@ const faqs: FaqItem[] = [
       <Heading tag="h2" maxWidth={24}>Full Kitchen Build-Outs</Heading>
       <RichText maxWidth={60}>
         <p>
-          Solid hardwood cabinets and countertops, built to fit your
-          kitchen rather than a catalog's standard boxes, even in older
-          homes where nothing is quite square.
+          Solid hardwood cabinets and countertops, made to measure, even in older homes where nothing is quite square. We measure carefully and talk through how you use your kitchen before anything is cut.
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={kitchenSink}
         alt="Wood kitchen cabinets with a hammered copper farmhouse sink and stone countertop"
@@ -128,8 +111,7 @@ const faqs: FaqItem[] = [
       <RichText maxWidth={60}>
         <p>
           Natural wood or painted, with drawers and open shelves where
-          you want them. Finished in a zero-VOC hard wax oil that is safe
-          for food contact.
+          you want them.
         </p>
         <p>
           Built-ins elsewhere in the house? See{" "}
@@ -137,6 +119,7 @@ const faqs: FaqItem[] = [
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={plateShelves}
         alt="Painted open shelves with plate rails holding orange plates, beside a stone wall"

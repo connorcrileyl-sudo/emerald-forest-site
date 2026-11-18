@@ -15,13 +15,14 @@ import iconTree from "@/assets/icons/fa/tree.svg";
 import iconLeaf from "@/assets/icons/fa/leaf.svg";
 import workshop from "@/assets/images/woodworker-in-workshop.jpg";
 import lumber from "@/assets/images/workshop-lumber-and-machines.jpg";
+import TownList from "@/components/content/TownList.astro";
 import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { PHONE_HREF, TOWNS } from "@/consts.ts";
 ---
 
 <Layout
-  title="About Noah, Carpenter & Woodworker in Black Mountain, NC"
-  description="Emerald Forest Furnishings is Noah's woodworking and finish carpentry shop in Black Mountain, NC, building with local hardwood and non-toxic finishes."
+  title="About Us | Carpenter & Woodworker in Black Mountain, NC"
+  description="Emerald Forest Furnishings is a woodworking and finish carpentry shop in Black Mountain, NC, building with local hardwood and safe, eco-friendly finishes."
 >
   <BreadcrumbSchema slot="head" trail={[{ label: "About", href: "/about/" }]} />
   <!-- Hero -->
@@ -37,6 +38,7 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         doors and one-of-a-kind furniture for homes across the area.
       </Paragraph>
       <Img
+        zoom
         slot="column2"
         src={workshop}
         alt="Noah at his workbench, assembling a hardwood stair rail section"
@@ -52,36 +54,14 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
       <Heading tag="h2" maxWidth={24}>Care in Every Project</Heading>
       <RichText maxWidth={60}>
         <p>
-          Every piece starts with a conversation: your ideas, how you'll
-          use it, and the space it's for. We work out the design together
-          and keep you in the loop as it comes together.
+          Every piece starts with a conversation about what you want. We work out the design together and keep you in the loop while it's built.
         </p>
         <p>
-          Then it's built by hand in our Black Mountain shop, one piece at
-          a time, from solid local hardwood. Each part is cut, shaped,
-          fitted and finished with care, so it looks good and holds up to
-          everyday use for years.
+          It's built by hand in our Black Mountain shop from solid local hardwood, made to hold up to everyday use for years.
         </p>
-        <p>
-          For bigger projects, we team up with skilled local craftsmen we
-          trust, so a whole kitchen or staircase gets the same attention
-          as a single shelf.
-        </p>
-        {import.meta.env.DEV && (
-          <p>
-            TODO (Noah): how many years you've been doing carpentry, how
-            you got started, and what you enjoy building most. Two or
-            three sentences in your own words is perfect.
-          </p>
-        )}
-        {import.meta.env.DEV && (
-          <p>
-            TODO (Noah): are you licensed and insured? If so, say which
-            licence so we can mention it.
-          </p>
-        )}
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={lumber}
         alt="Rough-sawn local hardwood stacked in the Emerald Forest Furnishings shop"
@@ -99,13 +79,12 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
         <Icon src={iconQuality} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Quality and Integrity</Heading>
         <Paragraph>
-          Careful work and honest communication, from the first
-          conversation to the last coat of finish.
+          Careful work and honest communication.
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
         <Icon src={iconTree} variant="large" class="feature-icon" />
-        <Heading tag="h3" variant="h5">Local, Bioregional Wood</Heading>
+        <Heading tag="h3" variant="h5">Local Wood</Heading>
         <Paragraph>
           Lumber from trees grown and milled here in Western North
           Carolina, bought from local sawmills, so the work supports the
@@ -114,11 +93,10 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
       </ContentWrapper>
       <ContentWrapper>
         <Icon src={iconLeaf} variant="large" class="feature-icon" />
-        <Heading tag="h3" variant="h5">Non-Toxic Finishes</Heading>
+        <Heading tag="h3" variant="h5">Safe Finishes</Heading>
         <Paragraph>
-          Our go-to finish is a zero-VOC, food-safe hard wax oil, paired
-          with non-toxic hardware and the best quality fittings we can
-          find.
+          We use food-safe, eco-friendly finishes, usually a zero-VOC
+          hard wax oil, and take care to keep your family safe.
         </Paragraph>
       </ContentWrapper>
     </Grid>
@@ -128,12 +106,21 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   <Section class="section-alt">
     <ContentWrapper variant="columns">
       <Heading tag="h2" maxWidth={24}>Based in Black Mountain</Heading>
-      <RichText slot="column2" maxWidth={60}>
-        <p>We build for homes in:</p>
-        <ul>
-          {TOWNS.map((town) => <li>{town}, NC</li>)}
-        </ul>
-      </RichText>
+      <div slot="column2" class="about-area">
+        <Paragraph variant="large">We build for homes in and around:</Paragraph>
+        <TownList />
+        <Paragraph>
+          Somewhere else nearby? Give us a call.
+        </Paragraph>
+      </div>
     </ContentWrapper>
   </Section>
 </Layout>
+
+<style is:global>
+  .about-area {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+</style>

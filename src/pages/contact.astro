@@ -5,14 +5,14 @@ import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
 import ButtonWrapper from "@/components/wrapper/ButtonWrapper.astro";
 import Heading from "@/components/typography/Heading.astro";
 import Paragraph from "@/components/typography/Paragraph.astro";
-import RichText from "@/components/typography/RichText.astro";
 import Button from "@/components/Button.astro";
 import Form from "@/components/form/Form.astro";
 import Fieldset from "@/components/form/Fieldset.astro";
 import Input from "@/components/form/Input.astro";
 import Textarea from "@/components/form/Textarea.astro";
 import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
-import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
+import TownList from "@/components/content/TownList.astro";
+import { BUSINESS, PHONE_HREF, FORM_ENDPOINT } from "@/consts.ts";
 ---
 
 <Layout
@@ -25,65 +25,56 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
   <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="sticky-content">
       <Heading tag="h1" variant="h1" maxWidth={14}>
-        Contact Noah
+        Get in Touch
       </Heading>
       <Paragraph variant="large" maxWidth={32}>
-        Got a project in mind, or just an idea you're turning over?
-        Send a quick note about what you need. Noah is always happy to
-        talk it through, with no pressure and no commitment.
+        Tell us a little about your project and we'll get back to you.
+        Still figuring it out? That's fine, we're happy to talk it
+        through.
       </Paragraph>
       <Paragraph maxWidth={32}>
-        Prefer to talk? Give him a call.
+        Or just give us a call.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call {BUSINESS.phone}</Button>
       </ButtonWrapper>
-      <RichText class="contact-details">
+      <div class="contact-details">
         {BUSINESS.email && (
-          <p>
-            <strong>Email</strong>
-            <br />
-            <a href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
-          </p>
+          <div class="contact-detail">
+            <p class="contact-detail_label">Email</p>
+            <a class="contact-detail_value" href={`mailto:${BUSINESS.email}`}>{BUSINESS.email}</a>
+          </div>
         )}
-        <p>
-          <strong>Area served</strong>
-          <br />
-          {TOWNS.join(", ")}, NC
-        </p>
-        {import.meta.env.DEV && (
-          <p>
-            TODO (Noah): your real working hours, and how quickly you
-            usually reply to messages.
-          </p>
-        )}
+        <div class="contact-detail">
+          <p class="contact-detail_label">Area served</p>
+          <TownList />
+        </div>
         {BUSINESS.hours.length > 0 && (
-          <p>
-            <strong>Hours</strong>
-            <br />
-            <Fragment set:html={BUSINESS.hours.join("<br />")} />
-          </p>
+          <div class="contact-detail">
+            <p class="contact-detail_label">Hours</p>
+            <p class="contact-detail_value"><Fragment set:html={BUSINESS.hours.join("<br />")} /></p>
+          </div>
         )}
-      </RichText>
+      </div>
       <Form slot="column2" name="contact" action={FORM_ENDPOINT}>
         {/* Honeypot for contact.php: hidden from people, filled by bots. */}
         <div style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
           <label>Leave this empty <input type="text" name="company-website" tabindex="-1" autocomplete="off" /></label>
         </div>
-        <Fieldset legend="Send Noah a note" legendStyle="hidden">
+        <Fieldset legend="Send us a note" legendStyle="hidden">
           <Input variant="first-name" label="Your name" name="first-name" placeholder="Your name" required />
           <Input variant="email" placeholder="you@example.com" required />
           <Input variant="phone" label="Phone (optional)" name="phone" placeholder="Phone" />
           {/* name kept as-is: contact.php reads this field by that name */}
           <Textarea
-            label="What can Noah help with?"
+            label="What can we help with?"
             name="what-would-you-like-built-or-repaired"
             placeholder="A few lines is plenty. Rough ideas are welcome."
             required
           />
         </Fieldset>
         <ButtonWrapper>
-          <Button type="submit">Send to Noah</Button>
+          <Button type="submit">Send Message</Button>
         </ButtonWrapper>
       </Form>
     </ContentWrapper>
@@ -94,10 +85,30 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, TOWNS } from "@/consts.ts";
   /* Left column: room between the call button and the details, and
      between each detail, so it doesn't read as one cramped block. */
   .contact-details {
-    margin-top: var(--space-6);
-    & > * + * {
-      margin-top: var(--space-5);
-    }
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    width: 100%;
+    margin-top: var(--space-8);
+  }
+  .contact-detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  /* Small gold label over each detail, so the eye finds them fast. */
+  .contact-detail_label {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: var(--primary-bold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--heading-text, currentcolor);
+  }
+  .contact-detail_value {
+    margin: 0;
+    font-size: var(--text-large);
+    color: var(--text);
   }
   /* Two fields per row from tablet width up, so the whole form (and its
      Send button) fits above the fold on a laptop. Unlayered to beat the

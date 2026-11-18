@@ -320,6 +320,10 @@
 /* Feature icons (Font Awesome Sharp Light): in the heading gold. */
 .feature-icon {
   color: var(--heading-text, currentcolor);
+  /* Same lit gold and raised edge as the h2s. */
+  fill: url(#gold-fill);
+  & * { fill: url(#gold-fill); }
+  filter: var(--heading-shadow-soft);
   /* Font Awesome 7 draws some shapes slightly past the viewBox (the
      tree's tip, for one) and expects them to show. */
   overflow: visible;

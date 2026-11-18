@@ -12,7 +12,6 @@ import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
 import Heading from "@/components/typography/Heading.astro";
 import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import VideoFacade from "@/components/media/VideoFacade.astro";
-import Lightbox from "@/components/media/Lightbox.astro";
 import ZoomBadge from "@/components/media/ZoomBadge.astro";
 import BeforeAfter from "@/components/media/BeforeAfter.astro";
 import alcoveBeforeAfter from "@/assets/images/alcove-before-after.jpg";
@@ -136,7 +135,7 @@ for (const photo of groups.flatMap((g) => g.photos)) {
 
 <Layout
   title="Portfolio | Woodwork in Black Mountain & Asheville, NC"
-  description="Photos of Noah's work: full kitchen build-outs, custom staircases, solid wood doors, built-ins, furniture and pergolas, made in Black Mountain, NC."
+  description="Photos of our work: full kitchen build-outs, custom staircases, solid wood doors, built-ins, furniture and pergolas, made in Black Mountain, NC."
 >
   <BreadcrumbSchema slot="head" trail={[{ label: "Portfolio", href: "/portfolio/" }]} />
 
@@ -199,7 +198,6 @@ for (const photo of groups.flatMap((g) => g.photos)) {
     </div>
   </Section>
 
-  <Lightbox />
 
 </Layout>
 

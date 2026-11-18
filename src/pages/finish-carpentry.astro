@@ -16,7 +16,7 @@ import archedTrim from "@/assets/images/arched-door-with-trim.jpg";
 /* Stock photos (Envato): close-ups of the work in general, not Noah. */
 import crownMolding from "@/assets/images/stock-crown-molding-nail-gun.jpg";
 import archedWindow from "@/assets/images/arched-window-trim.jpg";
-import { BUSINESS, PHONE_HREF } from "@/consts.ts";
+import { PHONE_HREF } from "@/consts.ts";
 import { TOWN_LIST, visibleFaqs, type FaqItem } from "@/utils/faq.ts";
 
 const description =
@@ -24,15 +24,8 @@ const description =
 
 const faqs: FaqItem[] = [
   {
-    question: "What is finish carpentry?",
-    answer: `Finish carpentry is the visible woodwork that goes in after
-      the walls are up: trim, casings, baseboards, crown molding,
-      wainscoting, built-ins and interior doors.`,
-  },
-  {
     question: "Can you match trim that's already in my house?",
-    answer: `Yes. Send a photo of the existing trim and we'll make or
-      source a profile to match it.`,
+    answer: `Yes. Send a photo of the existing trim and we'll match it.`,
   },
   {
     question: "Do you take on trim work outside Black Mountain?",
@@ -41,14 +34,7 @@ const faqs: FaqItem[] = [
   },
   {
     question: "How much does trim or finish carpentry cost?",
-    answer: `It depends on how many rooms, the trim profiles, and whether existing trim needs matching. Give us a call or
-      send a few photos, and we'll gladly put together a free estimate.`,
-  },
-  {
-    question: "How do I get an estimate?",
-    answer: `Call ${BUSINESS.phone}, or send photos of the room and a
-      rough idea of what you want through the
-      <a href="/contact/">contact page</a>.`,
+    answer: `It depends on how many rooms, the trim profiles, and whether existing trim needs matching, so every job gets its own free estimate.`,
   },
 ];
 ---
@@ -74,14 +60,14 @@ const faqs: FaqItem[] = [
       </Heading>
       <Paragraph variant="large" maxWidth={36}>
         We fit crown molding, wainscoting, coffered ceilings and trim by
-        hand in homes around Black Mountain and Asheville, so the details
-        of a room line up and look finished.
+        hand in homes around Black Mountain and Asheville.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
         <Button element="link" href="/contact/" emphasis="secondary">Free Estimate</Button>
       </ButtonWrapper>
       <Img
+        zoom
         slot="column2"
         src={archedTrim}
         alt="Arched solid wood door framed by matching curved wood trim"
@@ -101,8 +87,7 @@ const faqs: FaqItem[] = [
         <p>
           We install crown molding, wainscoting and wall panelling, and
           build coffered ceilings. Older homes rarely have square walls or
-          level ceilings, so each piece is scribed and fitted on site{" "}
-          rather than nailed up straight from the box.
+          level ceilings, so each piece is scribed and fitted on site. We take our time on the joints and corners, so the trim looks like it was always there.
         </p>
         <p>
           Built-in bookshelves or cabinets for the same room? See{" "}
@@ -110,6 +95,7 @@ const faqs: FaqItem[] = [
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={crownMolding}
         alt="Close-up of white crown molding being nailed in where the wall meets the ceiling"
@@ -135,6 +121,7 @@ const faqs: FaqItem[] = [
         </p>
       </RichText>
       <Img
+        zoom
         slot="column2"
         src={archedWindow}
         alt="Curved wood trim framing a half-round arched window"
