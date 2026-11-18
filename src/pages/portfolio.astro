@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/content/Breadcrumbs.astro";
 /*
  * Portfolio: an Instagram-style grid of Noah's own work (no stock),
  * three square photos per row at every width. Each project group has a
@@ -10,7 +11,6 @@ import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
 import Heading from "@/components/typography/Heading.astro";
-import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import VideoFacade from "@/components/media/VideoFacade.astro";
 import ZoomBadge from "@/components/media/ZoomBadge.astro";
 import BeforeAfter from "@/components/media/BeforeAfter.astro";
@@ -137,11 +137,11 @@ for (const photo of groups.flatMap((g) => g.photos)) {
   title="Our Woodwork Portfolio"
   description="Photos of our kitchens, staircases, solid wood doors, built-ins, furniture and pergolas, made in Black Mountain, NC for Asheville-area homes."
 >
-  <BreadcrumbSchema slot="head" trail={[{ label: "Portfolio", href: "/portfolio/" }]} />
 
   <!-- Title only, so the photos start high on the page -->
   <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="small">
     <ContentWrapper class="ig-feed">
+      <Breadcrumbs trail={[{ label: "Portfolio", href: "/portfolio/" }]} />
       <Heading tag="h1" variant="h1" maxWidth={16}>Our Work</Heading>
     </ContentWrapper>
   </Section>

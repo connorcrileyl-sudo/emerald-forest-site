@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/content/Breadcrumbs.astro";
 import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
@@ -16,7 +17,6 @@ import iconLeaf from "@/assets/icons/fa/leaf.svg";
 import workshop from "@/assets/images/woodworker-in-workshop.jpg";
 import lumber from "@/assets/images/workshop-lumber-and-machines.jpg";
 import TownList from "@/components/content/TownList.astro";
-import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { PHONE_HREF, TOWNS } from "@/consts.ts";
 ---
 
@@ -24,10 +24,10 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   title="About Our Woodworking Shop in Black Mountain, NC"
   description="A woodworking and finish carpentry shop in Black Mountain, NC, serving the Asheville area with local hardwood and safe, eco-friendly finishes."
 >
-  <BreadcrumbSchema slot="head" trail={[{ label: "About", href: "/about/" }]} />
   <!-- Hero -->
   <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="columns">
+      <Breadcrumbs trail={[{ label: "About", href: "/about/" }]} />
       <Heading tag="h1" variant="h1" maxWidth={16}>
         A Woodworking Shop in Black Mountain, NC
       </Heading>

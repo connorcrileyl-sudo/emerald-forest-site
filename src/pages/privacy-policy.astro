@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/content/Breadcrumbs.astro";
 /*
  * Privacy policy. Written from what the site actually does (Web3Forms
  * contact form, GA4 in production, click-to-load Facebook video, links
@@ -10,7 +11,6 @@ import Section from "@/components/wrapper/Section.astro";
 import Heading from "@/components/typography/Heading.astro";
 import Paragraph from "@/components/typography/Paragraph.astro";
 import RichText from "@/components/typography/RichText.astro";
-import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { BUSINESS, PHONE_HREF, SITE_NAME } from "@/consts.ts";
 
 const EFFECTIVE = "November 18, 2026";
@@ -20,9 +20,9 @@ const EFFECTIVE = "November 18, 2026";
   title="Privacy Policy"
   description={`How ${SITE_NAME} collects, uses and protects the information you share through this website.`}
 >
-  <BreadcrumbSchema slot="head" trail={[{ label: "Privacy Policy", href: "/privacy-policy/" }]} />
   <Section paddingTop="navoverlap" class="section-glow-center">
     <div class="legal">
+      <Breadcrumbs trail={[{ label: "Privacy Policy", href: "/privacy-policy/" }]} />
       <Heading tag="h1" variant="h2">Privacy Policy</Heading>
       <Paragraph variant="small">Effective {EFFECTIVE}</Paragraph>
       <RichText maxWidth={54}>

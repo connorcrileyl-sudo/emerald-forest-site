@@ -1,15 +1,14 @@
 ---
 /*
  * Structured data for a service page: the Service itself (offered by
- * the business node in BusinessSchema), its breadcrumb trail, and its
+ * the business node in BusinessSchema), and its
  * FAQ. Put it in the layout's head slot:
  * <ServiceSchema slot="head" … />
  */
 import type { ImageMetadata } from "astro";
 import { getImage } from "astro:assets";
-import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import FaqSchema from "@/components/content/FaqSchema.astro";
-import { SITE_URL, SERVICE_LINKS, TOWNS } from "@/consts.ts";
+import { SITE_URL, TOWNS } from "@/consts.ts";
 import type { FaqItem } from "@/utils/faq.ts";
 
 interface Props {
@@ -30,7 +29,6 @@ const { name, serviceType, description, image, faqs = [] } = Astro.props;
 const path = Astro.url.pathname.replace(/\/?$/, "/");
 const url = new URL(path, SITE_URL).href;
 const hero = await getImage({ src: image, width: 1200, format: "jpg" });
-const label = SERVICE_LINKS.find((link) => link.href === path)?.label ?? name;
 
 const schema = {
   "@context": "https://schema.org",
@@ -47,10 +45,4 @@ const schema = {
 ---
 
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-<BreadcrumbSchema
-  trail={[
-    { label: "Services", href: "/services/" },
-    { label, href: path },
-  ]}
-/>
 <FaqSchema items={faqs} />

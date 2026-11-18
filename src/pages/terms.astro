@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/content/Breadcrumbs.astro";
 /*
  * Terms of service for the website. Deliberately says nothing about
  * deposits, payment schedules or warranty length: Noah hasn't given
@@ -9,7 +10,6 @@ import Section from "@/components/wrapper/Section.astro";
 import Heading from "@/components/typography/Heading.astro";
 import Paragraph from "@/components/typography/Paragraph.astro";
 import RichText from "@/components/typography/RichText.astro";
-import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { BUSINESS, PHONE_HREF, SITE_NAME } from "@/consts.ts";
 
 const EFFECTIVE = "November 18, 2026";
@@ -19,9 +19,9 @@ const EFFECTIVE = "November 18, 2026";
   title="Terms of Service"
   description={`The terms for using the ${SITE_NAME} website and how quotes and projects work.`}
 >
-  <BreadcrumbSchema slot="head" trail={[{ label: "Terms of Service", href: "/terms/" }]} />
   <Section paddingTop="navoverlap" class="section-glow-center">
     <div class="legal">
+      <Breadcrumbs trail={[{ label: "Terms of Service", href: "/terms/" }]} />
       <Heading tag="h1" variant="h2">Terms of Service</Heading>
       <Paragraph variant="small">Effective {EFFECTIVE}</Paragraph>
       <RichText maxWidth={54}>

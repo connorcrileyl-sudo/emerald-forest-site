@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/content/Breadcrumbs.astro";
 import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
@@ -10,7 +11,6 @@ import Form from "@/components/form/Form.astro";
 import Fieldset from "@/components/form/Fieldset.astro";
 import Input from "@/components/form/Input.astro";
 import Textarea from "@/components/form/Textarea.astro";
-import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import TownList from "@/components/content/TownList.astro";
 import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, WEB3FORMS_KEY } from "@/consts.ts";
 ---
@@ -19,11 +19,11 @@ import { BUSINESS, PHONE_HREF, FORM_ENDPOINT, WEB3FORMS_KEY } from "@/consts.ts"
   title="Contact & Free Estimates"
   description="Call Emerald Forest Furnishings at (828) 424-5401 or send project details for an estimate on custom staircases, doors and furniture in the Asheville area."
 >
-  <BreadcrumbSchema slot="head" trail={[{ label: "Contact", href: "/contact/" }]} />
   <!-- Hero: short intro and details on the left, the form beside it
        so it sits above the fold on desktop -->
   <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="sticky-content">
+      <Breadcrumbs trail={[{ label: "Contact", href: "/contact/" }]} />
       <Heading tag="h1" variant="h1" maxWidth={14}>
         Get in Touch
       </Heading>

@@ -1,0 +1,85 @@
+---
+/*
+ * Visible breadcrumb trail plus its BreadcrumbList data, built from one
+ * list so the two always match. Goes just above the page's h1. On a
+ * service page, leave `trail` out: it becomes Services > that service.
+ */
+import { SERVICE_LINKS, type Link } from "@/consts.ts";
+import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
+
+interface Props {
+  /** Set to `false` to omit the component. */
+  render?: boolean;
+  /** Pages after Home, e.g. Services then the current page. */
+  trail?: Link[];
+}
+
+const { render = true } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/?$/, "/");
+const service = SERVICE_LINKS.find(
+  (link) => link.href === path && link.href !== "/services/",
+);
+const trail: Link[] =
+  Astro.props.trail ??
+  (service
+    ? [{ label: "Services", href: "/services/" }, { label: service.label, href: path }]
+    : []);
+const crumbs = [{ label: "Home", href: "/" }, ...trail];
+---
+
+{render && trail.length > 0 && (
+  <>
+    <BreadcrumbSchema trail={trail} />
+    <nav class="crumbs_wrap text-style-small" aria-label="Breadcrumb">
+      <ol class="crumbs_list">
+        {crumbs.map((crumb, i) => (
+          <li class="crumbs_item">
+            {i < crumbs.length - 1 ? (
+              <a class="crumbs_link" href={crumb.href}>{crumb.label}</a>
+            ) : (
+              <span aria-current="page">{crumb.label}</span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </>
+)}
+
+<style is:global>
+  @layer components {
+    .crumbs_wrap {
+      margin-block-end: var(--space-3);
+    }
+    .crumbs_list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-1) var(--space-2);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .crumbs_item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      opacity: 0.8;
+      & + &::before {
+        content: "›";
+        opacity: 0.6;
+      }
+    }
+    .crumbs_link {
+      color: inherit;
+      text-decoration: underline;
+      text-decoration-thickness: 0.06em;
+      text-underline-offset: 0.2em;
+      padding-block: 0.25rem;
+      &:hover {
+        text-decoration-thickness: 0.12em;
+      }
+    }
+  }
+</style>

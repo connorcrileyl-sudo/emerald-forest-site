@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/content/Breadcrumbs.astro";
 import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
@@ -53,6 +54,7 @@ const faqs: FaqItem[] = [
   <!-- Hero -->
   <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="large">
     <ContentWrapper variant="columns">
+      <Breadcrumbs />
       <Heading tag="h1" variant="h1" maxWidth={16}>
         Custom Wood Pergolas in Black Mountain, NC
       </Heading>

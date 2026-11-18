@@ -1,4 +1,5 @@
 ---
+import Breadcrumbs from "@/components/content/Breadcrumbs.astro";
 import Layout from "@/layouts/BaseLayout.astro";
 import Section from "@/components/wrapper/Section.astro";
 import ContentWrapper from "@/components/wrapper/ContentWrapper.astro";
@@ -17,7 +18,6 @@ import kitchen from "@/assets/images/kitchen-cabinets-copper-sink.jpg";
 import wineBuiltIn from "@/assets/images/arched-wine-builtin-hero.jpg";
 import coffeeTable from "@/assets/images/cherry-coffee-table.jpg";
 import pergola from "@/assets/images/pergola-with-planters.jpg";
-import BreadcrumbSchema from "@/components/content/BreadcrumbSchema.astro";
 import { PHONE_HREF, TOWNS } from "@/consts.ts";
 ---
 
@@ -25,10 +25,10 @@ import { PHONE_HREF, TOWNS } from "@/consts.ts";
   title="Carpentry & Woodworking Services in Black Mountain, NC"
   description="Custom staircases, doors, kitchens, cabinets, furniture, finish carpentry and pergolas from a Black Mountain, NC carpenter serving the Asheville area."
 >
-  <BreadcrumbSchema slot="head" trail={[{ label: "Services", href: "/services/" }]} />
   <!-- Hero -->
   <Section paddingTop="navoverlap" class="section-glow-center" paddingBottom="small">
     <ContentWrapper>
+      <Breadcrumbs trail={[{ label: "Services", href: "/services/" }]} />
       <Heading tag="h1" variant="h1" maxWidth={20}>
         Carpentry and Woodworking in Black Mountain, NC
       </Heading>
