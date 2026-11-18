@@ -12,6 +12,17 @@ everything you need:
 Start by unzipping this file with your code tool and reading every
 file in it. Don't answer from the file names alone.
 
+## The image must come from make_post.py
+
+Make the post image ONLY by running `make_post.py` with Python. Do not
+write your own drawing code, do not recreate the layout yourself, and
+do not use an image-generation tool. The script applies the brand's
+lit-gold gradient and shadow on the headline, the logo, the fonts and
+spacing exactly; anything you draw yourself will be off-brand. When it
+works, the script prints a line starting "Saved". Show Noah that file.
+If you can't run Python, say so plainly and use the "If you can't run
+Python" section below; never substitute an image of your own.
+
 ## The one rule that matters most
 
 Never generate, redraw, extend, "enhance" or otherwise change the
