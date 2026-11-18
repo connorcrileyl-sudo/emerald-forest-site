@@ -87,8 +87,12 @@ Suggest a headline under 8 words in Title Case, one line underneath, and where t
         <li>Open free ChatGPT and start a new chat.</li>
         <li>Attach the zip and your photo (or a before and an after photo).</li>
         <li>
-          Type what it is, the wood and the town, for example:
-          <em>"Make a post. Walnut spiral staircase, local black walnut, Black Mountain."</em>
+          Tell it to open the kit first, then what the piece is, the
+          wood and the town. Copy this and fill in the end:
+          <div class="kit-copy">
+            <button class="kit-copy_btn" type="button" data-copy="post-msg">Copy message</button>
+            <pre class="kit-pre" id="post-msg">Unzip the post kit and follow READ-ME-FIRST-AI.md inside it, then run make_post.py on my photo. Make a post: [what it is, the wood, the town]</pre>
+          </div>
         </li>
         <li>
           ChatGPT reads the kit, lays out your photo with the gold

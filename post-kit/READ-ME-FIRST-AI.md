@@ -9,6 +9,9 @@ everything you need:
 - `make_post.py`: lays out the post. Needs Python 3 and Pillow.
 - `fonts/`, `logos/`, `icons/`: used by the script. Don't swap them.
 
+Start by unzipping this file with your code tool and reading every
+file in it. Don't answer from the file names alone.
+
 ## The one rule that matters most
 
 Never generate, redraw, extend, "enhance" or otherwise change the
