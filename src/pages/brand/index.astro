@@ -75,10 +75,39 @@ Suggest a headline under 8 words in Title Case, one line underneath, and where t
     </ContentWrapper>
   </Section>
 
+  <!-- Post kit: the quickest way to a finished post image -->
+  <Section paddingTop="small">
+    <ContentWrapper>
+      <Heading tag="h2" variant="h3">Make a Post From Your Photo</Heading>
+      <ol class="kit-list">
+        <li>
+          Download the <a class="kit-link" href="/brand/emerald-forest-post-kit.zip" download>post kit</a>
+          (one zip file, about 1 MB). Keep it on your phone or computer.
+        </li>
+        <li>Open free ChatGPT and start a new chat.</li>
+        <li>Attach the zip and your photo (or a before and an after photo).</li>
+        <li>
+          Type what it is, the wood and the town, for example:
+          <em>"Make a post. Walnut spiral staircase, local black walnut, Black Mountain."</em>
+        </li>
+        <li>
+          ChatGPT reads the kit, lays out your photo with the gold
+          headline, logo and phone number, and writes the caption to
+          copy. Your photo is never redrawn.
+        </li>
+      </ol>
+      <Paragraph maxWidth={52}>
+        For a review graphic, attach just the zip and paste the review.
+        If the AI says it can't run the file, it gives you the words and
+        Canva steps instead; the prompts below work the same way.
+      </Paragraph>
+    </ContentWrapper>
+  </Section>
+
   <!-- 1. Brief -->
   <Section paddingTop="small">
     <ContentWrapper>
-      <Heading tag="h2" variant="h3">1. Paste This First</Heading>
+      <Heading tag="h2" variant="h3">Or Write It With AI: Paste This First</Heading>
       <Paragraph maxWidth={52}>
         It tells the AI who you are, how you write and what the brand
         looks like. Paste it at the start of every new chat.
@@ -93,7 +122,7 @@ Suggest a headline under 8 words in Title Case, one line underneath, and where t
   <!-- 2. Prompts -->
   <Section paddingTop="small">
     <ContentWrapper>
-      <Heading tag="h2" variant="h3">2. Then Ask For What You Need</Heading>
+      <Heading tag="h2" variant="h3">Then Ask For What You Need</Heading>
       <Paragraph maxWidth={52}>
         Fill in the parts in [brackets]. The AI writes the words and the
         layout; the photos are always your own.
@@ -351,6 +380,12 @@ Suggest a headline under 8 words in Title Case, one line underneath, and where t
     color: transparent;
     filter: var(--heading-shadow);
   }
+  .kit-link {
+    color: var(--heading-text);
+    font-weight: var(--primary-bold);
+    text-decoration: underline;
+  }
+  ol.kit-list { list-style: decimal; margin-block: var(--space-4); }
   .kit-list {
     display: grid;
     gap: var(--space-2);
