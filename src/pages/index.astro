@@ -28,6 +28,7 @@ import kitchenStone from "@/assets/images/kitchen-cabinets-stone-wall.jpg";
 import pergola from "@/assets/images/pergola-with-planters.jpg";
 import workshop from "@/assets/images/workshop-clamping-glue-up.jpg";
 import {
+  BUSINESS,
   PHONE_HREF,
   TOWNS,
 } from "@/consts.ts";
@@ -35,7 +36,9 @@ import {
 const homeFaqs: FaqItem[] = [
   {
     question: "How much does custom woodwork cost?",
-    answer: `Every job is priced on its own, with a free estimate.`,
+    answer: `Every job is priced on its own, with a free estimate. If
+      you have any questions, call me at
+      <a href="${PHONE_HREF}">${BUSINESS.phone}</a>. I'm happy to help.`,
   },
   {
     question: "What do you build?",
@@ -69,8 +72,8 @@ const homeFaqs: FaqItem[] = [
         <span>Fine Carpentry</span> <span>and Woodworking</span>
       </Heading>
       <Paragraph variant="large" maxWidth={46}>
-        <strong>Handmade staircases, doors and furniture</strong> from local
-        lumber, for homes around <span style="white-space: nowrap">Black Mountain</span>.
+        <strong>Handmade staircases, doors and furniture</strong> for
+        homes around <span style="white-space: nowrap">Black Mountain</span>.
       </Paragraph>
       <ButtonWrapper>
         <Button element="link" href={PHONE_HREF}>Call Now</Button>
@@ -125,7 +128,7 @@ const homeFaqs: FaqItem[] = [
         imageAlt="L-shaped kitchen cabinets with a dark wood countertop below a stone wall, open shelves and a window"
         heading="Kitchens and Cabinets"
         headingTag="h3"
-        text="Kitchens, built-ins and tables in local hardwood."
+        text="Kitchens, built-ins and tables, handcrafted to fit."
         items={["Full kitchens", "Built-ins and shelves", "Tables and furniture"]}
         label="Kitchens"
       />
@@ -195,19 +198,19 @@ const homeFaqs: FaqItem[] = [
       </ContentWrapper>
       <ContentWrapper>
         <Icon src={iconTree} variant="large" class="feature-icon" />
-        <Heading tag="h3" variant="h5">Local Hardwood</Heading>
+        <Heading tag="h3" variant="h5">Made Local, by Hand</Heading>
         <Paragraph>
-          Lumber grown and milled in Western North Carolina, from local
-          sawmills. Your project supports local sawyers and craftsmen,
-          not a factory overseas.
+          Built by hand in our Black Mountain shop, not a factory
+          overseas. We buy from Western North Carolina sawmills when we
+          can, so your project supports local craftsmen too.
         </Paragraph>
       </ContentWrapper>
       <ContentWrapper>
         <Icon src={iconLeaf} variant="large" class="feature-icon" />
         <Heading tag="h3" variant="h5">Safe Finishes</Heading>
         <Paragraph>
-          The safest, most eco-friendly finish for each job, sourced
-          locally where we can.
+          The safest, most eco-friendly finish for each job, chosen to
+          suit the wood and how the piece will be used.
         </Paragraph>
       </ContentWrapper>
     </Grid>
