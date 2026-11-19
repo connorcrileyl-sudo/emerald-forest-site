@@ -166,6 +166,10 @@ const companyLinks = [
           <li><a class="footer_link" href="/privacy-policy/">Privacy Policy</a></li>
           <li><a class="footer_link" href="/terms/">Terms of Service</a></li>
         </ul>
+        <p class="footer_credit">
+          <span>Site by</span>
+          <a class="footer_credit_link" href="https://esteemedagency.com/" target="_blank" rel="noopener">Esteemed Agency</a>
+        </p>
       </div>
     </div>
     </div>
@@ -381,6 +385,40 @@ const companyLinks = [
       margin: 0;
       padding: 0;
       list-style: none;
+    }
+
+    /* Agency credit: its own item at the end of the bar, apart from
+       the legal links. Muted label, the name a step brighter. */
+    .footer_credit {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35em;
+      margin: 0;
+      color: var(--text-2);
+      letter-spacing: 0.02em;
+    }
+
+    /* Esteemed's brand font, cut down to the letters of "Esteemed
+       Agency" only (1.7 KB, public/fonts). Faustina, OFL. */
+    @font-face {
+      font-family: "Faustina Credit";
+      src: url("/fonts/faustina-credit.woff2") format("woff2");
+      font-weight: 600;
+      font-display: swap;
+    }
+
+    .footer_credit_link {
+      color: var(--text);
+      font-family: "Faustina Credit", Georgia, serif;
+      font-weight: 600;
+      font-size: 1.05em;
+      text-decoration: none;
+      transition: color var(--hover-duration) var(--hover-ease);
+      @media (hover: hover) {
+        &:hover {
+          color: var(--hover-gold, var(--text));
+        }
+      }
     }
 
     /* Phones: the same content in about half the height. Logo beside
